@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr Wellness - Choose Your Language</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #333;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            color: #777;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        .language-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+
+        .language-card {
+            background: white;
+            border-radius: 15px;
+            padding: 50px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid transparent;
+            position: relative;
+        }
+
+        .language-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .brain-logo {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .language-card h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .language-card .tagline {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .language-card p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 50px;
+            background: linear-gradient(135deg, #ff9500 0%, #ff7b00 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.06);
+            box-shadow: 0 8px 25px rgba(255, 149, 0, 0.4);
+        }
+
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        .english-card {
+            border-top-color: #4a9b8e;
+        }
+
+        .english-card .tagline {
+            color: #4a9b8e;
+        }
+
+        .spanish-card {
+            border-top-color: #ff9500;
+        }
+
+        .spanish-card .tagline {
+            color: #ff9500;
+        }
+
+        .details-section {
+            background: white;
+            border-radius: 15px;
+            padding: 60px;
+            margin-top: 60px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .details-section h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .details-section p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            padding: 30px;
+            background: #f9f9f9;
+            border-left: 5px solid #4a9b8e;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: #f0f8f7;
+            transform: translateX(5px);
+        }
+
+        .feature h4 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 1rem;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .language-selector {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.5rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .details-section {
+                padding: 30px;
+            }
+
+            .language-card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Choose Your Language below</h1>
+            <p class="subtitle">Escoje tu idioma aqui abajo</p>
+        </header>
+
+        <div class="language-selector">
+            <div class="language-card english-card">
+                <svg class="brain-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#9CAF88;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#6B8E72;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M30 50 Q30 30 50 30 Q70 30 70 50" fill="none" stroke="url(#brainGrad)" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M50 70 Q40 60 35 50 Q40 40 50 30" fill="none" stroke="#FF6B35" stroke-width="4" stroke-linecap="round"/>
+                    ircle cx="35" cy="40" r="3" fill="#4A9B8E"/>
+                    ircle cx="45" cy="35" r="3" fill="#4A9B8E"/>
+                    ircle cx="55" cy="35" r="3" fill="#4A9B8E"/>
+                    ircle cx="65" cy="40" r="3" fill="#4A9B8E"/>
+                </svg>
+                <h2>Mr Wellness</h2>
+                <div class="tagline">INTEGRAL HEALTH</div>
+                <p>Complete coaching experience in English with personalized wellness programs designed specifically for your health and fitness goals.</p>
+                <a href="#english-section" class="cta-button">Enter English</a>
+            </div>
+
+            <div class="language-card spanish-card">
+                <svg class="brain-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="brainGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#9CAF88;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#6B8E72;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M30 50 Q30 30 50 30 Q70 30 70 50" fill="none" stroke="url(#brainGrad2)" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M50 70 Q40 60 35 50 Q40 40 50 30" fill="none" stroke="#FF6B35" stroke-width="4" stroke-linecap="round"/>
+                    ircle cx="35" cy="40" r="3" fill="#FF9500"/>
+                    ircle cx="45" cy="35" r="3" fill="#FF9500"/>
+                    ircle cx="55" cy="35" r="3" fill="#FF9500"/>
+                    ircle cx="65" cy="40" r="3" fill="#FF9500"/>
+                </svg>
+                <h2>Mr Wellness</h2>
+                <div class="tagline">SALUD INTEGRAL</div>
+                <p>Experiencia completa de coaching en Español con programas de bienestar personalizados diseñados para tus objetivos de salud y fitness.</p>
+                <a href="#spanish-section" class="cta-button">Entrar al Español</a>
+            </div>
+        </div>
+
+        <div class="details-section">
+            <h3>Why Mr Wellness?</h3>
+            <p>We provide comprehensive wellness coaching that transforms your life through personalized guidance, expert knowledge, and proven methodologies.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <h4>🎯 Personalized Programs</h4>
+                    <p>Tailored wellness solutions designed specifically for your unique needs and fitness goals.</p>
+                </div>
+                <div class="feature">
+                    <h4>💪 Expert Coaching</h4>
+                    <p>Work with certified fitness professionals who understand your complete health journey.</p>
+                </div>
+                <div class="feature">
+                    <h4>📊 Results Tracking</h4>
+                    <p>Monitor your progress with detailed analytics and comprehensive body composition assessments.</p>
+                </div>
+                <div class="feature">
+                    <h4>🌍 Bilingual Support</h4>
+                    <p>Full coaching and support available in both English and Spanish for your convenience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
