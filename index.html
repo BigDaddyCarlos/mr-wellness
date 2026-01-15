@@ -13,17 +13,14 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            background: #f7f7f7;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .container {
-            width: 100%;
             max-width: 1200px;
+            margin: 0 auto;
         }
 
         header {
@@ -32,100 +29,114 @@
         }
 
         h1 {
-            font-size: 3em;
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 2.5em;
+            color: #666;
             font-weight: 300;
-            letter-spacing: 2px;
+            margin-bottom: 10px;
         }
 
         .subtitle {
             font-size: 1.5em;
-            color: #666;
+            color: #999;
             font-weight: 300;
         }
 
-        .language-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
-        }
-
-        .language-card {
+        .language-section {
             background: white;
             border-radius: 20px;
-            padding: 60px 40px;
+            padding: 60px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .language-card.english {
-            border-top: 5px solid #5fa8a8;
-        }
-
-        .language-card.spanish {
-            border-top: 5px solid #ff9933;
-        }
-
-        .language-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        }
-
-        .brain-logo {
-            width: 120px;
-            height: 120px;
+        .logo {
+            max-width: 400px;
+            height: auto;
             margin: 0 auto 30px;
+            display: block;
         }
 
-        .brand-name {
-            font-size: 2.5em;
-            color: #7bb8c6;
-            font-weight: 300;
-            margin-bottom: 10px;
-            font-style: italic;
-        }
-
-        .tagline {
-            font-size: 1.1em;
-            color: #999;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            font-weight: 400;
-        }
-
-        .tagline.english {
-            color: #5fa8a8;
-        }
-
-        .tagline.spanish {
-            color: #ff9933;
-        }
-
-        .description {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            font-size: 1em;
-        }
-
-        .cta-button {
+        .language-button {
             display: inline-block;
-            padding: 15px 50px;
+            padding: 15px 40px;
             background: #ff9933;
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
             font-size: 1.1em;
-            transition: background 0.3s ease, transform 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .language-button:hover {
+            background: #e68a2e;
+            transform: scale(1.05);
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .content-section h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content-section h3 {
+            color: #666;
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+        }
+
+        .content-section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .content-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .content-section li {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .content-section li:before {
+            content: "•";
+            color: #ff9933;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: #ff9933;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            text-align: center;
         }
 
         .cta-button:hover {
@@ -133,49 +144,45 @@
             transform: scale(1.05);
         }
 
-        .features {
-            background: white;
-            border-radius: 20px;
-            padding: 60px 40px;
-            margin-top: 60px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
         }
 
-        .features h2 {
-            text-align: center;
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 40px;
-            font-weight: 300;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .features-intro {
-            text-align: center;
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 50px;
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: #ff9933;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
             font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .feature-item {
-            text-align: center;
-        }
-
-        .feature-item h3 {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .feature-item p {
-            color: #666;
-            line-height: 1.6;
+        .submit-button:hover {
+            background: #e68a2e;
         }
 
         @media (max-width: 768px) {
@@ -183,31 +190,10 @@
                 font-size: 2em;
             }
             
-            .subtitle {
-                font-size: 1.2em;
+            .language-section,
+            .content-section {
+                padding: 30px 20px;
             }
-            
-            .language-selector {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .language-card {
-                padding: 40px 30px;
-            }
-            
-            .brand-name {
-                font-size: 2em;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        #english-section, #spanish-section {
-            padding-top: 20px;
         }
     </style>
 </head>
@@ -218,96 +204,113 @@
             <p class="subtitle">Escoje tu idioma aqui abajo</p>
         </header>
 
-        <div class="language-selector">
-            <!-- English Card -->
-            <div class="language-card english" id="english-section">
-                <svg class="brain-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Left brain (green) -->
-                    <path d="M70,100 Q50,80 55,60 Q60,40 70,35 Q75,50 72,65 Q70,80 70,100 Z" 
-                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M72,70 Q65,75 60,82 Q58,88 60,95" 
-                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M68,85 Q62,88 58,95" 
-                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
-                    
-                    <!-- Right brain (orange) -->
-                    <path d="M130,100 Q150,80 145,60 Q140,40 130,35 Q125,50 128,65 Q130,80 130,100 Z" 
-                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M128,70 Q135,75 140,82 Q142,88 140,95" 
-                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M132,85 Q138,88 142,95" 
-                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
-                    
-                    <!-- Center divider (blue dots) -->
-                    <circle cx="100" cy="50" r="3" fill="#7bb8c6"/>
-                    <circle cx="100" cy="65" r="3" fill="#7bb8c6"/>
-                    <circle cx="100" cy="80" r="3" fill="#7bb8c6"/>
-                    <circle cx="100" cy="95" r="3" fill="#7bb8c6"/>
-                </svg>
-                
-                <h2 class="brand-name">Mr. Wellness</h2>
-                <p class="tagline english">INTEGRAL HEALTH</p>
-                <p class="description">Complete coaching experience in English with personalized wellness programs designed specifically for your health and fitness goals.</p>
-                <a href="#english-section" class="cta-button">ENTER ENGLISH</a>
-            </div>
+        <!-- English Section -->
+        <div class="language-section" id="english">
+            <img src="https://via.placeholder.com/400x300/7bb8c6/ffffff?text=English+Logo" alt="Mr Wellness - Integral Health" class="logo">
+            <a href="#english-content" class="language-button">English</a>
+        </div>
 
-            <!-- Spanish Card -->
-            <div class="language-card spanish" id="spanish-section">
-                <svg class="brain-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Left brain (green) -->
-                    <path d="M70,100 Q50,80 55,60 Q60,40 70,35 Q75,50 72,65 Q70,80 70,100 Z" 
-                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M72,70 Q65,75 60,82 Q58,88 60,95" 
-                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M68,85 Q62,88 58,95" 
-                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
-                    
-                    <!-- Right brain (orange) -->
-                    <path d="M130,100 Q150,80 145,60 Q140,40 130,35 Q125,50 128,65 Q130,80 130,100 Z" 
-                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M128,70 Q135,75 140,82 Q142,88 140,95" 
-                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
-                    <path d="M132,85 Q138,88 142,95" 
-                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
-                    
-                    <!-- Center divider (blue dots) -->
-                    <circle cx="100" cy="50" r="3" fill="#7bb8c6"/>
-                    <circle cx="100" cy="65" r="3" fill="#7bb8c6"/>
-                    <circle cx="100" cy="80" r="3" fill="#7bb8c6"/>
-                    <circle cx="100" cy="95" r="3" fill="#7bb8c6"/>
-                </svg>
-                
-                <h2 class="brand-name">Mr. Wellness</h2>
-                <p class="tagline spanish">SALUD INTEGRAL</p>
-                <p class="description">Experiencia completa de coaching en Español con programas de bienestar personalizados diseñados para tus objetivos de salud y fitness.</p>
-                <a href="#spanish-section" class="cta-button">ENTRAR AL ESPAÑOL</a>
+        <!-- Spanish Section -->
+        <div class="language-section" id="spanish">
+            <img src="https://via.placeholder.com/400x300/7bb8c6/ffffff?text=Spanish+Logo" alt="Mr Wellness - Salud Integral" class="logo">
+            <a href="#spanish-content" class="language-button">Español</a>
+        </div>
+
+        <!-- English Content -->
+        <div class="content-section" id="english-content">
+            <h2>INTEGRAL HEALTH</h2>
+            <p>Science based, uniqueness awareness for real life and results based, professional, empathetic, personal training, life style optimization that blends strength, rehab and added routines so you can become who you are meant to be.</p>
+            
+            <p>Personal training specialist and physiotherapist helping busy professionals, people in pain, and those with special needs build strength, improve daily life, and create lasting healthy routines—both online and in-person.</p>
+            
+            <h3>Do you believe you're too much of a challenge?</h3>
+            <p style="text-align: center;"><a href="#contact-english" class="cta-button">Let's Find Out!</a></p>
+            
+            <h3>Who This Is For?</h3>
+            <p>Specifically for busy parents, accomplished professionals, and those managing special health considerations or body structure conditions whether from past injuries, natural differences, or ongoing challenges who want intelligent, clinical-minded, tailored and innovative training that respects their time and delivers the results their dedication deserves.</p>
+            
+            <p>For those seeking real results based on science, real people's uniqueness aware and true life context.</p>
+            
+            <p>Those who value efficiency, authenticity, innovation and personalized solutions because their situation deserves individualized attention.</p>
+            
+            <h3>How We Can Work Together?</h3>
+            <ul>
+                <li>Pre-planned Training Routine</li>
+                <li>Customized Training Plans</li>
+                <li>Hybrid Programs (Strength + Mobility + Lifestyle)</li>
+                <li>Rehab-Focused Programming</li>
+                <li>Unique structural or physiological needs approach</li>
+                <li>Specialized Target Programs</li>
+                <li>1:1 Online Coaching</li>
+            </ul>
+            
+            <p style="text-align: center;"><a href="#contact-english" class="cta-button">Book a Consultation</a></p>
+            
+            <h3 id="contact-english">Contact Form</h3>
+            <p>If you want to talk first and clear up any questions, I'm here to help clarify things and show you how this could work for us.</p>
+            
+            <div class="form-container">
+                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Send</button>
+                </form>
             </div>
         </div>
 
-        <div class="features">
-            <h2>Why Mr Wellness?</h2>
-            <p class="features-intro">We provide comprehensive wellness coaching that transforms your life through personalized guidance, expert knowledge, and proven methodologies.</p>
+        <!-- Spanish Content -->
+        <div class="content-section" id="spanish-content">
+            <h2>SALUD INTEGRAL</h2>
+            <p>Basado en ciencia y resultados, teniendo conciencia sobre el hecho de que cada persona es única en la vida real, acercamiento profesional, empático, entrenamiento personalizado, optimización del estilo de vida que combina fuerza, rehabilitación y rutinas adicionales para que puedas convertirte en quien debes ser.</p>
             
-            <div class="features-grid">
-                <div class="feature-item">
-                    <h3>🎯 Personalized Programs</h3>
-                    <p>Tailored wellness solutions designed specifically for your unique needs and fitness goals.</p>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>💪 Expert Coaching</h3>
-                    <p>Work with certified fitness professionals who understand your complete health journey.</p>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>📊 Results Tracking</h3>
-                    <p>Monitor your progress with detailed analytics and comprehensive body composition assessments.</p>
-                </div>
-                
-                <div class="feature-item">
-                    <h3>🌍 Bilingual Support</h3>
-                    <p>Full coaching and support available in both English and Spanish for your convenience.</p>
-                </div>
+            <p>Especialista en entrenamiento personal y fisioterapeuta que ayuda a profesionales ocupados, personas con dolor y aquellos con necesidades especiales a desarrollar fuerza, mejorar la vida diaria y crear rutinas saludables duraderas, tanto en línea como en persona.</p>
+            
+            <h3>¿Crees que eres más que un reto para poder recibir ayuda real?</h3>
+            <p style="text-align: center;"><a href="#contact-spanish" class="cta-button">¡Descubrámoslo!</a></p>
+            
+            <h3>¿Para Quién Es Esto?</h3>
+            <p>Específicamente para padres ocupados, profesionales exitosos y aquellos que manejan consideraciones de salud especiales o condiciones de la estructura corporal ya sean por lesiones pasadas, diferencias naturales o desafíos continuos que desean entrenamiento inteligente, mentalizado de forma clínica, personalizado e innovador que respete su tiempo y entregue los resultados que su dedicación merece.</p>
+            
+            <p>Para aquellos que buscan resultados reales basados en ciencia, entendimiento de que todos somos únicos conciencia real de la singularidad de las personas y los retos que conlleva existir en la vida real.</p>
+            
+            <p>Para quienes valoran la eficiencia, autenticidad, innovación y soluciones personalizadas porque su situación merece atención individualizada.</p>
+            
+            <h3>¿Cómo Podemos Trabajar Juntos?</h3>
+            <ul>
+                <li>Rutina de Entrenamiento Preplanificada</li>
+                <li>Planes de Entrenamiento Personalizados</li>
+                <li>Programas Híbridos (Fuerza + Movilidad + Estilo de Vida)</li>
+                <li>Programación Enfocada en Rehabilitación</li>
+                <li>Enfoque de Necesidades Estructurales o Fisiológicas Únicas</li>
+                <li>Programas Especializados Dirigidos</li>
+                <li>Entrenamiento en Línea 1:1</li>
+            </ul>
+            
+            <p style="text-align: center;"><a href="#contact-spanish" class="cta-button">Agendar una Video Consulta</a></p>
+            
+            <h3 id="contact-spanish">Forma de contacto</h3>
+            <p>Si deseas platicar primero y aclarar cualquier duda, estoy aquí para ayudarte a aclarar las cosas, también para mostrar cómo esto podría funcionar para ti.</p>
+            
+            <div class="form-container">
+                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="nombre" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="correo" placeholder="Correo" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="mensaje" placeholder="Mensaje" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Enviar</button>
+                </form>
             </div>
         </div>
     </div>
