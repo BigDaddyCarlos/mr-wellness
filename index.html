@@ -32,195 +32,182 @@
         }
 
         h1 {
-            font-size: 2.8rem;
+            font-size: 3em;
             color: #333;
             margin-bottom: 10px;
-            letter-spacing: 2px;
             font-weight: 300;
+            letter-spacing: 2px;
         }
 
         .subtitle {
-            font-size: 2rem;
-            color: #777;
-            margin-bottom: 30px;
-            letter-spacing: 1px;
+            font-size: 1.5em;
+            color: #666;
             font-weight: 300;
         }
 
         .language-selector {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
             margin-bottom: 80px;
         }
 
         .language-card {
             background: white;
-            border-radius: 15px;
-            padding: 50px;
+            border-radius: 20px;
+            padding: 60px 40px;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            border-top: 5px solid transparent;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            overflow: hidden;
+        }
+
+        .language-card.english {
+            border-top: 5px solid #5fa8a8;
+        }
+
+        .language-card.spanish {
+            border-top: 5px solid #ff9933;
         }
 
         .language-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
         .brain-logo {
-            width: 180px;
-            height: 180px;
+            width: 120px;
+            height: 120px;
             margin: 0 auto 30px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
-        .language-card h2 {
-            font-size: 2.5rem;
-            color: #333;
-            margin-bottom: 15px;
+        .brand-name {
+            font-size: 2.5em;
+            color: #7bb8c6;
             font-weight: 300;
-            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-style: italic;
         }
 
-        .language-card .tagline {
-            font-size: 1.4rem;
-            margin-bottom: 25px;
-            font-weight: 600;
-            letter-spacing: 1px;
+        .tagline {
+            font-size: 1.1em;
+            color: #999;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 400;
         }
 
-        .language-card p {
+        .tagline.english {
+            color: #5fa8a8;
+        }
+
+        .tagline.spanish {
+            color: #ff9933;
+        }
+
+        .description {
             color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 35px;
-            line-height: 1.6;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 1em;
         }
 
         .cta-button {
             display: inline-block;
-            padding: 16px 50px;
-            background: linear-gradient(135deg, #ff9500 0%, #ff7b00 100%);
+            padding: 15px 50px;
+            background: #ff9933;
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: background 0.3s ease, transform 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .cta-button:hover {
-            transform: scale(1.06);
-            box-shadow: 0 8px 25px rgba(255, 149, 0, 0.4);
-        }
-
-        .cta-button:active {
-            transform: scale(0.98);
-        }
-
-        .english-card {
-            border-top-color: #4a9b8e;
-        }
-
-        .english-card .tagline {
-            color: #4a9b8e;
-        }
-
-        .spanish-card {
-            border-top-color: #ff9500;
-        }
-
-        .spanish-card .tagline {
-            color: #ff9500;
-        }
-
-        .details-section {
-            background: white;
-            border-radius: 15px;
-            padding: 60px;
-            margin-top: 60px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .details-section h3 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .details-section p {
-            color: #666;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            text-align: center;
+            background: #e68a2e;
+            transform: scale(1.05);
         }
 
         .features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 40px;
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin-top: 60px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
-        .feature {
-            padding: 30px;
-            background: #f9f9f9;
-            border-left: 5px solid #4a9b8e;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .feature:hover {
-            background: #f0f8f7;
-            transform: translateX(5px);
-        }
-
-        .feature h4 {
+        .features h2 {
+            text-align: center;
+            font-size: 2.5em;
             color: #333;
-            margin-bottom: 12px;
-            font-size: 1.2rem;
+            margin-bottom: 40px;
+            font-weight: 300;
         }
 
-        .feature p {
+        .features-intro {
+            text-align: center;
             color: #666;
-            font-size: 1rem;
-            text-align: left;
+            line-height: 1.8;
+            margin-bottom: 50px;
+            font-size: 1.1em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-item h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .feature-item p {
+            color: #666;
+            line-height: 1.6;
         }
 
         @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1.2em;
+            }
+            
             .language-selector {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1.5rem;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            .details-section {
-                padding: 30px;
-            }
-
+            
             .language-card {
-                padding: 30px;
+                padding: 40px 30px;
             }
+            
+            .brand-name {
+                font-size: 2em;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #english-section, #spanish-section {
+            padding-top: 20px;
         }
     </style>
 </head>
@@ -232,68 +219,93 @@
         </header>
 
         <div class="language-selector">
-            <div class="language-card english-card">
-                <svg class="brain-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#9CAF88;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#6B8E72;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M30 50 Q30 30 50 30 Q70 30 70 50" fill="none" stroke="url(#brainGrad)" stroke-width="4" stroke-linecap="round"/>
-                    <path d="M50 70 Q40 60 35 50 Q40 40 50 30" fill="none" stroke="#FF6B35" stroke-width="4" stroke-linecap="round"/>
-                    ircle cx="35" cy="40" r="3" fill="#4A9B8E"/>
-                    ircle cx="45" cy="35" r="3" fill="#4A9B8E"/>
-                    ircle cx="55" cy="35" r="3" fill="#4A9B8E"/>
-                    ircle cx="65" cy="40" r="3" fill="#4A9B8E"/>
+            <!-- English Card -->
+            <div class="language-card english" id="english-section">
+                <svg class="brain-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Left brain (green) -->
+                    <path d="M70,100 Q50,80 55,60 Q60,40 70,35 Q75,50 72,65 Q70,80 70,100 Z" 
+                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M72,70 Q65,75 60,82 Q58,88 60,95" 
+                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M68,85 Q62,88 58,95" 
+                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
+                    
+                    <!-- Right brain (orange) -->
+                    <path d="M130,100 Q150,80 145,60 Q140,40 130,35 Q125,50 128,65 Q130,80 130,100 Z" 
+                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M128,70 Q135,75 140,82 Q142,88 140,95" 
+                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M132,85 Q138,88 142,95" 
+                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
+                    
+                    <!-- Center divider (blue dots) -->
+                    <circle cx="100" cy="50" r="3" fill="#7bb8c6"/>
+                    <circle cx="100" cy="65" r="3" fill="#7bb8c6"/>
+                    <circle cx="100" cy="80" r="3" fill="#7bb8c6"/>
+                    <circle cx="100" cy="95" r="3" fill="#7bb8c6"/>
                 </svg>
-                <h2>Mr Wellness</h2>
-                <div class="tagline">INTEGRAL HEALTH</div>
-                <p>Complete coaching experience in English with personalized wellness programs designed specifically for your health and fitness goals.</p>
-                <a href="#english-section" class="cta-button">Enter English</a>
+                
+                <h2 class="brand-name">Mr. Wellness</h2>
+                <p class="tagline english">INTEGRAL HEALTH</p>
+                <p class="description">Complete coaching experience in English with personalized wellness programs designed specifically for your health and fitness goals.</p>
+                <a href="#english-section" class="cta-button">ENTER ENGLISH</a>
             </div>
 
-            <div class="language-card spanish-card">
-                <svg class="brain-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="brainGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#9CAF88;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#6B8E72;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M30 50 Q30 30 50 30 Q70 30 70 50" fill="none" stroke="url(#brainGrad2)" stroke-width="4" stroke-linecap="round"/>
-                    <path d="M50 70 Q40 60 35 50 Q40 40 50 30" fill="none" stroke="#FF6B35" stroke-width="4" stroke-linecap="round"/>
-                    ircle cx="35" cy="40" r="3" fill="#FF9500"/>
-                    ircle cx="45" cy="35" r="3" fill="#FF9500"/>
-                    ircle cx="55" cy="35" r="3" fill="#FF9500"/>
-                    ircle cx="65" cy="40" r="3" fill="#FF9500"/>
+            <!-- Spanish Card -->
+            <div class="language-card spanish" id="spanish-section">
+                <svg class="brain-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Left brain (green) -->
+                    <path d="M70,100 Q50,80 55,60 Q60,40 70,35 Q75,50 72,65 Q70,80 70,100 Z" 
+                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M72,70 Q65,75 60,82 Q58,88 60,95" 
+                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M68,85 Q62,88 58,95" 
+                          fill="none" stroke="#a8c977" stroke-width="3" stroke-linecap="round"/>
+                    
+                    <!-- Right brain (orange) -->
+                    <path d="M130,100 Q150,80 145,60 Q140,40 130,35 Q125,50 128,65 Q130,80 130,100 Z" 
+                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M128,70 Q135,75 140,82 Q142,88 140,95" 
+                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M132,85 Q138,88 142,95" 
+                          fill="none" stroke="#ff9933" stroke-width="3" stroke-linecap="round"/>
+                    
+                    <!-- Center divider (blue dots) -->
+                    <circle cx="100" cy="50" r="3" fill="#7bb8c6"/>
+                    <circle cx="100" cy="65" r="3" fill="#7bb8c6"/>
+                    <circle cx="100" cy="80" r="3" fill="#7bb8c6"/>
+                    <circle cx="100" cy="95" r="3" fill="#7bb8c6"/>
                 </svg>
-                <h2>Mr Wellness</h2>
-                <div class="tagline">SALUD INTEGRAL</div>
-                <p>Experiencia completa de coaching en Español con programas de bienestar personalizados diseñados para tus objetivos de salud y fitness.</p>
-                <a href="#spanish-section" class="cta-button">Entrar al Español</a>
+                
+                <h2 class="brand-name">Mr. Wellness</h2>
+                <p class="tagline spanish">SALUD INTEGRAL</p>
+                <p class="description">Experiencia completa de coaching en Español con programas de bienestar personalizados diseñados para tus objetivos de salud y fitness.</p>
+                <a href="#spanish-section" class="cta-button">ENTRAR AL ESPAÑOL</a>
             </div>
         </div>
 
-        <div class="details-section">
-            <h3>Why Mr Wellness?</h3>
-            <p>We provide comprehensive wellness coaching that transforms your life through personalized guidance, expert knowledge, and proven methodologies.</p>
+        <div class="features">
+            <h2>Why Mr Wellness?</h2>
+            <p class="features-intro">We provide comprehensive wellness coaching that transforms your life through personalized guidance, expert knowledge, and proven methodologies.</p>
             
-            <div class="features">
-                <div class="feature">
-                    <h4>🎯 Personalized Programs</h4>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>🎯 Personalized Programs</h3>
                     <p>Tailored wellness solutions designed specifically for your unique needs and fitness goals.</p>
                 </div>
-                <div class="feature">
-                    <h4>💪 Expert Coaching</h4>
+                
+                <div class="feature-item">
+                    <h3>💪 Expert Coaching</h3>
                     <p>Work with certified fitness professionals who understand your complete health journey.</p>
                 </div>
-                <div class="feature">
-                    <h4>📊 Results Tracking</h4>
+                
+                <div class="feature-item">
+                    <h3>📊 Results Tracking</h3>
                     <p>Monitor your progress with detailed analytics and comprehensive body composition assessments.</p>
                 </div>
-                <div class="feature">
-                    <h4>🌍 Bilingual Support</h4>
+                
+                <div class="feature-item">
+                    <h3>🌍 Bilingual Support</h3>
                     <p>Full coaching and support available in both English and Spanish for your convenience.</p>
                 </div>
             </div>
