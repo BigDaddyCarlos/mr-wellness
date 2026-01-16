@@ -31,19 +31,27 @@
         }
 
         .container {
+            background: white;
             max-width: 900px;
             margin: 0 auto;
-            background: white;
+            padding: 40px;
             border-radius: 20px;
-            padding: 60px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
 
         .logo {
-            max-width: 400px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            max-width: 100%;
+            width: auto;
             height: auto;
-            margin: 0 auto 40px;
+            max-height: 300px;
+            object-fit: contain;
             display: block;
+            margin: 0 auto;
         }
 
         h1 {
@@ -53,118 +61,127 @@
             text-align: center;
         }
 
-        h2 {
-            color: #666;
-            font-size: 1.8em;
-            margin: 40px 0 20px 0;
-        }
-
-        h3 {
-            color: #666;
-            font-size: 1.3em;
-            margin: 30px 0 15px 0;
-        }
-
         p {
             color: #666;
+            font-size: 1.1em;
             line-height: 1.8;
             margin-bottom: 20px;
-            text-align: justify;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-
-        li {
-            color: #666;
-            line-height: 1.8;
-            margin-bottom: 10px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        li:before {
-            content: "•";
-            color: #ff9933;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
+        h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
         }
 
         .cta-button {
             display: inline-block;
             padding: 15px 40px;
-            background: #ff9933;
+            background: linear-gradient(135deg, #f5803e 0%, #e5683e 100%);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
             font-size: 1.1em;
             margin: 20px auto;
-            transition: all 0.3s ease;
+            display: block;
             text-align: center;
+            max-width: 300px;
+            transition: transform 0.3s ease;
         }
 
         .cta-button:hover {
-            background: #e68a2e;
-            transform: scale(1.05);
+            transform: translateY(-2px);
         }
 
-        .button-center {
-            text-align: center;
+        ul {
+            list-style-position: inside;
+            color: #e5683e;
+            margin: 20px 0;
+        }
+
+        ul li {
+            margin: 10px 0;
+            color: #666;
+        }
+
+        ul li::marker {
+            color: #e5683e;
         }
 
         .form-container {
-            max-width: 600px;
-            margin: 40px auto;
+            margin-top: 40px;
+            padding: 30px;
+            background: #f7f7f7;
+            border-radius: 15px;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-group input,
-        .form-group textarea {
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #ddd;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 1em;
             font-family: inherit;
         }
 
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #e5683e;
         }
 
-        .submit-button {
-            width: 100%;
-            padding: 15px;
-            background: #ff9933;
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #f5803e 0%, #e5683e 100%);
             color: white;
+            padding: 15px 40px;
             border: none;
             border-radius: 50px;
-            font-weight: 600;
             font-size: 1.1em;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
-        .submit-button:hover {
-            background: #e68a2e;
+        button:hover {
+            transform: translateY(-2px);
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 30px 20px;
+                padding: 20px;
             }
-            
+
             h1 {
                 font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .logo img {
+                max-height: 200px;
+            }
+
+            p {
+                font-size: 1em;
             }
         }
     </style>
@@ -173,26 +190,26 @@
     <a href="index.html" class="back-link">← Back to language selection</a>
     
     <div class="container">
-        <img src="Mr. Wellness Integral Health-01.png" alt="Mr Wellness - Integral Health" class="logo">
-        
+        <div class="logo">
+            <img src="Mr. Wellness Integral Health-01.png" alt="Mr Wellness - Integral Health">
+        </div>
+
         <h1>INTEGRAL HEALTH</h1>
         
         <p>Science based, uniqueness awareness for real life and results based, professional, empathetic, personal training, life style optimization that blends strength, rehab and added routines so you can become who you are meant to be.</p>
         
         <p>Personal training specialist and physiotherapist helping busy professionals, people in pain, and those with special needs build strength, improve daily life, and create lasting healthy routines—both online and in-person.</p>
-        
+
         <h2>Do you believe you're too much of a challenge?</h2>
-        <div class="button-center">
-            <a href="#contact" class="cta-button">Let's Find Out!</a>
-        </div>
-        
+        <a href="#contact" class="cta-button">Let's Find Out!</a>
+
         <h2>Who This Is For?</h2>
         <p>Specifically for busy parents, accomplished professionals, and those managing special health considerations or body structure conditions whether from past injuries, natural differences, or ongoing challenges who want intelligent, clinical-minded, tailored and innovative training that respects their time and delivers the results their dedication deserves.</p>
         
         <p>For those seeking real results based on science, real people's uniqueness aware and true life context.</p>
         
         <p>Those who value efficiency, authenticity, innovation and personalized solutions because their situation deserves individualized attention.</p>
-        
+
         <h2>How We Can Work Together?</h2>
         <ul>
             <li>Pre-planned Training Routine</li>
@@ -203,26 +220,30 @@
             <li>Specialized Target Programs</li>
             <li>1:1 Online Coaching</li>
         </ul>
-        
-        <div class="button-center">
-            <a href="#contact" class="cta-button">Book a Consultation</a>
-        </div>
-        
-        <h2 id="contact">Contact Form</h2>
-        <p>If you want to talk first and clear up any questions, I'm here to help clarify things and show you how this could work for us.</p>
-        
-        <div class="form-container">
-            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+        <a href="#contact" class="cta-button">Book a Consultation</a>
+
+        <div class="form-container" id="contact">
+            <h2>Contact Form</h2>
+            <p>If you want to talk first and clear up any questions, I'm here to help clarify things and show you how this could work for us.</p>
+            
+            <form>
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="Name" required>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
+                
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Email" required>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
                 </div>
+                
                 <div class="form-group">
-                    <textarea name="message" placeholder="Message" required></textarea>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
                 </div>
-                <button type="submit" class="submit-button">Send</button>
+                
+                <button type="submit">Send</button>
             </form>
         </div>
     </div>
