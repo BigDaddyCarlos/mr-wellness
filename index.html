@@ -77,9 +77,18 @@
 
         .logo-container img {
             max-width: 100%;
-            width: 250px;
-            height: 250px;
+            height: auto;
             object-fit: contain;
+        }
+
+        /* English logo - slightly smaller */
+        .english-logo {
+            width: 220px;
+        }
+
+        /* Spanish logo - slightly larger */
+        .spanish-logo {
+            width: 260px;
         }
 
         .logo-label {
@@ -159,9 +168,12 @@
                 height: 320px;
             }
 
-            .logo-container img {
-                width: 200px;
-                height: 200px;
+            .english-logo {
+                width: 180px;
+            }
+
+            .spanish-logo {
+                width: 220px;
             }
 
             .option-button {
@@ -181,7 +193,7 @@
         <!-- English Card -->
         <div class="language-card">
             <div class="logo-container">
-                <img src="Mr. Wellness Integral Health-01.png" alt="Mr Wellness - Integral Health">
+                <img src="Mr. Wellness Integral Health-01.png" alt="Mr Wellness - Integral Health" class="english-logo">
                 <div class="logo-label">English</div>
             </div>
             <div class="buttons-container">
@@ -193,14 +205,14 @@
         <!-- Spanish Card -->
         <div class="language-card">
             <div class="logo-container">
-                <img src="Mr. Wellness Esp.png" alt="Mr Wellness - Salud Integral">
+                <img src="Mr. Wellness Esp.png" alt="Mr Wellness - Salud Integral" class="spanish-logo">
                 <div class="logo-label">Español</div>
             </div>
             <div class="buttons-container">
-                <a href="spanish.html" class="option-button coaching-btn">¿Buscando Entrenamiento Profesional?</a>                <a href="spanish-education.html" class="option-button education-btn">¿Buscando Educación Profesional?</a>
+                <a href="spanish-coaching.html" class="option-button coaching-btn">¿Buscando Entrenamiento Profesional?</a>
+                <a href="spanish-education.html" class="option-button education-btn">¿Buscando Educación Profesional?</a>
             </div>
         </div>
     </div>
 </body>
 </html>
-
