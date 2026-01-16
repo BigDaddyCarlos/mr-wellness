@@ -26,30 +26,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Create mailto link as fallback
+            // Determine language for success message
+            const isSpanish = document.documentElement.lang === 'es' || document.querySelector('h1')?.textContent.includes('SALUD');
+            const successMessage = isSpanish 
+                ? '¡Gracias por confiar en mí, te respondo a la brevedad!' 
+                : 'Thank You, I\'ll be getting back to you soon!';
+            
+            // Create mailto links for both email addresses
             const subject = encodeURIComponent('New Contact Form Submission - Mr. Wellness');
             const body = encodeURIComponent(
                 `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
             );
             
-            // You can replace this email with your actual email
-            const mailtoLink = `mailto:contact@mr-wellness.com?subject=${subject}&body=${body}`;
+            // Create success popup
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #4CAF50;
+                color: white;
+                padding: 30px 50px;
+                border-radius: 10px;
+                font-size: 18px;
+                font-weight: bold;
+                z-index: 10000;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                text-align: center;
+            `;
+            popup.textContent = successMessage;
+            document.body.appendChild(popup);
             
-            // Show success message
-            const submitButton = form.querySelector('button[type="submit"]');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = '✓ Sent! / ¡Enviado!';
-            submitButton.disabled = true;
+            // Open mailto links for both email addresses
+            const mailtoLink1 = `mailto:carlos__zamora@hotmail.com?subject=${subject}&body=${body}`;
+            const mailtoLink2 = `mailto:carlos00zamora@gmail.com?subject=${subject}&body=${body}`;
             
-            // Open mailto link
-            window.location.href = mailtoLink;
-            
-            // Reset form after 2 seconds
+            // Open first email
+            window.open(mailtoLink1, '_blank');
+            // Small delay before opening second email
             setTimeout(() => {
-                form.reset();
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-            }, 2000);
+                window.open(mailtoLink2, '_blank');
+            }, 500);
+            
+            // Reset form
+            form.reset();
+            
+            // Remove popup after 3 seconds
+            setTimeout(() => {
+                popup.style.opacity = '0';
+                popup.style.transition = 'opacity 0.5s';
+                setTimeout(() => {
+                    document.body.removeChild(popup);
+                }, 500);
+            }, 3000);
         });
     });
     
