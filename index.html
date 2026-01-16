@@ -16,102 +16,188 @@
             background: #f7f7f7;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
-        .container {
-            background: white;
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        .header {
             text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
-
-        .logo {
-            margin-bottom: 30px;
-        }
-
-        .logo img {
-            max-width: 200px;
-            height: auto;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        p {
-            color: #666;
-            font-size: 1.2em;
             margin-bottom: 40px;
         }
 
-        .language-buttons {
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .language-container {
             display: flex;
-            gap: 20px;
+            gap: 60px;
             justify-content: center;
+            align-items: flex-start;
             flex-wrap: wrap;
         }
 
-        .language-button {
-            display: inline-block;
-            padding: 20px 50px;
-            font-size: 1.3em;
+        .language-card {
+            position: relative;
+            width: 300px;
+            height: 350px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .language-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .logo-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            max-height: 250px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .logo-label {
+            margin-top: 20px;
+            font-size: 1.4em;
             font-weight: 600;
+            color: #333;
+        }
+
+        .buttons-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .language-card:hover .logo-container {
+            opacity: 0;
+        }
+
+        .language-card:hover .buttons-container {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .option-button {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
             text-decoration: none;
             color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 15px;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .language-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        .coaching-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        .language-button.spanish {
+        .education-btn {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
         }
 
-        .language-button.spanish:hover {
-            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.6);
+        .option-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
             }
-            
-            p {
+
+            .header p {
                 font-size: 1em;
             }
-            
-            .language-button {
-                padding: 15px 40px;
-                font-size: 1.1em;
+
+            .language-container {
+                gap: 30px;
+            }
+
+            .language-card {
+                width: 280px;
+                height: 320px;
+            }
+
+            .logo-container img {
+                max-height: 200px;
+            }
+
+            .option-button {
+                padding: 15px;
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="Mr. Wellness Esp.png" alt="Mr Wellness Logo">
+    <div class="header">
+        <h1>Choose Your Language</h1>
+        <p>Escoje tu idioma</p>
+    </div>
+
+    <div class="language-container">
+        <!-- English Card -->
+        <div class="language-card">
+            <div class="logo-container">
+                <img src="Mr. Wellness Integral Health-01.png" alt="Mr Wellness - Integral Health">
+                <div class="logo-label">English</div>
+            </div>
+            <div class="buttons-container">
+                <a href="english-coaching.html" class="option-button coaching-btn">Looking for Professional Coaching?</a>
+                <a href="english-education.html" class="option-button education-btn">Looking for Education?</a>
+            </div>
         </div>
-        <h1>Welcome to Mr Wellness</h1>
-        <p>Please select your preferred language<br>Por favor seleccione su idioma preferido</p>
-        <div class="language-buttons">
-            <a href="english.html" class="language-button">English</a>
-            <a href="spanish.html" class="language-button spanish">Español</a>
+
+        <!-- Spanish Card -->
+        <div class="language-card">
+            <div class="logo-container">
+                <img src="Mr. Wellness Esp.png" alt="Mr Wellness - Salud Integral">
+                <div class="logo-label">Español</div>
+            </div>
+            <div class="buttons-container">
+                <a href="spanish-coaching.html" class="option-button coaching-btn">¿Buscando Entrenamiento Profesional?</a>
+                <a href="spanish-education.html" class="option-button education-btn">¿Buscando Educación Profesional?</a>
+            </div>
         </div>
     </div>
 </body>
