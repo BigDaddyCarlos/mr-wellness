@@ -1,105 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr Wellness - Education</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f7f7f7;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin: 20px 0;
-            color: #ff9933;
-            text-decoration: none;
-            font-size: 1em;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            padding: 60px 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .construction-icon {
-            font-size: 120px;
-            margin-bottom: 30px;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            line-height: 1.3;
-        }
-
-        p {
-            color: #666;
-            font-size: 1.3em;
-            margin-bottom: 40px;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #ff9933;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 40px 20px;
-            }
-            
-            h1 {
-                font-size: 1.8em;
-            }
-            
-            p {
-                font-size: 1.1em;
-            }
-            
-            .construction-icon {
-                font-size: 80px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integral Wellness: stress, training, breathing and sleep | Mr. Wellness</title>
+<meta name="description" content="Clear, myth-free guides on stress management, types of training, breathing, meditation, relaxation, mobility, sleep and habits. By Carlos Zamora, sports physical therapist.">
+<link rel="canonical" href="https://mr-wellness.com/english-education.html">
+<link rel="alternate" hreflang="en" href="https://mr-wellness.com/english-education.html">
+<link rel="alternate" hreflang="es" href="https://mr-wellness.com/spanish-education.html">
+<link rel="alternate" hreflang="x-default" href="https://mr-wellness.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mr-wellness.com/english-education.html">
+<meta property="og:title" content="Integral wellness — no myths, just physiology">
+<meta property="og:description" content="Stress, training, breathing, meditation, relaxation, mobility, sleep and habits, explained with clinical judgement.">
+<meta property="og:image" content="https://mr-wellness.com/assets/logo-en-640.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__mw)document.documentElement.classList.remove('js');},2500);</script>
 </head>
 <body>
-    <a href="index.html" class="back-link">← Back to language selection</a>
-    
-    <div class="container">
-        <div class="construction-icon">🏗️</div>
-        <h1>Brewing up the knowledge to help others</h1>
-        <p>Please wait to meet my academic offer</p>
-        <div class="spinner"></div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="nav__brand" href="index.html">
+      <img src="assets/logo-en-640.png" width="640" height="478" alt="Mr. Wellness — Integral Health">
+      <span>Mr. Wellness<small>Integral health</small></span>
+    </a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu"><span></span></button>
+    <div class="nav__panel" id="nav-panel">
+      <nav class="nav__links" aria-label="Main">
+        <a href="english-coaching.html">Coaching</a>
+        <a href="english-education.html" aria-current="page">Wellness</a>
+        <a href="english-community.html">Community</a>
+        <a href="english-coaching.html#faq">FAQ</a>
+      </nav>
+      <div class="nav__lang">
+        <a href="spanish-education.html" hreflang="es">ES</a>
+        <a href="english-education.html" aria-current="true" hreflang="en">EN</a>
+      </div>
+      <a class="btn btn--primary btn--sm" href="english-coaching.html#contact">Get started</a>
     </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap" style="max-width:900px">
+    <span class="eyebrow">Integral wellness</span>
+    <h1>Training is one half. Recovering is the other.</h1>
+    <p class="lead" style="margin-top:1em">You can have the best program in the world and go nowhere if you sleep badly, breathe badly or live in permanent alert. These are the topics I work on with my patients — explained without mysticism and without gym myths.</p>
+
+    <nav class="toc" aria-label="Topics" style="margin-top:2.2em">
+      <a href="#stress">Stress management</a>
+      <a href="#training">Types of training</a>
+      <a href="#breathing">Breathing</a>
+      <a href="#meditation">Meditation</a>
+      <a href="#relaxation">Relaxation</a>
+      <a href="#mobility">Mobility</a>
+      <a href="#sleep">Rest and sleep</a>
+      <a href="#habits">Habits and nutrition</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ============ TOPICS ============ -->
+<section class="section section--tint section--edge">
+  <div class="wrap" style="max-width:860px">
+
+    <!-- 1 -->
+    <article class="topic" id="stress">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🧠</span>
+        <h2>Stress management</h2>
+      </div>
+      <div class="stack">
+        <p>Stress isn't the enemy. It's an adaptive response: your body mobilizes energy to meet a demand. The problem starts when that response never switches off.</p>
+        <p>A nervous system in permanent alert charges you where you least expect it: worse sleep quality, altered digestion, higher baseline muscle tension, lower pain tolerance and much slower recovery between sessions. In practice, training hard with unmanaged stress means accumulating fatigue without accumulating progress.</p>
+        <p><strong>What you can actually control:</strong></p>
+        <ul>
+          <li><strong>Total load, not just gym load.</strong> Work, kids, travel and training all draw from the same account. If one goes up, another has to come down.</li>
+          <li><strong>Transitions.</strong> Ten minutes between work and home — a walk, breathing, silence — does more for your recovery than an expensive supplement.</li>
+          <li><strong>Early natural light.</strong> It anchors your circadian rhythm, and with it your sleep, which is where you actually recover.</li>
+          <li><strong>Low-intensity movement.</strong> A 20–30 minute walk lowers arousal without adding fatigue.</li>
+        </ul>
+        <div class="note">
+          <span aria-hidden="true" style="font-size:20px;line-height:1">💡</span>
+          <p><strong>Warning sign:</strong> if you've spent weeks sleeping badly, with an elevated resting heart rate and no desire to train, the problem is rarely "lack of discipline". It's accumulated load. The right answer is usually to lower volume, not raise it.</p>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="topic" id="training">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🏋️</span>
+        <h2>Types of training</h2>
+      </div>
+      <div class="stack">
+        <p>"Training" on its own means nothing. Each physical quality develops from a different stimulus, and confusing them is the number one reason people train for months without seeing change.</p>
+        <ul>
+          <li><strong>Strength.</strong> Heavy loads, few reps, long rests. It improves your ability to produce tension. It's the foundation of almost everything else and the quality that most protects your independence as you age.</li>
+          <li><strong>Hypertrophy.</strong> Moderate loads, more reps, accumulated volume close to failure. It increases muscle size, which in turn supports your strength and your metabolism.</li>
+          <li><strong>Power.</strong> Moderate loads moved fast. Strength applied in very little time: getting out of a chair, climbing stairs, reacting to a stumble. It declines before strength does and almost nobody trains it.</li>
+          <li><strong>Endurance.</strong> Continuous or interval work. It improves your ability to sustain effort and to recover between sets. A better aerobic engine makes you better at everything else.</li>
+          <li><strong>Mobility and control.</strong> Range of motion you can use with force, not just stretch into. It's what turns flexibility into real capacity.</li>
+        </ul>
+        <p class="pull">You don't need all of them at once. You need the one you're missing, in a dose you can sustain.</p>
+        <p>What to prioritize depends on your starting point, your training age, your previous injuries and how many days you realistically have. That hierarchy is, quite literally, half of my job.</p>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="topic" id="breathing">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🌬️</span>
+        <h2>Breathing</h2>
+      </div>
+      <div class="stack">
+        <p>You breathe around 20,000 times a day. It's the only automatic process you can also control voluntarily, which makes it the fastest entry point to your nervous system.</p>
+        <p>In training, breathing plays another role: the intra-abdominal pressure you generate by breathing well is what stabilizes your spine under load. Poor breathing mechanics means less stability, less strength and more risk.</p>
+        <p><strong>Three practices I teach from the first session:</strong></p>
+        <ul>
+          <li><strong>Diaphragmatic breathing.</strong> Lying down, one hand on your chest and one on your abdomen. The lower one should move. Five minutes a day retrains a pattern you've had wrong for years.</li>
+          <li><strong>Extended exhale.</strong> Inhale for 4 seconds, exhale for 6–8. Lengthening the exhale favours parasympathetic tone: the simplest way to come down before sleep or after an argument.</li>
+          <li><strong>Nasal breathing at low intensity.</strong> During walks and easy aerobic work, breathing through your nose improves efficiency and forces a sustainable pace.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="topic" id="meditation">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🧘</span>
+        <h2>Meditation and mindfulness</h2>
+      </div>
+      <div class="stack">
+        <p>Meditation isn't emptying your mind or sitting in lotus position. It's training one concrete skill: noticing where your attention went and bringing it back, over and over. That "bringing it back" is the rep. The rest is decoration.</p>
+        <p>For anyone who trains, the value is very practical: better body awareness — key to correcting technique — a clearer distinction between discomfort and pain, and less reactivity to everyday stress.</p>
+        <p><strong>How to start without quitting in week one:</strong></p>
+        <ul>
+          <li>Five minutes, same time, same place. Consistency matters more than duration.</li>
+          <li>Anchor attention on your breath or on your feet against the floor.</li>
+          <li>Getting distracted isn't failing. Getting distracted and returning <em>is</em> the exercise.</li>
+          <li>If sitting still is hard, start with walking meditation. It counts.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 5 -->
+    <article class="topic" id="relaxation">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🌿</span>
+        <h2>Relaxation and recovery</h2>
+      </div>
+      <div class="stack">
+        <p>Recovering isn't doing nothing. It's doing what lowers load without adding fatigue — and doing it on purpose.</p>
+        <ul>
+          <li><strong>Active recovery.</strong> Walking, easy swimming, unloaded cycling. Moves blood, reduces stiffness and improves how you feel the next day.</li>
+          <li><strong>Progressive muscle relaxation.</strong> Tensing and releasing muscle groups in sequence. A simple clinical tool, surprisingly effective for accumulated tension and for falling asleep.</li>
+          <li><strong>Soft tissue work.</strong> Roller, ball or massage: useful for sensation and tolerance, not for "breaking up adhesions". They help — just not in the way the internet claims.</li>
+          <li><strong>Real deloads.</strong> A lower-volume week every 4–8 weeks isn't wasted time: it's what allows your adaptations to show up.</li>
+        </ul>
+        <p>The right question isn't "what should I do to recover?" but "what am I doing that's preventing me from recovering?". The answer is almost always sleep, or too much intensity.</p>
+      </div>
+    </article>
+
+    <!-- 6 -->
+    <article class="topic" id="mobility">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🤸</span>
+        <h2>Mobility and joint health</h2>
+      </div>
+      <div class="stack">
+        <p>Flexibility is how much range you have. Mobility is how much of that range you can use with control and force. The second one is what protects you.</p>
+        <p>That's why passively stretching for months rarely fixes a limitation: if you gain range but not the capacity to hold it, your body takes it back. Useful work combines range and tension.</p>
+        <ul>
+          <li><strong>Before training:</strong> dynamic mobility and activation. Prepare, don't relax.</li>
+          <li><strong>After, or on separate days:</strong> end ranges with light load and isometric holds. That's where it sticks.</li>
+          <li><strong>Areas that almost always need attention</strong> in desk workers: hips, thoracic spine and ankles. Freeing those three changes the mechanics of everything else.</li>
+        </ul>
+        <p>One important note: persistent joint pain doesn't get "stretched out". It gets assessed.</p>
+      </div>
+    </article>
+
+    <!-- 7 -->
+    <article class="topic" id="sleep">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🌙</span>
+        <h2>Rest and sleep</h2>
+      </div>
+      <div class="stack">
+        <p>Training proposes and sleep disposes. Sleep is when the adaptations you chased in the session consolidate: tissue repair, motor learning, hormonal and appetite regulation.</p>
+        <p>Sleeping badly over time reduces performance, raises perceived effort, worsens pain tolerance and sabotages any body composition goal — no matter how impeccable the training plan is.</p>
+        <p><strong>What pays off most, in order:</strong></p>
+        <ul>
+          <li><strong>A consistent schedule</strong>, especially your wake time. More important than your bedtime.</li>
+          <li><strong>Natural light in the first hour</strong> of the day, and dim light in the last.</li>
+          <li><strong>A caffeine cut-off:</strong> nothing 8–10 hours before bed, even if "it doesn't affect you". It affects depth even when it doesn't affect falling asleep.</li>
+          <li><strong>A cool temperature</strong> and a dark room.</li>
+          <li><strong>Alcohol:</strong> helps you fall asleep and ruins the second half of the night. It is not a sleep aid.</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 8 -->
+    <article class="topic" id="habits">
+      <div class="topic__head">
+        <span class="topic__badge" aria-hidden="true">🍎</span>
+        <h2>Habits, nutrition and hydration</h2>
+      </div>
+      <div class="stack">
+        <p>I don't prescribe diets — that's a nutrition professional's job and I'm glad to refer you. What I do work on with you are the general frameworks that hold training up, and that almost nobody has sorted out.</p>
+        <ul>
+          <li><strong>Enough protein, spread through the day.</strong> It's the raw material your body uses to rebuild what you stimulated in the session.</li>
+          <li><strong>Eating around training.</strong> Arriving with no energy and not eating afterwards is the fastest way to train a lot and adapt little.</li>
+          <li><strong>Hydration.</strong> Even small water losses degrade strength, focus and thermoregulation. Before any supplement, drink water.</li>
+          <li><strong>Habits that survive bad weeks.</strong> A plan that only works when everything goes well isn't a plan. We always define a minimum version for impossible days.</li>
+        </ul>
+        <p class="pull">Imperfect consistency beats intermittent perfection. Every time.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ NEXT STEP ============ -->
+<section class="section">
+  <div class="wrap reveal">
+    <div class="section-head center">
+      <span class="eyebrow">Next step</span>
+      <h2>Want to apply this to your case?</h2>
+      <p class="lead">You can start free in the community, or work with me directly on a plan built for your body.</p>
+    </div>
+    <div class="grid grid-2" style="max-width:820px;margin-inline:auto">
+      <a class="card card--link" href="english-community.html">
+        <div class="card__icon card__icon--sage" aria-hidden="true">👥</div>
+        <h3>Join the community</h3>
+        <p>Guides, monthly challenges and a biweekly newsletter without myths. One free tier and three paid ones, depending on how much support you want.</p>
+        <span class="card__more">See the tiers</span>
+      </a>
+      <a class="card card--link" href="english-coaching.html#contact">
+        <div class="card__icon card__icon--orange" aria-hidden="true">🎯</div>
+        <h3>Work with me</h3>
+        <p>Assessment, personalized plan and follow-up with a clinical focus. Book a no-obligation video consultation.</p>
+        <span class="card__more">Book</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <img src="assets/logo-en-640.png" width="640" height="478" alt="Mr. Wellness — Integral Health" loading="lazy">
+        <p class="small muted" style="margin-top:14px;max-width:34ch">Integral health grounded in science, empathy and results. Carlos Zamora, sports physical therapist.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="english-coaching.html">Coaching</a></li>
+          <li><a href="english-education.html">Wellness</a></li>
+          <li><a href="english-community.html">Community</a></li>
+          <li><a href="english-coaching.html#faq">FAQ</a></li>
+          <li><a href="index.html">Change language</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Book a consultation</a></li>
+          <li><a href="https://wa.me/525569629713" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="spanish-education.html" hreflang="es">Versión en español</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="disclaimer"><strong>Disclaimer:</strong> the content on this site is for informational and educational purposes. It does not replace diagnosis, treatment or consultation with a healthcare professional. If you have a medical condition, acute pain or symptoms that concern you, consult your doctor before starting any exercise program.</p>
+
+    <div class="footer__legal">
+      <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
+      <span>Built with a clinical approach and no magic promises.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/525569629713?text=Hi%20Carlos%2C%20I%20found%20you%20on%20mr-wellness.com" target="_blank" rel="noopener" aria-label="Message on WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.98 1.36-.53.04-1.02.23-3.45-.72-2.9-1.14-4.75-4.1-4.9-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36h.54c.18 0 .42-.07.65.5.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.72-.84.92-1.13.19-.29.39-.24.65-.14.26.1 1.65.78 1.94.92.29.14.48.22.55.34.07.12.07.7-.18 1.39Z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<script src="assets/app.js" defer></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>

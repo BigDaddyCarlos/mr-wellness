@@ -1,229 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr Wellness - Choose Your Language</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f7f7f7;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            color: #333;
-            font-size: 1.8em;
-            font-weight: 400;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 1.8em;
-            font-weight: 400;
-        }
-
-        .language-container {
-            display: flex;
-            gap: 60px;
-            justify-content: center;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
-        .language-card {
-            position: relative;
-            width: 300px;
-            height: 350px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .language-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
-        }
-
-        .logo-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            transition: opacity 0.3s ease;
-        }
-
-        .logo-container img {
-            max-width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
-
-        /* English logo - slightly smaller */
-        .english-logo {
-        width: auto;
-        height: 200px;
-        object-fit: contain;        }
-
-        /* Spanish logo - same size as English */        .spanish-logo {
-        width: auto;
-        height: 200px;
-        object-fit: contain;
-            }
-        .logo-label {
-            margin-top: 20px;
-            font-size: 1.4em;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .buttons-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            padding: 30px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .language-card:hover .logo-container {
-            opacity: 0;
-        }
-
-        .language-card:hover .buttons-container {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .option-button {
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-            text-decoration: none;
-            color: white;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .coaching-btn {
-            background: linear-gradient(135deg, #8BC34A 0%, #7CB342 100%);
-        }
-
-        .education-btn {
-            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
-        }
-
-        .option-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.5em;
-            }
-
-            .header p {
-                font-size: 1.5em;
-            }
-
-            .language-container {
-                gap: 30px;
-            }
-
-            .language-card {
-                width: 280px;
-                height: 320px;
-            }
-
-            .english-logo {
-        width: auto;            }
-
-            .spanish-logo {
-        width: auto;            }
-
-            .option-button {
-                padding: 15px;
-                font-size: 1em;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mr. Wellness — Salud integral, entrenamiento y rehabilitación | Carlos Zamora</title>
+<meta name="description" content="Entrenamiento personalizado, fisioterapia deportiva y bienestar integral con Carlos Zamora. Elige tu idioma / Choose your language.">
+<link rel="canonical" href="https://mr-wellness.com/">
+<link rel="alternate" hreflang="es" href="https://mr-wellness.com/spanish-coaching.html">
+<link rel="alternate" hreflang="en" href="https://mr-wellness.com/english-coaching.html">
+<link rel="alternate" hreflang="x-default" href="https://mr-wellness.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mr-wellness.com/">
+<meta property="og:title" content="Mr. Wellness — Salud integral con Carlos Zamora">
+<meta property="og:description" content="Entrenamiento personalizado, fisioterapia deportiva y bienestar integral. Ciencia, empatía y resultados.">
+<meta property="og:image" content="https://mr-wellness.com/assets/logo-es-640.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .gate { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: 48px; }
+  .gate__head { text-align: center; margin-bottom: clamp(32px, 5vw, 52px); }
+  .gate__head h1 { font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem); }
+  .gate__head p { margin-top: .5em; font-size: clamp(1.05rem, 1rem + .5vw, 1.3rem); color: var(--muted); font-weight: 600; }
+  .gate__grid { display: grid; gap: clamp(20px, 3vw, 32px); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 880px; margin-inline: auto; width: 100%; }
+  .gate__card { display: flex; flex-direction: column; padding: clamp(24px, 3vw, 34px); text-align: center; }
+  .gate__card img { margin-inline: auto; max-height: 150px; width: auto; }
+  .gate__lang { margin: 18px 0 20px; font-size: .76rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .gate__card .btn + .btn { margin-top: 10px; }
+  .gate__foot { text-align: center; margin-top: clamp(32px, 5vw, 48px); font-size: .9rem; color: var(--muted); }
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>Choose Your Language</h1>
-        <p>Escoge tu idioma</p>
-    </div>
+<a class="skip-link" href="#main">Ir al contenido / Skip to content</a>
 
-    <div class="language-container">
-        <!-- English Card -->
-        <div class="language-card">
-            <div class="logo-container">
-                <img src="Mr. Wellness Integral Health-01.png" alt="Mr Wellness - Integral Health" class="english-logo">
-                <div class="logo-label">English</div>
-            </div>
-            <div class="buttons-container">
-                <a href="english-coaching.html" class="option-button coaching-btn">Looking for Professional Coaching?</a>
-                <a href="english-education.html" class="option-button education-btn">Looking for Education?</a>
-            </div>
-        </div>
+<main id="main" class="wrap gate">
+  <div class="gate__head">
+    <h1>Escoge tu idioma</h1>
+    <p>Choose your language</p>
+  </div>
 
-        <!-- Spanish Card -->
-        <div class="language-card">
-            <div class="logo-container">
-                <img src="Mr. Wellness Esp.png" alt="Mr Wellness - Salud Integral" class="spanish-logo">
-                <div class="logo-label">Español</div>
-            </div>
-            <div class="buttons-container">
-                <a href="spanish-coaching.html" class="option-button coaching-btn">¿Buscando Entrenamiento Profesional?</a>
-                <a href="spanish-education.html" class="option-button education-btn">¿Buscando Educación Profesional?</a>
-            </div>
-        </div>
-    </div>
+  <div class="gate__grid">
+
+    <!-- Español -->
+    <section class="card gate__card" aria-labelledby="lang-es">
+      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral" fetchpriority="high">
+      <p class="gate__lang" id="lang-es">Español</p>
+      <a class="btn btn--primary btn--block" href="spanish-coaching.html" data-lang-choice="es">Entrenamiento y rehabilitación</a>
+      <a class="btn btn--ghost btn--block" href="spanish-education.html" data-lang-choice="es">Bienestar y educación</a>
+      <a class="btn btn--ghost btn--block" href="spanish-community.html" data-lang-choice="es">Comunidad</a>
+    </section>
+
+    <!-- English -->
+    <section class="card gate__card" aria-labelledby="lang-en">
+      <img src="assets/logo-en-640.png" width="640" height="478" alt="Mr. Wellness — Integral Health" fetchpriority="high">
+      <p class="gate__lang" id="lang-en">English</p>
+      <a class="btn btn--primary btn--block" href="english-coaching.html" data-lang-choice="en">Coaching &amp; rehabilitation</a>
+      <a class="btn btn--ghost btn--block" href="english-education.html" data-lang-choice="en">Wellness &amp; education</a>
+      <a class="btn btn--ghost btn--block" href="english-community.html" data-lang-choice="en">Community</a>
+    </section>
+
+  </div>
+
+  <p class="gate__foot">Carlos Zamora · Fisioterapeuta deportivo y especialista en entrenamiento personal<br>Sports physical therapist &amp; personal training specialist</p>
+</main>
+
+<script src="assets/app.js" defer></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,248 +1,461 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr Mr Wellness - PERSONALIZED GUIDANCE: SCIENCE, EMPATHY, AND RESULTS</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f7f7f7;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin: 20px 0;
-            color: #ff9933;
-            text-decoration: none;
-            font-size: 1em;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            background: white;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo img {
-            max-width: 100%;
-            width: auto;
-            height: auto;
-            max-height: 300px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 1.25em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        p {
-            color: #666;
-            font-size: 1.1em;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            color: #333;
-            font-size: 1.8em;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #f5803e 0%, #e5683e 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1em;
-            margin: 20px auto;
-            display: block;
-            text-align: center;
-            max-width: 300px;
-            transition: transform 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-        }
-
-        ul {
-            list-style-position: inside;
-            color: #e5683e;
-            margin: 20px 0;
-        }
-
-        ul li {
-            margin: 10px 0;
-            color: #666;
-        }
-
-        ul li::marker {
-            color: #e5683e;
-        }
-
-        .form-container {
-            margin-top: 40px;
-            padding: 30px;
-            background: #f7f7f7;
-            border-radius: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            font-family: inherit;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #e5683e;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        button {
-            background: linear-gradient(135deg, #f5803e 0%, #e5683e 100%);
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            h2 {
-                font-size: 1.5em;
-            }
-
-            .logo img {
-                max-height: 200px;
-            }
-
-            p {
-                font-size: 1em;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personalized Training &amp; Rehabilitation | Mr. Wellness — Carlos Zamora</title>
+<meta name="description" content="Training and rehabilitation programs built for your body by Carlos Zamora, sports physical therapist and personal training specialist. Science, empathy and real results. Online worldwide.">
+<link rel="canonical" href="https://mr-wellness.com/english-coaching.html">
+<link rel="alternate" hreflang="en" href="https://mr-wellness.com/english-coaching.html">
+<link rel="alternate" hreflang="es" href="https://mr-wellness.com/spanish-coaching.html">
+<link rel="alternate" hreflang="x-default" href="https://mr-wellness.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mr-wellness.com/english-coaching.html">
+<meta property="og:title" content="Your body is not an average. Your plan shouldn't be either.">
+<meta property="og:description" content="Personalized training and rehabilitation grounded in real physiology and biomechanics. Carlos Zamora, sports physical therapist.">
+<meta property="og:image" content="https://mr-wellness.com/assets/logo-en-640.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__mw)document.documentElement.classList.remove('js');},2500);</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Mr. Wellness — Integral Health",
+  "url": "https://mr-wellness.com/english-coaching.html",
+  "image": "https://mr-wellness.com/assets/logo-en-640.png",
+  "description": "Personalized training, physical rehabilitation and integral wellness, online.",
+  "areaServed": "Worldwide",
+  "availableLanguage": ["en", "es"],
+  "founder": {
+    "@type": "Person",
+    "name": "Carlos Zamora",
+    "jobTitle": "Sports physical therapist and personal training specialist"
+  }
+}
+</script>
 </head>
 <body>
-    <a href="index.html" class="back-link">← Back to language selection</a>
-    
-    <div class="container">
-        <div class="logo">
-            <img src="Mr. Wellness Integral Health-01.png" alt="Mr Wellness - Integral Health">
-        </div>
+<a class="skip-link" href="#main">Skip to content</a>
 
-        <h1>PERSONALIZED GUIDANCE: SCIENCE, EMPATHY, AND RESULTS</h1>        
-            <p>I am Carlos Zamora, a sports physical therapist, physical rehabilitator and personal training specialist. My commitment is to accompany you in achieving a real transformation through a clinical and human approach.</p>
-            
-            <p>I understand that, in a world full of quick fixes, supposed perfect influencers, unachievable real lifestyles, myths, legends and misinformation, you are looking for something real. My approach is not based on fads, but on a system grounded in science and tangible results.</p>            
-            <p>I start from a non-negotiable premise every person is unique. Your bone structure, your metabolism, injury history, your challenges and goals are unlike anyone else's. That is why my work begins with empathy I listen to your story to understand where you are and where you want to go.</p>            
-            <p>We don't just design a routine we seek to optimize your lifestyle. As a sports physical therapist, I integrate rehabilitation and prevention into every plan, ensuring that your training is the engine of your health and not a source of pain.</p>            
-            <p>Together, we will build a smart path toward your best version</p>
-        <h2>Do you believe you're too much of a challenge?</h2>
-        <a href="#contact" class="cta-button">Let's Find Out!</a>
-        <h2>For whom is this?</h2>
-            <p>I know your time is your most valuable resource I have designed my methodology specifically for those who, like you, lead a demanding life Parents and professionals who cannot afford to waste time on routines that don't deliver results. People dealing with pain or injuries who need a professional who understands their anatomy before prescribing an exercise. Those seeking clarity. If you are tired of fitness fads and want a plan based on real physiology and biomechanics, you are in the right place.</p>        
-        <p>For those seeking real results based on science, real people's uniqueness aware and true life context.</p>
-        
-            <p>Those seeking clarity. If you are tired of fitness fads and want a plan based on real physiology and biomechanics, you are in the right place.</p>
-            <h2>How will we work together?</h2>        <ul>
-                            <p>I won't give you a standard PDF; I will provide a comprehensive strategy. Depending on what you need, we will focus on:</p>
-                        <li>Pre-planned Training Routine: Ideal if you are looking for a solid, science-backed structure to start moving with purpose.</li>
-                        <li>Personalized Training Plans: Specifically designed for your goals, adjusting every variable to your lifestyle.</li>
-                        <li>Hybrid Programs (Strength + Mobility + Potency + Resistance + Lifestyle): My most comprehensive approach, where we not only train but also optimize how you move and the way you live.</li>
-                        <li>Rehabilitation-Focused Programming: As a sports physical therapist, I help you regain confidence in your body and overcome the discomfort holding you back.</li>
-                        <li>Unique Structural or Physiological Needs Approach: If you have a specific condition or anatomy that requires special adaptations, this is where we apply pure science, imagination and innovation.</li>
-                        <li>Targeted Specialized Programs: Concrete solutions for specific goals, from improving how you perform your favourite physical activities up to prepare for a trial of competition.</li>
-                        <li>1:1 Online Training: My closest and most exclusive support, with constant monitoring to ensure every rep brings you closer to your best version.</li>
-        </ul>
-        
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="nav__brand" href="index.html">
+      <img src="assets/logo-en-640.png" width="640" height="478" alt="Mr. Wellness — Integral Health">
+      <span>Mr. Wellness<small>Integral health</small></span>
+    </a>
 
-        <a href="https://calendly.com/carlos00zamora" class="cta-button">Book a Consultation</a>        <div class="form-container" id="contact">
-            <h2>Contact Form</h2>
-            <p>If you want to talk first and clear up any questions, I'm here to help clarify things and show you how this could work for us.</p>
-            
-                        <p>Ready to get started?</p>
-            <form>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" required></textarea>
-                </div>
-                
-                <button type="submit">Send</button>
-            </form>
-        </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu"><span></span></button>
+
+    <div class="nav__panel" id="nav-panel">
+      <nav class="nav__links" aria-label="Main">
+        <a href="#method">Method</a>
+        <a href="#services">Services</a>
+        <a href="english-education.html">Wellness</a>
+        <a href="english-community.html">Community</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav__lang">
+        <a href="spanish-coaching.html" hreflang="es">ES</a>
+        <a href="english-coaching.html" aria-current="true" hreflang="en">EN</a>
+      </div>
+      <a class="btn btn--primary btn--sm" href="#contact">Get started</a>
     </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="eyebrow">Sports physical therapy · Personal training</span>
+      <h1>Your body is not an average. Your plan shouldn't be either.</h1>
+      <p class="lead">I'm <strong>Carlos Zamora</strong>, a sports physical therapist and personal training specialist. I design programs around your anatomy, your injury history and your actual life — not around fads or copied routines.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Book a video consultation</a>
+        <a class="btn btn--wa" href="https://wa.me/525569629713?text=Hi%20Carlos%2C%20I%20found%20you%20on%20mr-wellness.com%20and%20I%27d%20like%20to%20know%20more%20about%20your%20programs." target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.98 1.36-.53.04-1.02.23-3.45-.72-2.9-1.14-4.75-4.1-4.9-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36h.54c.18 0 .42-.07.65.5.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.72-.84.92-1.13.19-.29.39-.24.65-.14.26.1 1.65.78 1.94.92.29.14.48.22.55.34.07.12.07.7-.18 1.39Z"/></svg>
+          Message on WhatsApp
+        </a>
+      </div>
+      <div class="trustbar">
+        <span>100 % online</span>
+        <span>English &amp; Spanish</span>
+        <span>Clinical approach</span>
+      </div>
+    </div>
+
+    <aside class="hero__card">
+      <img src="assets/logo-en-640.png" width="640" height="478" alt="Mr. Wellness — Integral Health" fetchpriority="high">
+      <hr>
+      <ul class="credentials">
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Sports physical therapist.</b> I understand your anatomy before prescribing a single exercise.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Physical rehabilitator.</b> Recovery and prevention are built into every plan.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Personal training specialist.</b> Strength, mobility, power and endurance with purpose.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Integral approach.</b> Training, rest, breathing and stress management in one system.</span></li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ PROMISE ============ -->
+<section class="section section--tint section--edge">
+  <div class="wrap reveal">
+    <div class="grid grid-2" style="align-items:center">
+      <div class="stack">
+        <span class="eyebrow">Science, empathy and results</span>
+        <h2>In a world full of quick fixes, you're looking for something real.</h2>
+        <p>My approach isn't built on fads or on people selling perfect lives. It's built on physiology, biomechanics and one non-negotiable premise: <strong>every person is unique</strong>.</p>
+        <p>Your bone structure, your metabolism, your injury history, your challenges and your goals are unlike anyone else's. That's why my work starts with empathy — I listen to your story to understand where you are and where you want to go.</p>
+        <p>We don't just design a routine. We optimize your lifestyle, so that training becomes the engine of your health instead of a source of pain.</p>
+      </div>
+      <div>
+        <p class="pull">“Together we'll build an intelligent path toward your best version.”</p>
+        <div class="note" style="margin-top:28px">
+          <span aria-hidden="true" style="font-size:22px;line-height:1">🧭</span>
+          <p><strong>Not sure where to start?</strong> Book a no-obligation video consultation. You'll leave with a clear picture of your starting point — even if you decide not to work with me.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO IT'S FOR ============ -->
+<section class="section" id="who">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <span class="eyebrow">Who is this for?</span>
+      <h2>Built for demanding lives</h2>
+      <p class="lead">I know your time is your most valuable resource. My methodology is designed for people who can't afford to waste it.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <article class="card">
+        <div class="card__icon card__icon--orange" aria-hidden="true">⏱️</div>
+        <h3>Parents and professionals</h3>
+        <p>Full calendar, short windows. You need a plan that pays off in the time you actually have — not the time an influencer assumes you have.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon" aria-hidden="true">🩹</div>
+        <h3>People in pain or with injuries</h3>
+        <p>You already got hurt following a generic routine. You need someone who understands your anatomy before prescribing an exercise.</p>
+      </article>
+      <article class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">🔍</div>
+        <h3>People looking for clarity</h3>
+        <p>You're tired of myths, fitness legends and impossible promises. You want a plan grounded in real physiology and biomechanics.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ METHOD ============ -->
+<section class="section section--tint section--edge" id="method">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <span class="eyebrow">How we work</span>
+      <h2>Four steps, zero improvisation</h2>
+      <p class="lead">I won't send you a standard PDF. We'll build a comprehensive strategy that adapts as you do.</p>
+    </div>
+
+    <div class="grid grid-4 steps">
+      <article class="step">
+        <h3>Listen</h3>
+        <p>Your history, your injuries, your context and what you've already tried. This is where 80 % of a plan's success is decided.</p>
+      </article>
+      <article class="step">
+        <h3>Assess</h3>
+        <p>Movement screening, real capacities and real limitations. What you can do today, not what you should be able to do.</p>
+      </article>
+      <article class="step">
+        <h3>Program</h3>
+        <p>Your plan, with every variable adjusted to your life: load, frequency, progression and recovery.</p>
+      </article>
+      <article class="step">
+        <h3>Adjust</h3>
+        <p>Regular review. If your fatigue, sleep or schedule changes, the plan changes. A program that never adjusts isn't personalized.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="section" id="services">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <span class="eyebrow">Services</span>
+      <h2>Depending on what you need, we'll focus on:</h2>
+    </div>
+
+    <div class="svc">
+      <article class="svc__item">
+        <h3>Pre-planned training routine <em>Starter</em></h3>
+        <p>A solid, science-backed structure to start moving with purpose. Ideal when you need order before sophistication.</p>
+      </article>
+      <article class="svc__item">
+        <h3>Personalized training plan <em>Popular</em></h3>
+        <p>Designed specifically for your goals, adjusting every variable to your pace of life and real availability.</p>
+      </article>
+      <article class="svc__item">
+        <h3>Rehabilitation-focused programming</h3>
+        <p>As a sports physical therapist, I help you regain confidence in your body and work past the discomfort holding you back.</p>
+      </article>
+      <article class="svc__item">
+        <h3>Hybrid programs</h3>
+        <p>Strength + mobility + power + endurance + lifestyle. My most complete approach: we don't just train, we optimize why you move and how you live.</p>
+      </article>
+      <article class="svc__item">
+        <h3>Unique structural or physiological needs</h3>
+        <p>If you have a specific condition or an anatomy that requires special adaptations, this is where we apply science, creativity and careful work.</p>
+      </article>
+      <article class="svc__item">
+        <h3>Targeted specialized programs</h3>
+        <p>Concrete solutions for specific goals: from getting back to your favourite activity to preparing for a competition or a physical test.</p>
+      </article>
+      <article class="svc__item">
+        <h3>1:1 online training <em>Maximum support</em></h3>
+        <p>My closest and most exclusive support, with constant monitoring so that every rep brings you closer to your best version.</p>
+      </article>
+      <article class="svc__item">
+        <h3>Integral wellness</h3>
+        <p>Stress, breathing, rest and recovery. What happens outside the session determines what you can do inside it. <a class="card__more" href="english-education.html">See the topics</a></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WELLNESS ============ -->
+<section class="section section--tint section--edge" id="wellness">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <span class="eyebrow">Integral wellness</span>
+      <h2>Training is only one part</h2>
+      <p class="lead">You can have the best program in the world and go nowhere if you sleep badly, breathe badly or live in permanent alert. These are the topics we work on in parallel.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <a class="card card--link" href="english-education.html#stress">
+        <div class="card__icon card__icon--orange" aria-hidden="true">🧠</div>
+        <h3>Stress management</h3>
+        <p>What sustained stress does to your recovery, your strength and your sleep — and what you can do about it today.</p>
+        <span class="card__more">Read</span>
+      </a>
+      <a class="card card--link" href="english-education.html#training">
+        <div class="card__icon" aria-hidden="true">🏋️</div>
+        <h3>Types of training</h3>
+        <p>Strength, hypertrophy, power, endurance and mobility: what each one is for and which one you actually need.</p>
+        <span class="card__more">Read</span>
+      </a>
+      <a class="card card--link" href="english-education.html#breathing">
+        <div class="card__icon card__icon--sage" aria-hidden="true">🌬️</div>
+        <h3>Breathing</h3>
+        <p>The fastest, cheapest way to regulate your nervous system — and a pillar of your stability and performance.</p>
+        <span class="card__more">Read</span>
+      </a>
+      <a class="card card--link" href="english-education.html#meditation">
+        <div class="card__icon" aria-hidden="true">🧘</div>
+        <h3>Meditation and mindfulness</h3>
+        <p>No mysticism: what it is, what the evidence says and how to start with five minutes a day.</p>
+        <span class="card__more">Read</span>
+      </a>
+      <a class="card card--link" href="english-education.html#relaxation">
+        <div class="card__icon card__icon--sage" aria-hidden="true">🌿</div>
+        <h3>Relaxation and recovery</h3>
+        <p>Releasing tension on purpose. When to stretch, when to move gently and when to simply stop.</p>
+        <span class="card__more">Read</span>
+      </a>
+      <a class="card card--link" href="english-education.html#sleep">
+        <div class="card__icon card__icon--orange" aria-hidden="true">🌙</div>
+        <h3>Rest and sleep</h3>
+        <p>Training proposes; sleep disposes. Sleep hygiene applied to people who train hard and work harder.</p>
+        <span class="card__more">Read</span>
+      </a>
+    </div>
+
+    <div class="btn-row center" style="margin-top:36px">
+      <a class="btn btn--ghost" href="english-education.html">See all wellness topics</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMMUNITY ============ -->
+<section class="section" id="community">
+  <div class="wrap reveal">
+    <div class="section-head center">
+      <span class="eyebrow">Mr. Wellness Community</span>
+      <h2>You don't have to do this alone</h2>
+      <p class="lead">Start free. Move up when you want more support. Cancel whenever you like.</p>
+    </div>
+
+    <div class="plans">
+      <article class="plan">
+        <p class="plan__tier">Free</p>
+        <p class="plan__name">Open Circle</p>
+        <p class="plan__price"><b>$0</b><span>forever</span></p>
+        <p class="plan__pitch">To try the approach and start moving with honest information.</p>
+        <ul>
+          <li>Private community chat</li>
+          <li>Starter guide: mobility and breathing</li>
+          <li>Biweekly newsletter, no myths</li>
+          <li>Monthly movement challenge</li>
+        </ul>
+        <a class="btn btn--ghost btn--block" href="english-community.html#plans">Join for free</a>
+      </article>
+
+      <article class="plan">
+        <p class="plan__tier">Tier 1</p>
+        <p class="plan__name">Movement</p>
+        <p class="plan__price"><b>$19</b><span>USD / month</span></p>
+        <p class="plan__pitch">For those ready to train seriously with a proven structure.</p>
+        <ul>
+          <li class="is-carry">Everything in Open Circle</li>
+          <li>Routine library by goal</li>
+          <li>New program every month</li>
+          <li>Technique videos explained</li>
+        </ul>
+        <a class="btn btn--ghost btn--block" href="english-community.html#plans">See details</a>
+      </article>
+
+      <article class="plan plan--featured">
+        <span class="plan__flag">Most chosen</span>
+        <p class="plan__tier">Tier 2</p>
+        <p class="plan__name">Method</p>
+        <p class="plan__price"><b>$49</b><span>USD / month</span></p>
+        <p class="plan__pitch">Your plan, built for you and revised every four weeks.</p>
+        <ul>
+          <li class="is-carry">Everything in Tier 1</li>
+          <li>Personalized plan, monthly adjustment</li>
+          <li>Movement assessment by video</li>
+          <li>Weekly live group session</li>
+        </ul>
+        <a class="btn btn--primary btn--block" href="english-community.html#plans">See details</a>
+      </article>
+
+      <article class="plan">
+        <p class="plan__tier">Tier 3 · Limited spots</p>
+        <p class="plan__name">Mentorship</p>
+        <p class="plan__price"><b>$99</b><span>USD / month</span></p>
+        <p class="plan__pitch">Close support with a clinical focus and direct contact.</p>
+        <ul>
+          <li class="is-carry">Everything in Tier 2</li>
+          <li>Monthly 1:1 video consultation</li>
+          <li>Rehabilitation-focused programming</li>
+          <li>Direct contact during the week</li>
+        </ul>
+        <a class="btn btn--ghost btn--block" href="english-community.html#plans">See details</a>
+      </article>
+    </div>
+
+    <p class="center muted small" style="margin-top:28px">Full comparison and FAQ on the <a href="english-community.html">community page</a>.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section section--tint section--edge" id="faq">
+  <div class="wrap reveal" style="max-width:840px">
+    <div class="section-head center">
+      <span class="eyebrow">FAQ</span>
+      <h2>What people usually ask me</h2>
+    </div>
+
+    <div class="faq">
+      <details>
+        <summary>I've never trained before. Is this for me?</summary>
+        <p>Yes. Starting from zero is actually an advantage — there are no badly learned habits to undo. We start with the basics: how to move, how to breathe, how to progress without getting hurt, and build from there.</p>
+      </details>
+      <details>
+        <summary>I have an injury or chronic pain. Can I train?</summary>
+        <p>In most cases yes, with adaptations. I'm a sports physical therapist: assessment comes first, and the plan is built around what your body tolerates today. If your case needs in-person medical care, I'll tell you plainly and point you in the right direction.</p>
+      </details>
+      <details>
+        <summary>Do I need a gym or equipment?</summary>
+        <p>Not necessarily. I work with what you have: a full gym, a pair of dumbbells, bands, or just your bodyweight. The plan adapts to the equipment — not the other way around.</p>
+      </details>
+      <details>
+        <summary>How much time do I need per week?</summary>
+        <p>You tell me, and I design around it. Three well-programmed sessions of 40–50 minutes produce real change. I'd rather give you a two-day plan you actually follow than a six-day plan you abandon in three weeks.</p>
+      </details>
+      <details>
+        <summary>How does online coaching work?</summary>
+        <p>Initial video consultation, plan delivery, follow-up by chat and periodic video reviews. You record your sets when technique questions come up and I correct them. It works from any country and any time zone.</p>
+      </details>
+      <details>
+        <summary>How long until I see results?</summary>
+        <p>It depends on your starting point, your rest and your consistency. Energy, mobility and pain usually improve in the first 3–4 weeks; strength and body composition changes consolidate from weeks 8–12. Anyone who promises you an exact date without knowing you is selling something.</p>
+      </details>
+      <details>
+        <summary>What languages do you work in?</summary>
+        <p>English and Spanish. You can switch this site's version with the <strong>ES / EN</strong> selector in the menu.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section" id="contact">
+  <div class="wrap reveal">
+    <div class="cta-band">
+      <h2>Do you believe you're more than a challenge?</h2>
+      <p>Then you deserve real support. Write to me and let's talk with no obligation: if I'm not the right person for your case, I'll say so and point you to someone who is.</p>
+      <div class="btn-row center">
+        <a class="btn btn--primary" href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Book a video consultation</a>
+        <a class="btn btn--ghost" href="https://wa.me/525569629713?text=Hi%20Carlos%2C%20I%20found%20you%20on%20mr-wellness.com%20and%20I%27d%20like%20to%20know%20more%20about%20your%20programs." target="_blank" rel="noopener">Message on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <img src="assets/logo-en-640.png" width="640" height="478" alt="Mr. Wellness — Integral Health" loading="lazy">
+        <p class="small muted" style="margin-top:14px;max-width:34ch">Integral health grounded in science, empathy and results. Carlos Zamora, sports physical therapist.</p>
+      </div>
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="english-coaching.html">Coaching</a></li>
+          <li><a href="english-education.html">Wellness</a></li>
+          <li><a href="english-community.html">Community</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="index.html">Change language</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Book a consultation</a></li>
+          <li><a href="https://wa.me/525569629713" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="spanish-coaching.html" hreflang="es">Versión en español</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="disclaimer"><strong>Disclaimer:</strong> the content on this site is for informational and educational purposes. It does not replace diagnosis, treatment or consultation with a healthcare professional. If you have a medical condition, acute pain or symptoms that concern you, consult your doctor before starting any exercise program.</p>
+
+    <div class="footer__legal">
+      <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
+      <span>Built with a clinical approach and no magic promises.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/525569629713?text=Hi%20Carlos%2C%20I%20found%20you%20on%20mr-wellness.com" target="_blank" rel="noopener" aria-label="Message on WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.98 1.36-.53.04-1.02.23-3.45-.72-2.9-1.14-4.75-4.1-4.9-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36h.54c.18 0 .42-.07.65.5.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.72-.84.92-1.13.19-.29.39-.24.65-.14.26.1 1.65.78 1.94.92.29.14.48.22.55.34.07.12.07.7-.18 1.39Z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<script src="assets/app.js" defer></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
