@@ -74,4 +74,10 @@
     <priority>0.3</priority>
   </url>
 
+  <url>
+    <loc>https://mr-wellness.com/kalale-privacy.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
 </urlset>
