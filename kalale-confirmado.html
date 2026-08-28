@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tu cuenta de Kálale quedó lista | Mr. Wellness</title>
+<meta name="description" content="Confirmaste tu correo. Ya puedes entrar a Kálale, la aplicación de nutrición de Mr. Wellness.">
+<!-- Esta página se abre desde una liga de un correo, no se busca en Google. -->
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://mr-wellness.com/kalale-confirmado.html">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__mw)document.documentElement.classList.remove('js');},2500);</script>
+<style>
+  .confirmar { max-width: 56ch; margin: 0 auto; text-align: center; }
+  .confirmar h1 { margin-bottom: .3em; }
+  .marca {
+    width: 76px; height: 76px; margin: 0 auto 18px;
+    border-radius: 50%; display: grid; place-items: center;
+    font-size: 38px; line-height: 1;
+  }
+  .marca--bien  { background: rgba(94,117,25,.14); }
+  .marca--medio { background: rgba(174,90,5,.14); }
+  .pasos-app {
+    text-align: left; margin: 26px auto 0; max-width: 44ch;
+    display: grid; gap: 14px; counter-reset: p;
+  }
+  .pasos-app li {
+    display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: start;
+  }
+  .pasos-app li::before {
+    counter-increment: p; content: counter(p);
+    width: 26px; height: 26px; border-radius: 50%;
+    display: grid; place-items: center; font-size: .85rem; font-weight: 700;
+    background: var(--bg-2); color: var(--ink-2);
+  }
+  .oculto { display: none; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir al contenido</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="nav__brand" href="index.html">
+      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral">
+      <span>Mr. Wellness<small>Salud integral</small></span>
+    </a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="wrap">
+
+    <!-- Todo listo. Es el caso normal. -->
+    <div class="confirmar" id="bien">
+      <div class="marca marca--bien" aria-hidden="true">✓</div>
+      <h1>Tu cuenta quedó lista</h1>
+      <p class="lead">
+        Ya confirmaste tu correo. Ahora regresa a Kálale en tu teléfono para
+        empezar.
+      </p>
+
+      <ol class="pasos-app">
+        <li><span>Abre <strong>Kálale</strong> en tu teléfono.</span></li>
+        <li><span>Toca <strong>«Ya tengo cuenta»</strong> — no «Crear mi cuenta», ésa ya la hiciste.</span></li>
+        <li><span>Entra con el mismo correo y la contraseña que acabas de poner.</span></li>
+      </ol>
+
+      <p class="small muted" style="margin-top:26px">
+        Esta página ya cumplió su función. Puedes cerrarla.
+      </p>
+    </div>
+
+    <!-- La liga venció o ya se usó. Pasa más de lo que uno creería: las ligas
+         de confirmación duran un día, y mucha gente abre el correo después. -->
+    <div class="confirmar oculto" id="vencido">
+      <div class="marca marca--medio" aria-hidden="true">↻</div>
+      <h1>Esta liga ya no sirve</h1>
+      <p class="lead">
+        Las ligas de confirmación duran poco tiempo, y ésta ya venció o ya se
+        había usado antes. No perdiste nada.
+      </p>
+
+      <ol class="pasos-app">
+        <li><span>Abre <strong>Kálale</strong> y toca <strong>«Ya tengo cuenta»</strong>.</span></li>
+        <li><span>Si te deja entrar, todo está bien — la cuenta ya estaba confirmada.</span></li>
+        <li><span>Si te dice que falta confirmar, vuelve a crear la cuenta con el mismo correo para que te llegue una liga nueva.</span></li>
+      </ol>
+
+      <p class="small muted" style="margin-top:26px">
+        Si vuelve a fallar, escríbele a Carlos por
+        <a href="https://wa.me/525569629713" target="_blank" rel="noopener">WhatsApp</a>
+        y lo resuelve en un momento.
+      </p>
+    </div>
+
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__legal">
+      <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
+      <span><a href="spanish-privacy.html">Aviso de privacidad</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    /*
+      Supabase manda el resultado en la parte de la dirección que va después
+      del #. Si todo salió bien viene el tipo de operación; si no, viene un
+      error —casi siempre `otp_expired`, la liga vencida.
+
+      Vale la pena distinguirlos: alguien que abre el correo al día siguiente
+      llega aquí con la liga muerta, y darle la bienvenida sería mentirle. Ver
+      «tu cuenta quedó lista» y luego no poder entrar es peor que un aviso
+      claro de que hay que pedir otra liga.
+    */
+    var hash = window.location.hash.slice(1);
+    var datos = new URLSearchParams(hash);
+    var fallo = datos.get('error') || datos.get('error_code');
+
+    if (fallo) {
+      document.getElementById('bien').classList.add('oculto');
+      document.getElementById('vencido').classList.remove('oculto');
+    }
+
+    /*
+      Y se limpia la dirección.
+
+      Cuando la confirmación sí funciona, ese # trae las llaves de la sesión de
+      la persona. No se usan aquí para nada, pero quedarse escritas en la barra
+      del navegador es dejarlas donde no tienen que estar: en el historial, en
+      una captura de pantalla, o a la vista de quien pase por atrás. Se borran
+      en cuanto se lee lo único que sí importaba.
+    */
+    if (hash) {
+      history.replaceState(null, '', window.location.pathname);
+    }
+  })();
+</script>
+</body>
+</html>
