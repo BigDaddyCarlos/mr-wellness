@@ -206,6 +206,14 @@
           <small>Entraste como</small>
           <b id="quien-soy" style="font-size:1rem;letter-spacing:0"></b>
         </p>
+        <p class="codigo" style="margin-top:.7em">
+          <small>Identificador</small>
+          <b id="mi-id" style="font-size:.8rem;letter-spacing:0;font-family:monospace"></b>
+        </p>
+        <p class="codigo" style="margin-top:.7em">
+          <small>La base contestó</small>
+          <b id="que-contesto" style="font-size:.8rem;letter-spacing:0;font-weight:600"></b>
+        </p>
         <p class="small muted" style="max-width:44ch;margin:1.2em auto 0">Si ése no es el correo que esperabas, sal y vuelve a entrar con el correcto.</p>
         <div class="btn-row center" style="margin-top:1.8em">
           <a class="btn btn--primary" href="kalale.html#contacto">Pedir mi panel</a>
@@ -409,6 +417,18 @@ async function abrirPanel(usuario) {
 
   if (!yo) {
     $('quien-soy').textContent = usuario.email ?? '(sin correo)';
+    $('mi-id').textContent = usuario.id ?? '(sin identificador)';
+
+    // Preguntar otra vez, pero sin filtrar por nadie: si aquí tampoco sale
+    // nada, es que la base no le está enseñando la tabla a esta sesión. Si
+    // salen renglones pero ninguno es suyo, el identificador no coincide.
+    const { data: todos, error: errTodos } = await supabase
+      .from('nutriologos')
+      .select('id');
+    $('que-contesto').textContent = errTodos
+      ? 'error: ' + errTodos.message
+      : `${(todos ?? []).length} renglón(es) visibles para esta sesión`;
+
     ver('cargando', false);
     ver('pantalla-no-eres', true);
     return;
