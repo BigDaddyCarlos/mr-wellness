@@ -140,9 +140,57 @@
           <button class="btn btn--primary btn--block" type="submit" id="boton-entrar">Entrar</button>
         </form>
 
+        <button class="btn btn--ghost btn--block" type="button" id="ir-a-recuperar" style="margin-top:12px">
+          Olvidé mi contraseña
+        </button>
+
         <p class="small muted" style="margin-top:20px;text-align:center">
           ¿Todavía no tienes panel? <a href="kalale.html#contacto">Pídelo aquí</a>.
         </p>
+      </div>
+    </div>
+
+    <!-- ======== Recuperar la contraseña ======== -->
+    <div id="pantalla-recuperar" class="oculto">
+      <div class="entrar">
+        <div class="section-head center" style="margin-bottom:28px">
+          <span class="eyebrow">Recuperar</span>
+          <h1 style="font-size:clamp(1.7rem,1.3rem+1.6vw,2.3rem)">Ponte una contraseña nueva</h1>
+        </div>
+
+        <div id="error-recuperar" class="aviso aviso--mal oculto" role="alert"></div>
+
+        <form id="paso-correo" novalidate>
+          <label class="campo">
+            <span>Tu correo</span>
+            <input type="email" name="correo" autocomplete="username" required>
+          </label>
+          <button class="btn btn--primary btn--block" type="submit">Mándame un código</button>
+        </form>
+
+        <form id="paso-codigo" class="oculto" novalidate>
+          <p class="small muted" style="margin-bottom:14px">
+            Te llegó un código a <b id="correo-en-curso"></b>. Revisa también la
+            bandeja de correo no deseado.
+          </p>
+          <label class="campo">
+            <span>Código del correo</span>
+            <input type="text" name="codigo" inputmode="numeric" autocomplete="one-time-code" required>
+          </label>
+          <button class="btn btn--primary btn--block" type="submit">Comprobar</button>
+        </form>
+
+        <form id="paso-nueva" class="oculto" novalidate>
+          <label class="campo">
+            <span>Contraseña nueva</span>
+            <input type="password" name="clave" autocomplete="new-password" minlength="6" required>
+          </label>
+          <button class="btn btn--primary btn--block" type="submit">Guardar y entrar</button>
+        </form>
+
+        <button class="btn btn--ghost btn--block" type="button" id="volver-a-entrar" style="margin-top:12px">
+          Mejor no, regresar
+        </button>
       </div>
     </div>
 
@@ -259,6 +307,16 @@ function enCristiano(e) {
   if (t.includes('email not confirmed')) return 'Falta confirmar tu correo. Busca el mensaje que te llegó al registrarte.';
   if (t.includes('failed to fetch') || t.includes('network')) return 'No hay conexión. Revisa tu internet y vuelve a intentar.';
   if (t.includes('rate limit') || t.includes('too many')) return 'Demasiados intentos seguidos. Espera un minuto.';
+  if (t.includes('signups not allowed') || t.includes('user not found'))
+    return 'Ese correo no tiene cuenta en Kálale. Revísalo, o pide tu panel primero.';
+  if (t.includes('token has expired') || t.includes('expired'))
+    return 'Ese código ya venció. Pide uno nuevo.';
+  if (t.includes('invalid') && t.includes('token'))
+    return 'El código no es correcto. Revísalo en el correo.';
+  if (t.includes('password') && t.includes('short'))
+    return 'La contraseña es muy corta.';
+  if (t.includes('same') && t.includes('password'))
+    return 'Ésa es la misma contraseña que ya tenías. Ponte una distinta.';
   return e?.message || 'Algo falló y no supe qué.';
 }
 
@@ -397,6 +455,110 @@ $('forma-entrar').addEventListener('submit', async (e) => {
   if (error) decirError('error-entrar', enCristiano(error));
 });
 
+/* ---------- Recuperar la contraseña ----------
+   Tres pasos: correo, código, contraseña nueva. Al terminar la persona ya
+   quedó dentro, sin tener que volver a teclear nada: verificar el código ya
+   abrió sesión, así que mandarla de regreso a la pantalla de entrar sería
+   pedirle la contraseña que acaba de inventar. */
+
+let correoEnCurso = '';
+
+const MINIMO_CLAVE = 6;
+
+function verRecuperar(cual) {
+  for (const id of ['paso-correo', 'paso-codigo', 'paso-nueva']) {
+    ver(id, id === cual);
+  }
+  $('error-recuperar').classList.add('oculto');
+}
+
+$('ir-a-recuperar').addEventListener('click', () => {
+  ver('pantalla-entrar', false);
+  ver('pantalla-recuperar', true);
+  verRecuperar('paso-correo');
+});
+
+$('volver-a-entrar').addEventListener('click', () => {
+  ver('pantalla-recuperar', false);
+  ver('pantalla-entrar', true);
+});
+
+function ocupando(forma, texto) {
+  const b = forma.querySelector('button[type=submit]');
+  const antes = b.textContent;
+  b.disabled = true;
+  b.textContent = texto;
+  return () => {
+    b.disabled = false;
+    b.textContent = antes;
+  };
+}
+
+$('paso-correo').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const listo = ocupando(e.target, 'Mandando…');
+  const correo = String(new FormData(e.target).get('correo')).trim().toLowerCase();
+
+  // No crear cuenta: esto es recuperar, no registrarse. Si el correo no
+  // existe conviene decirlo y no dejar una cuenta vacía por accidente.
+  const { error } = await supabase.auth.signInWithOtp({
+    email: correo,
+    options: { shouldCreateUser: false },
+  });
+
+  listo();
+  if (error) {
+    decirError('error-recuperar', enCristiano(error));
+    return;
+  }
+  correoEnCurso = correo;
+  $('correo-en-curso').textContent = correo;
+  verRecuperar('paso-codigo');
+});
+
+$('paso-codigo').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const listo = ocupando(e.target, 'Comprobando…');
+  const codigo = String(new FormData(e.target).get('codigo')).trim();
+
+  const { error } = await supabase.auth.verifyOtp({
+    email: correoEnCurso,
+    token: codigo,
+    type: 'email',
+  });
+
+  listo();
+  if (error) {
+    decirError('error-recuperar', enCristiano(error));
+    return;
+  }
+  verRecuperar('paso-nueva');
+});
+
+$('paso-nueva').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const clave = String(new FormData(e.target).get('clave'));
+  if (clave.length < MINIMO_CLAVE) {
+    decirError('error-recuperar', `La contraseña necesita al menos ${MINIMO_CLAVE} caracteres.`);
+    return;
+  }
+
+  const listo = ocupando(e.target, 'Guardando…');
+  const { error } = await supabase.auth.updateUser({ password: clave });
+  listo();
+
+  if (error) {
+    decirError('error-recuperar', enCristiano(error));
+    return;
+  }
+
+  // La sesión ya está abierta desde que se comprobó el código. Se refresca el
+  // estado y la persona cae directo en su panel.
+  const { data } = await supabase.auth.getUser();
+  ver('pantalla-recuperar', false);
+  if (data?.user) abrirPanel(data.user);
+});
+
 document.querySelectorAll('[data-salir]').forEach((b) => {
   b.addEventListener('click', async () => {
     await supabase.auth.signOut();
@@ -408,6 +570,7 @@ document.querySelectorAll('[data-salir]').forEach((b) => {
    hay manera de que una pantalla se quede puesta cuando ya no toca. */
 supabase.auth.onAuthStateChange((_evento, sesion) => {
   ver('pantalla-entrar', false);
+  ver('pantalla-recuperar', false);
   ver('pantalla-no-eres', false);
   ver('pantalla-panel', false);
   ver('sin-pacientes', false);
