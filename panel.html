@@ -298,14 +298,27 @@
 <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+// De esm.sh y no de jsDelivr: el «/+esm» de jsDelivr es una conversión
+// automática, y esa conversión traía rota la parte que guarda la sesión —
+// entrabas bien y la siguiente pregunta a la base ya iba sin credencial.
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
    puede ver cada quien son las políticas de la base, no esta cadena. */
 const URL_BASE = 'https://ffymjmycnorkjwkwpcnz.supabase.co';
 const LLAVE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmeW1qbXljbm9ya2p3a3dwY256Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NzA5MjcsImV4cCI6MjEwMjE0NjkyN30.Jlo2Vwdq09KYies-2THsmIAHyfXhXKqibEQSRwTf-4U';
-const supabase = createClient(URL_BASE, LLAVE);
+const supabase = createClient(URL_BASE, LLAVE, {
+  auth: {
+    // Guardar la sesión y renovarla sola. Son los valores de fábrica; van
+    // escritos para que se vean, porque aquí fue justo lo que falló.
+    persistSession: true,
+    autoRefreshToken: true,
+    storage: window.localStorage,
+    // Apagado: sirve para las ligas de correo, y aquí se recupera con código.
+    detectSessionInUrl: false,
+  },
+});
 
 const $ = (id) => document.getElementById(id);
 const ver = (id, si) => $(id).classList.toggle('oculto', !si);
