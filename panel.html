@@ -149,8 +149,16 @@
     <!-- ======== No es nutriólogo ======== -->
     <div id="pantalla-no-eres" class="oculto">
       <div class="vacio">
-        <h1 style="font-size:clamp(1.6rem,1.3rem+1.4vw,2.1rem)">Tu cuenta todavía no tiene panel</h1>
-        <p class="lead" style="max-width:44ch;margin:1em auto 0">Entraste bien, pero esta cuenta no está dada de alta como nutriólogo. Escríbeme y te lo abro.</p>
+        <h1 style="font-size:clamp(1.6rem,1.3rem+1.4vw,2.1rem)">Esta cuenta todavía no tiene panel</h1>
+        <p class="lead" style="max-width:46ch;margin:1em auto 0">Entraste bien, pero esta cuenta no está dada de alta como nutriólogo.</p>
+        <!-- Decir CON QUÉ CUENTA entró, no nada más que no sirve. Casi siempre
+             el problema es haber entrado con otro correo, y sin verlo escrito
+             en la pantalla no hay manera de caer en cuenta. -->
+        <p class="codigo" style="margin-top:1.4em">
+          <small>Entraste como</small>
+          <b id="quien-soy" style="font-size:1rem;letter-spacing:0"></b>
+        </p>
+        <p class="small muted" style="max-width:44ch;margin:1.2em auto 0">Si ése no es el correo que esperabas, sal y vuelve a entrar con el correcto.</p>
         <div class="btn-row center" style="margin-top:1.8em">
           <a class="btn btn--primary" href="kalale.html#contacto">Pedir mi panel</a>
           <button class="btn btn--ghost" type="button" data-salir>Salir</button>
@@ -342,6 +350,7 @@ async function abrirPanel(usuario) {
   }
 
   if (!yo) {
+    $('quien-soy').textContent = usuario.email ?? '(sin correo)';
     ver('cargando', false);
     ver('pantalla-no-eres', true);
     return;
