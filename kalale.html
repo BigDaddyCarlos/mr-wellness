@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kálale, la app de nutrición mexicana | Mr. Wellness</title>
+<meta name="description" content="Kálale es una app de nutrición hecha en México, con 310 platillos mexicanos calculados por un nutriólogo y sellos NOM-051. Panel gratuito para nutriólogos: mira la adherencia de tus pacientes en tiempo real.">
+<link rel="canonical" href="https://mr-wellness.com/kalale.html">
+<link rel="alternate" hreflang="es" href="https://mr-wellness.com/kalale.html">
+<link rel="alternate" hreflang="x-default" href="https://mr-wellness.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mr-wellness.com/kalale.html">
+<meta property="og:title" content="Tus pacientes ya llevan un diario. Casi ninguno te lo enseña.">
+<meta property="og:description" content="Kálale: app de nutrición con comida mexicana calculada por un nutriólogo. El panel para nutriólogos es gratis, siempre.">
+<meta property="og:image" content="https://mr-wellness.com/assets/kalale-640.png">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__mw)document.documentElement.classList.remove('js');},2500);</script>
+<style>
+  /* Sólo lo que esta página necesita y el sistema no tiene todavía. */
+
+  /* Los octágonos de la NOM-051. Se dibujan, no se ilustran: son la forma que
+     todo México ya sabe leer y no hay que explicarla. */
+  .sello {
+    display: inline-grid; place-items: center;
+    width: 62px; height: 62px; flex: none;
+    background: #14181C; color: #fff;
+    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+    font-size: .58rem; font-weight: 800; line-height: 1.15;
+    text-align: center; letter-spacing: .01em; text-transform: uppercase;
+  }
+  @media (prefers-color-scheme: dark) { .sello { background: #EDEAE4; color: #16191D; } }
+
+  .sello-fila { display: flex; gap: 18px; align-items: flex-start; }
+  /* Sólo el texto se estira. Si esto dijera `> div` alcanzaría también al
+     octágono —que también es un div— y le ganaría a su `flex: none`, que fue
+     justo lo que pasó la primera vez: el sello salía aplastado y ancho. */
+  .sello-fila > :not(.sello) { flex: 1; min-width: 0; }
+
+  /* El tablero de ejemplo. */
+  .panel {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+  }
+  .panel__barra {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    padding: 15px 20px; border-bottom: 1px solid var(--line);
+    font-weight: 800; color: var(--ink); letter-spacing: -.01em;
+  }
+  .panel__barra span {
+    font-size: .74rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .panel table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: .95rem; }
+  .panel th {
+    text-align: left; padding: 12px 20px; border-bottom: 1px solid var(--line);
+    font-size: .72rem; font-weight: 800; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  .panel td { padding: 14px 20px; border-bottom: 1px solid var(--line-2); vertical-align: middle; }
+  .panel tr:last-child td { border-bottom: 0; }
+  .panel .num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+  .panel__pie {
+    padding: 12px 20px; border-top: 1px solid var(--line);
+    font-size: .8rem; color: var(--muted); background: var(--bg-2);
+  }
+
+  .adh { display: inline-block; width: 44px; height: 6px; border-radius: 999px;
+         background: var(--line); overflow: hidden; margin-right: 10px; vertical-align: middle; }
+  .adh i { display: block; height: 100%; background: currentColor; }
+  .va-bien { color: var(--sage-deep); }
+  .va-mal  { color: var(--orange-deep); }
+
+  .etiq {
+    display: inline-block; padding: .3em .8em; border-radius: 999px;
+    font-size: .78rem; font-weight: 800; white-space: nowrap;
+  }
+  .etiq--bien { background: color-mix(in srgb, var(--sage) 24%, transparent); color: var(--sage-deep); }
+  .etiq--ojo  { background: color-mix(in srgb, var(--orange) 24%, transparent); color: var(--orange-deep); }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Kálale",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Android",
+  "url": "https://mr-wellness.com/kalale.html",
+  "image": "https://mr-wellness.com/assets/kalale-640.png",
+  "description": "Aplicación de nutrición para México, con platillos mexicanos calculados por un nutriólogo, sellos NOM-051 y panel de seguimiento para profesionales.",
+  "inLanguage": "es-MX",
+  "author": {
+    "@type": "Person",
+    "name": "Carlos Zamora",
+    "jobTitle": "Nutriólogo"
+  },
+  "offers": [
+    { "@type": "Offer", "name": "Mensual", "price": "115", "priceCurrency": "MXN" },
+    { "@type": "Offer", "name": "Anual", "price": "599", "priceCurrency": "MXN" }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir al contenido</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="nav__brand" href="index.html">
+      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral">
+      <span>Mr. Wellness<small>Salud integral</small></span>
+    </a>
+
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Abrir menú"><span></span></button>
+
+    <div class="nav__panel" id="nav-panel">
+      <nav class="nav__links" aria-label="Principal">
+        <a href="spanish-coaching.html">Entrenamiento</a>
+        <a href="spanish-education.html">Bienestar</a>
+        <a href="spanish-community.html">Comunidad</a>
+        <a href="kalale.html" aria-current="page">Kálale</a>
+      </nav>
+      <a class="btn btn--primary btn--sm" href="#contacto">Quiero mi panel</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="eyebrow">Kálale · Aplicación de nutrición</span>
+      <h1>Tus pacientes ya llevan un diario. Casi ninguno te lo enseña.</h1>
+      <p class="lead">Kálale es una app de nutrición hecha en México, con comida mexicana calculada por un nutriólogo. Tú ves lo que registran, día con día, y llegas a consulta con datos en lugar de con memoria.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="#contacto">Quiero mi panel — es gratis</a>
+        <a class="btn btn--ghost" href="#panel">Ver cómo se ve</a>
+      </div>
+      <div class="trustbar">
+        <span>310 platillos mexicanos</span>
+        <span>Sellos NOM-051</span>
+        <span>Funciona sin señal</span>
+      </div>
+    </div>
+
+    <aside class="hero__card">
+      <img src="assets/kalale-640.png" width="640" height="899" alt="Kálale by Mr. Wellness" fetchpriority="high">
+      <hr>
+      <p class="small muted" style="margin-bottom:14px">La hice porque llevo años pidiendo diarios de tres días que nadie llena completos.</p>
+      <ul class="credentials">
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Los platillos los calculé yo.</b> Uno por uno, desde sus ingredientes. No están copiados de una base extranjera.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Hecha para México.</b> Pozole, tlacoyos, cochinita, tamales, guisado de fonda.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Tu panel no cuesta.</b> Ni ahora ni después. No adelantas nada.</span></li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ EL PROBLEMA ============ -->
+<section class="section section--tint section--edge">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">El problema</span>
+      <h2>El recordatorio de 24 horas es lo mejor que tenemos, y es malísimo</h2>
+    </div>
+    <div class="grid grid-2">
+      <div class="stack">
+        <p>Le pides a tu paciente que anote lo que come. Regresa a las tres semanas con media hoja llena, escrita de memoria el día anterior, sin cantidades. Con eso ajustas un plan.</p>
+        <p>Las apps que ya existen no lo arreglan, porque no están hechas para acá. El paciente busca <em>tlacoyo</em> y no sale. Busca <em>pozole</em> y aparece uno que capturó un desconocido en otro país, con números que nadie revisó.</p>
+      </div>
+      <div class="stack">
+        <p class="pull">A la tercera vez que no encuentra su comida, deja de registrar. Y tú te enteras un mes después, en consulta.</p>
+        <p>Esa es la fuga real. No es que la gente no quiera registrar: es que registrar les cuesta demasiado cuando la app no conoce lo que comen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUÉ TIENE DISTINTO ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Qué tiene distinto</span>
+      <h2>Está hecha para lo que come tu paciente</h2>
+    </div>
+    <div class="grid grid-4">
+      <div class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">🍲</div>
+        <h3>310 platillos mexicanos</h3>
+        <p>Pozole, tlacoyos, cochinita, mole negro, tamales, guisados de fonda. Calculados desde sus ingredientes, con porciones reales de plato chico, normal y grande.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--orange" aria-hidden="true">⬢</div>
+        <h3>Los sellos de la NOM-051</h3>
+        <p>Cuando escanea un producto del súper, ve los mismos octágonos negros que trae el empaque. No hay que explicarle nada a nadie.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon" aria-hidden="true">📈</div>
+        <h3>Calorías que se corrigen solas</h3>
+        <p>En vez de una fórmula de edad y estatura, compara lo que come contra cómo se mueve su peso y despeja su gasto real. Cada semana se reajusta.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">📶</div>
+        <h3>Funciona sin señal</h3>
+        <p>Registra en el camión, en el mercado, donde sea. Cuando hay internet, sube solo. En México eso no es un lujo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EL PANEL ============ -->
+<section class="section section--tint section--edge" id="panel">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Tu panel</span>
+      <h2>Ves quién se está cayendo antes de que abandone</h2>
+      <p>Un tablero con tus pacientes, que se abre en la computadora de tu consultorio. No instalas nada.</p>
+    </div>
+
+    <div class="panel">
+      <div class="panel__barra">Mis pacientes <span>Últimos 14 días</span></div>
+      <div class="table-scroll" style="border:0;border-radius:0">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Paciente</th>
+              <th scope="col">Días que registró</th>
+              <th scope="col">Última captura</th>
+              <th scope="col">Peso</th>
+              <th scope="col">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Adriana S.</td>
+              <td class="num va-bien"><span class="adh"><i style="width:93%"></i></span>13 / 14</td>
+              <td>hoy</td>
+              <td class="num">−1.8 kg</td>
+              <td><span class="etiq etiq--bien">Al corriente</span></td>
+            </tr>
+            <tr>
+              <td>Edgar O.</td>
+              <td class="num va-bien"><span class="adh"><i style="width:79%"></i></span>11 / 14</td>
+              <td>ayer</td>
+              <td class="num">−0.6 kg</td>
+              <td><span class="etiq etiq--bien">Al corriente</span></td>
+            </tr>
+            <tr>
+              <td>Mariana A.</td>
+              <td class="num va-mal"><span class="adh"><i style="width:29%"></i></span>4 / 14</td>
+              <td>hace 6 días</td>
+              <td class="num">+0.3 kg</td>
+              <td><span class="etiq etiq--ojo">Se está cayendo</span></td>
+            </tr>
+            <tr>
+              <td>Isabel H.</td>
+              <td class="num va-bien"><span class="adh"><i style="width:100%"></i></span>14 / 14</td>
+              <td>hoy</td>
+              <td class="num">−2.4 kg</td>
+              <td><span class="etiq etiq--bien">Al corriente</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="panel__pie">Ejemplo con datos inventados.</p>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:28px">
+      <div class="card">
+        <h3>Adherencia, no promesas</h3>
+        <p>Cuántos de los últimos catorce días registró de verdad. Es el número que predice si el plan va a funcionar, y el que nunca tienes.</p>
+      </div>
+      <div class="card">
+        <h3>Peso real contra tendencia</h3>
+        <p>La báscula miente todos los días. Ves la línea suavizada encima del peso crudo, que es la que sirve para decidir.</p>
+      </div>
+      <div class="card">
+        <h3>Qué come de verdad</h3>
+        <p>Sus platillos más frecuentes y sus promedios de calorías y macros. Entras a consulta ya sabiendo de qué van a hablar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TÚ MIRAS, NO TOCAS ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Lo que no hace, a propósito</span>
+      <h2>Tú miras. No tocas.</h2>
+    </div>
+    <div class="grid grid-2">
+      <div class="stack">
+        <p>Desde el panel no puedes cambiarle las metas a nadie, ni corregir sus capturas, ni escribir en su registro. Solo ver.</p>
+        <p>Es una decisión, no una carencia. En el momento en que un profesional puede modificar los datos de otra persona, esto deja de ser el registro del paciente y se convierte en un expediente clínico —con todo lo que eso arrastra encima, para ti y para él. <strong>El registro es suyo; tú lo lees.</strong></p>
+      </div>
+
+      <div class="note sello-fila">
+        <div class="sello" aria-hidden="true">Su<br>permiso</div>
+        <div>
+          <h3 style="margin-bottom:.4em">Tu paciente decide, y puede cambiar de opinión</h3>
+          <p>Nadie ve los datos de nadie sin que la persona lo acepte, expresamente, desde su teléfono. Y puede quitarte el acceso cuando quiera, sola, sin avisarte ni pedirte permiso.</p>
+          <p style="margin-top:.8em">Lo que come, cuánto pesa y cuánto mide son datos sensibles de salud, y la ley mexicana los trata así desde 2025. Pero aunque no lo pidiera la ley, estaría hecho igual.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLANES ============ -->
+<section class="section section--tint section--edge" id="planes">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Planes</span>
+      <h2>Tu panel es gratis. Siempre.</h2>
+      <p>Paga el paciente, y solo si le sirve: el primer mes es completo y sin costo. Tú no adelantas nada ni te comprometes a nada.</p>
+    </div>
+
+    <div class="plans">
+      <div class="plan">
+        <p class="plan__tier">Para el nutriólogo</p>
+        <p class="plan__name">Tu panel</p>
+        <p class="plan__price"><b>$0</b><span>para siempre</span></p>
+        <p class="plan__pitch">Todo lo que necesitas para seguir a tus pacientes en consulta.</p>
+        <ul>
+          <li>Pacientes sin límite</li>
+          <li>Adherencia y tendencia de peso</li>
+          <li>Tu código para invitarlos</li>
+          <li>Sin tarjeta y sin contrato</li>
+        </ul>
+        <a class="btn btn--ghost" href="#contacto">Pedir mi panel</a>
+      </div>
+
+      <div class="plan">
+        <p class="plan__tier">Para el paciente</p>
+        <p class="plan__name">Mensual</p>
+        <p class="plan__price"><b>$115</b><span>MXN / mes</span></p>
+        <p class="plan__pitch">Para quien quiere probarla sin comprometerse a un año.</p>
+        <ul>
+          <li>Primer mes completo, gratis</li>
+          <li>Se cancela cuando quiera</li>
+          <li>Todas las funciones incluidas</li>
+        </ul>
+        <a class="btn btn--ghost" href="#contacto">Preguntar</a>
+      </div>
+
+      <div class="plan plan--featured">
+        <span class="plan__flag">El que casi todos eligen</span>
+        <p class="plan__tier">Para el paciente</p>
+        <p class="plan__name">Anual</p>
+        <p class="plan__price"><b>$599</b><span>MXN / año</span></p>
+        <p class="plan__pitch">Sale en $50 al mes. Ahorra 57 % contra el mensual.</p>
+        <ul>
+          <li>Primer mes completo, gratis</li>
+          <li>Todas las funciones incluidas</li>
+          <li>Un solo pago al año</li>
+        </ul>
+        <a class="btn btn--primary" href="#contacto">Preguntar</a>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:28px">
+      <div>
+        <strong>Si tu paciente deja de pagar, sus datos no se borran ni se esconden.</strong> Siguen ahí, completos, y se los puede llevar cuando quiera. Cobrar por el acceso a la propia historia de alguien nos parece una manera fea de hacer negocio.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CÓMO EMPIEZA ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Cómo empieza</span>
+      <h2>Tres pasos, una tarde</h2>
+    </div>
+    <div class="grid grid-3 steps">
+      <div class="step">
+        <h3>Te doy tu acceso</h3>
+        <p>Me escribes, te abro el panel y te llega tu código de nutriólogo.</p>
+      </div>
+      <div class="step">
+        <h3>Se lo pasas a tus pacientes</h3>
+        <p>Bajan la app, ponen tu código y aceptan compartir su registro contigo.</p>
+      </div>
+      <div class="step">
+        <h3>Los ves desde tu computadora</h3>
+        <p>Desde el primer día que registren. Sin instalar nada y sin capacitación.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PREGUNTAS ============ -->
+<section class="section section--tint section--edge" id="preguntas">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Preguntas</span>
+      <h2>Lo que me preguntan los colegas</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>¿En serio el panel no me va a costar después?</summary>
+        <p>No. El modelo es que pague el paciente, no tú. Cobrarle a un profesional por ver a sus propios pacientes sería cobrarle por trabajar.</p>
+      </details>
+      <details>
+        <summary>¿Y si mi paciente no quiere que yo vea sus datos?</summary>
+        <p>Entonces no los ves. El permiso lo da la persona desde su teléfono, y lo puede quitar cuando quiera sin avisarte. Puede usar la app perfectamente sin compartir nada con nadie.</p>
+      </details>
+      <details>
+        <summary>¿Sirve para pacientes con condiciones médicas?</summary>
+        <p>Kálale es una herramienta de registro y seguimiento, no de diagnóstico. Ni diagnostica, ni receta, ni sustituye tu criterio. Te da lo que come y cuánto pesa tu paciente, con números confiables; lo que se hace con eso lo decides tú.</p>
+      </details>
+      <details>
+        <summary>¿De dónde salen los valores de los platillos?</summary>
+        <p>Los calculé yo, platillo por platillo, desde los ingredientes y con gramajes de porción real. Los productos de código de barras vienen de Open Food Facts, una base abierta y con crédito visible dentro de la app.</p>
+      </details>
+      <details>
+        <summary>¿Está en iPhone?</summary>
+        <p>Todavía no. Está en Android y la versión de iPhone viene después. Te lo digo de frente para que no invites a un paciente que no la va a poder instalar.</p>
+      </details>
+      <details>
+        <summary>¿Puedo probarla yo primero, antes de recomendarla?</summary>
+        <p>Es lo que te pediría. Úsala tú una semana, registra tu propia comida, y luego decides si se la das a alguien.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTO ============ -->
+<section class="section" id="contacto">
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Estoy abriendo el panel con un grupo chico de colegas</h2>
+      <p>No es una lista de espera ni la promesa de algo que va a existir: la app funciona hoy y hay gente registrando en ella. Lo que estoy armando es el primer grupo de nutriólogos que la va a estrenar en consulta — y que va a decidir qué se construye después.</p>
+      <div class="btn-row center">
+        <a class="btn btn--wa" href="https://wa.me/525569629713?text=Hola%20Carlos%2C%20soy%20nutri%C3%B3logo%20y%20vi%20K%C3%A1lale%20en%20mr-wellness.com.%20Quiero%20mi%20panel." target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.98 1.36-.53.04-1.02.23-3.45-.72-2.9-1.14-4.75-4.1-4.9-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36h.54c.18 0 .42-.07.65.5.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.72-.84.92-1.13.19-.29.39-.24.65-.14.26.1 1.65.78 1.94.92.29.14.48.22.55.34.07.12.07.7-.18 1.39Z"/></svg>
+          Escribirme por WhatsApp
+        </a>
+        <a class="btn btn--ghost" href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Agendar una llamada</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral" loading="lazy">
+        <p class="small muted" style="margin-top:14px;max-width:34ch">Salud integral con base en ciencia, empatía y resultados. Carlos Zamora, fisioterapeuta deportivo y nutriólogo.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="spanish-coaching.html">Entrenamiento</a></li>
+          <li><a href="spanish-education.html">Bienestar</a></li>
+          <li><a href="spanish-community.html">Comunidad</a></li>
+          <li><a href="kalale.html">Kálale</a></li>
+          <li><a href="spanish-privacy.html">Aviso de privacidad</a></li>
+          <li><a href="index.html">Cambiar idioma</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kálale</h4>
+        <ul>
+          <li><a href="#planes">Planes</a></li>
+          <li><a href="#preguntas">Preguntas frecuentes</a></li>
+          <li><a href="kalale-privacy.html">Aviso de privacidad de la app</a></li>
+          <li><a href="https://wa.me/525569629713" target="_blank" rel="noopener">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="disclaimer"><strong>Aviso:</strong> Kálale es una herramienta de registro y seguimiento nutricional. No diagnostica, no prescribe y no sustituye la consulta, el diagnóstico ni el tratamiento de un profesional de la salud. Datos de productos con código de barras: Open Food Facts, bajo licencia ODbL.</p>
+
+    <div class="footer__legal">
+      <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
+      <span>Hecho en México, con comida de aquí.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js" defer></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
