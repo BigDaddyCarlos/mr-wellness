@@ -214,6 +214,14 @@
           <small>La base contestó</small>
           <b id="que-contesto" style="font-size:.8rem;letter-spacing:0;font-weight:600"></b>
         </p>
+        <p class="codigo" style="margin-top:.7em">
+          <small>El pase dice</small>
+          <b id="que-dice-el-pase" style="font-size:.78rem;letter-spacing:0;font-family:monospace;font-weight:600"></b>
+        </p>
+        <p class="codigo" style="margin-top:.7em">
+          <small>Preguntando a mano</small>
+          <b id="a-mano" style="font-size:.78rem;letter-spacing:0;font-weight:600"></b>
+        </p>
         <p class="small muted" style="max-width:44ch;margin:1.2em auto 0">Si ése no es el correo que esperabas, sal y vuelve a entrar con el correcto.</p>
         <div class="btn-row center" style="margin-top:1.8em">
           <a class="btn btn--primary" href="kalale.html#contacto">Pedir mi panel</a>
@@ -295,7 +303,9 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
    puede ver cada quien son las políticas de la base, no esta cadena. */
-const supabase = createClient('https://ffymjmycnorkjwkwpcnz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmeW1qbXljbm9ya2p3a3dwY256Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NzA5MjcsImV4cCI6MjEwMjE0NjkyN30.Jlo2Vwdq09KYies-2THsmIAHyfXhXKqibEQSRwTf-4U');
+const URL_BASE = 'https://ffymjmycnorkjwkwpcnz.supabase.co';
+const LLAVE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmeW1qbXljbm9ya2p3a3dwY256Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NzA5MjcsImV4cCI6MjEwMjE0NjkyN30.Jlo2Vwdq09KYies-2THsmIAHyfXhXKqibEQSRwTf-4U';
+const supabase = createClient(URL_BASE, LLAVE);
 
 const $ = (id) => document.getElementById(id);
 const ver = (id, si) => $(id).classList.toggle('oculto', !si);
@@ -428,6 +438,39 @@ async function abrirPanel(usuario) {
     $('que-contesto').textContent = errTodos
       ? 'error: ' + errTodos.message
       : `${(todos ?? []).length} renglón(es) visibles para esta sesión`;
+
+    // Abrir el pase y enseñar sólo de quién dice ser y con qué papel. El pase
+    // completo NO se enseña: quien lo copiara de una captura entraría a la
+    // cuenta.
+    const { data: ses } = await supabase.auth.getSession();
+    const pase = ses?.session?.access_token;
+    try {
+      if (!pase) {
+        $('que-dice-el-pase').textContent = 'no hay pase guardado';
+      } else {
+        const cuerpo = JSON.parse(atob(pase.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+        const vencido = cuerpo.exp ? cuerpo.exp * 1000 < Date.now() : false;
+        $('que-dice-el-pase').textContent =
+          `papel: ${cuerpo.role ?? '(ninguno)'} · de: ${(cuerpo.sub ?? '(nadie)').slice(0, 8)}… · ${vencido ? 'VENCIDO' : 'vigente'}`;
+      }
+    } catch (e) {
+      $('que-dice-el-pase').textContent = 'no se pudo leer: ' + e.message;
+    }
+
+    // Y la misma consulta, pero armada a mano con el pase puesto. Si ésta sí
+    // trae el renglón y la de arriba no, la biblioteca no lo está adjuntando.
+    try {
+      if (pase) {
+        const r = await fetch(URL_BASE + '/rest/v1/nutriologos?select=id', {
+          headers: { apikey: LLAVE, Authorization: 'Bearer ' + pase },
+        });
+        const filas = await r.json();
+        $('a-mano').textContent =
+          `${r.status} · ${Array.isArray(filas) ? filas.length + ' renglón(es)' : JSON.stringify(filas).slice(0, 60)}`;
+      }
+    } catch (e) {
+      $('a-mano').textContent = 'falló: ' + e.message;
+    }
 
     ver('cargando', false);
     ver('pantalla-no-eres', true);
