@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kálale, la app para contar lo que comes en México | Mr. Wellness</title>
+<meta name="description" content="App de nutrición hecha en México: pozole, tlacoyos y tamales ya calculados, 10,943 productos de súper que se escanean sin señal, y calorías que se corrigen solas cada semana. Primer mes gratis.">
+<link rel="canonical" href="https://mr-wellness.com/kalale-app.html">
+<link rel="alternate" hreflang="es" href="https://mr-wellness.com/kalale-app.html">
+<link rel="alternate" hreflang="x-default" href="https://mr-wellness.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mr-wellness.com/kalale-app.html">
+<meta property="og:title" content="Por fin una app que sabe qué es un tlacoyo">
+<meta property="og:description" content="Comida mexicana ya calculada, códigos de barras que funcionan sin señal, y calorías que se ajustan solas conforme tu cuerpo cambia.">
+<meta property="og:image" content="https://mr-wellness.com/assets/kalale-640.png">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__mw)document.documentElement.classList.remove('js');},2500);</script>
+<style>
+  /* Los octágonos de la NOM-051, dibujados. Son la forma que todo México ya
+     sabe leer, y aquí no hay que explicarla. */
+  .sello {
+    display: inline-grid; place-items: center;
+    width: 58px; height: 58px; flex: none;
+    background: #14181C; color: #fff;
+    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+    font-size: .55rem; font-weight: 800; line-height: 1.15;
+    text-align: center; text-transform: uppercase;
+  }
+  @media (prefers-color-scheme: dark) { .sello { background: #EDEAE4; color: #16191D; } }
+  .sellos-fila { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+  .cifras {
+    display: grid; gap: 1px; margin-top: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    background: var(--line); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .cifra { background: var(--surface); padding: 22px 20px; }
+  .cifra b {
+    display: block; font-size: 2rem; font-weight: 800; letter-spacing: -.04em;
+    color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .cifra span { display: block; margin-top: 8px; font-size: .84rem; color: var(--muted); line-height: 1.45; }
+
+  /* Las dietas, como fichas. Cada una con su regla del plato dibujada. */
+  .dieta { display: flex; flex-direction: column; height: 100%; }
+  .dieta h3 { margin-bottom: .35em; }
+  .dieta > p { font-size: .95rem; }
+  .barra-plato {
+    display: flex; height: 12px; border-radius: 999px; overflow: hidden;
+    margin: 14px 0 8px; background: var(--line-2);
+  }
+  .barra-plato i { display: block; height: 100%; }
+  .b-energia { background: var(--orange); }
+  .b-proteina { background: var(--blue-deep); }
+  .b-vegetal { background: var(--sage); }
+  .leyenda { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .78rem; color: var(--muted); }
+  .leyenda span { display: inline-flex; align-items: center; gap: .4em; }
+  .leyenda i { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir al contenido</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="nav__brand" href="index.html">
+      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral">
+      <span>Mr. Wellness<small>Salud integral</small></span>
+    </a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Abrir menú"><span></span></button>
+    <div class="nav__panel" id="nav-panel">
+      <nav class="nav__links" aria-label="Principal">
+        <a href="spanish-coaching.html">Entrenamiento</a>
+        <a href="spanish-education.html">Bienestar</a>
+        <a href="spanish-community.html">Comunidad</a>
+        <a href="kalale-app.html" aria-current="page">Kálale</a>
+      </nav>
+      <a class="btn btn--primary btn--sm" href="#empezar">Quiero probarla</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="eyebrow">Kálale · Aplicación de nutrición</span>
+      <h1>Por fin una app que sabe qué es un tlacoyo.</h1>
+      <p class="lead">Kálale cuenta lo que comes de verdad: pozole, tamales, tacos de canasta, el guisado de la fonda. Y ajusta tus calorías sola, cada semana, conforme tu cuerpo va cambiando.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="#empezar">Quiero probarla</a>
+        <a class="btn btn--ghost" href="#dietas">Ver cómo funciona</a>
+      </div>
+      <div class="trustbar">
+        <span>Primer mes gratis</span>
+        <span>Funciona sin señal</span>
+        <span>Hecha en México</span>
+      </div>
+    </div>
+
+    <aside class="hero__card">
+      <img src="assets/kalale-640.png" width="640" height="899" alt="Kálale by Mr. Wellness" fetchpriority="high">
+      <hr>
+      <ul class="credentials">
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>310 platillos mexicanos.</b> Calculados uno por uno, con porciones de plato chico, normal y grande.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>10,943 productos de súper.</b> Escaneas el código de barras y sale, aunque no tengas señal.</span></li>
+        <li><span class="tick" aria-hidden="true">✓</span><span><b>Tus datos son tuyos.</b> Nadie los ve sin que tú lo autorices, y puedes llevártelos cuando quieras.</span></li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ EL PROBLEMA ============ -->
+<section class="section section--tint section--edge">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Por qué dejaste las otras</span>
+      <h2>No fue falta de ganas. Fue que no encontrabas tu comida.</h2>
+    </div>
+    <div class="grid grid-2">
+      <div class="stack">
+        <p>Bajas una app, la usas tres días con muchas ganas, y al cuarto buscas «tlacoyo» y no sale. Buscas «pozole» y aparece uno que capturó un desconocido en otro país, con números que nadie revisó.</p>
+        <p>Escaneas algo del súper y te dice que no lo conoce. Y como no puedes registrar lo que comiste, terminas registrando a medias — o dejándolo.</p>
+      </div>
+      <div class="stack">
+        <p class="pull">Registrar no debería costar más trabajo que comer.</p>
+        <p>Kálale nació de ahí. La comida mexicana está calculada desde sus ingredientes, no copiada. Y los productos del súper viajan dentro de la app, así que el escáner funciona en el pasillo aunque no haya señal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LO QUE TRAE ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Lo que ya trae</span>
+      <h2>Vas a encontrar lo que comes</h2>
+    </div>
+
+    <div class="cifras">
+      <div class="cifra"><b>10,943</b><span>productos de súper con código de barras</span></div>
+      <div class="cifra"><b>310</b><span>platillos mexicanos ya calculados</span></div>
+      <div class="cifra"><b>545</b><span>ingredientes, para armar lo que falte</span></div>
+      <div class="cifra"><b>339</b><span>productos de McDonald's, Starbucks y Subway</span></div>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:2.4em">
+      <div class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">🌮</div>
+        <h3>Cuentas en piezas, no en gramos</h3>
+        <p>Una tortilla. Un huevo. Una rebanada. En 176 alimentos no tienes que pesar nada — porque nadie pesa tres tortillas, y si te piden gramos, adivinas.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--orange" aria-hidden="true">📷</div>
+        <h3>Foto o código, mismo botón</h3>
+        <p>Le tomas foto a tu plato y te propone qué es; tú lo corriges antes de guardar. O escaneas el código de barras. La cámara sirve para las dos cosas.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon" aria-hidden="true">📈</div>
+        <h3>Tus calorías se corrigen solas</h3>
+        <p>En vez de una fórmula de edad y estatura, compara lo que comes con cómo se mueve tu peso y calcula tu gasto real. Cada semana se reajusta.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">📶</div>
+        <h3>Funciona sin señal</h3>
+        <p>Registras en el camión, en el mercado, donde sea. Cuando hay internet, sube solo. Aquí eso no es un lujo.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--orange" aria-hidden="true">🍽️</div>
+        <h3>De una a quince comidas al día</h3>
+        <p>Hay quien come una vez y quien come quince veces en porciones chicas. Tú eliges cuántas, y puedes cambiarlo cualquier día.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon" aria-hidden="true">🔁</div>
+        <h3>Tu desayuno de siempre, en un toque</h3>
+        <p>Lo guardas una vez y lo registras completo cuando se repita. Comer casi lo mismo debería ahorrarte trabajo, no costarte el mismo cada día.</p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:2em">
+      <div class="sellos-fila" aria-hidden="true">
+        <span class="sello">Exceso<br>azúcares</span>
+        <span class="sello">Exceso<br>sodio</span>
+      </div>
+      <div>
+        <h3 style="margin-bottom:.4em">Los sellos que ya conoces</h3>
+        <p>Cuando escaneas un producto ves los mismos octágonos negros que trae el empaque. Ninguna app de fuera los muestra, y aquí no hay que explicárselos a nadie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LAS DIETAS ============ -->
+<section class="section section--tint section--edge" id="dietas">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Cómo quieres comer</span>
+      <h2>Seis maneras, y puedes cambiar cuando quieras</h2>
+      <p>No son planes cerrados: son reglas de cómo se reparte tu plato. Escoges una y la app acomoda tus metas. Si no sabes cuál, empieza con la equilibrada.</p>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card dieta">
+        <h3>Equilibrada</h3>
+        <p>Un poco de todo, sin quitarle nada a nadie.</p>
+        <div class="barra-plato"><i class="b-energia" style="width:30%"></i><i class="b-proteina" style="width:30%"></i><i class="b-vegetal" style="width:40%"></i></div>
+      </div>
+      <div class="card dieta">
+        <h3>Un cuarto de energía</h3>
+        <p>Una parte del plato es energía; el resto son nutrientes esenciales. Sin pesar nada.</p>
+        <div class="barra-plato"><i class="b-energia" style="width:25%"></i><i class="b-proteina" style="width:35%"></i><i class="b-vegetal" style="width:40%"></i></div>
+      </div>
+      <div class="card dieta">
+        <h3>Alta en proteína</h3>
+        <p>Más proteína en cada comida, para llegar con hambre a menos horas.</p>
+        <div class="barra-plato"><i class="b-energia" style="width:25%"></i><i class="b-proteina" style="width:40%"></i><i class="b-vegetal" style="width:35%"></i></div>
+      </div>
+      <div class="card dieta">
+        <h3>Baja en carbohidratos</h3>
+        <p>Menos harinas y azúcares; la energía viene de la grasa y la proteína.</p>
+        <div class="barra-plato"><i class="b-energia" style="width:12%"></i><i class="b-proteina" style="width:38%"></i><i class="b-vegetal" style="width:50%"></i></div>
+      </div>
+      <div class="card dieta">
+        <h3>Mediterránea</h3>
+        <p>Verdura, pescado, aceite de oliva y granos enteros.</p>
+        <div class="barra-plato"><i class="b-energia" style="width:30%"></i><i class="b-proteina" style="width:25%"></i><i class="b-vegetal" style="width:45%"></i></div>
+      </div>
+      <div class="card dieta">
+        <h3>Cetogénica</h3>
+        <p>Casi sin carbohidrato. Es la más estricta y la más fácil de abandonar.</p>
+        <div class="barra-plato"><i class="b-energia" style="width:5%"></i><i class="b-proteina" style="width:40%"></i><i class="b-vegetal" style="width:55%"></i></div>
+      </div>
+    </div>
+
+    <div class="leyenda" style="margin-top:1.4em">
+      <span><i class="b-energia"></i> Energía: tortilla, arroz, pan, fruta</span>
+      <span><i class="b-proteina"></i> Proteína: carne, pollo, pescado, huevo, frijol</span>
+      <span><i class="b-vegetal"></i> Verdura</span>
+    </div>
+
+    <div class="note" style="margin-top:1.8em">
+      <div><strong>Ninguna dieta pasa por encima de tu salud.</strong> La app tiene mínimos de proteína y grasa que no se pueden desactivar: si una dieta pediría menos de lo que tu cuerpo necesita, la app lo sube. Y la cetogénica trae una advertencia expresa, porque si tomas medicamento para azúcar o presión hay que consultarlo antes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TUS DATOS ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Tus datos</span>
+      <h2>Lo que comes es tuyo, y nada más tuyo</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Nadie ve nada sin tu permiso</h3>
+        <p>Si tu nutriólogo usa Kálale, puedes compartirle tu avance con un código. Solo si tú aceptas, y solo puede mirar: no cambia nada de lo tuyo.</p>
+      </div>
+      <div class="card">
+        <h3>Y puedes quitarlo cuando quieras</h3>
+        <p>Por tu cuenta, desde la app, sin avisarle a nadie ni pedirle permiso a nadie. En ese momento deja de ver.</p>
+      </div>
+      <div class="card">
+        <h3>Si dejas de pagar, no pierdes nada</h3>
+        <p>Tus registros siguen ahí, completos, y te los puedes llevar. Cobrarte por ver tu propia historia nos parece una manera fea de hacer negocio.</p>
+      </div>
+    </div>
+    <p style="margin-top:1.4em" class="small muted">Lo que comes, cuánto pesas y cuánto mides son datos sensibles de salud, y la ley mexicana los trata así. Puedes leer el detalle en el <a href="kalale-privacy.html">aviso de privacidad</a>.</p>
+  </div>
+</section>
+
+<!-- ============ PRECIO ============ -->
+<section class="section section--tint section--edge" id="precio">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Cuánto cuesta</span>
+      <h2>El primer mes es completo y gratis</h2>
+      <p>Sin recortes y sin funciones escondidas. Si no te sirve, no pagas nada.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <p class="plan__tier">Mensual</p>
+        <p class="plan__name">Mes con mes</p>
+        <p class="plan__price"><b>$115</b><span>MXN / mes</span></p>
+        <p class="plan__pitch">Para probarla sin comprometerte a un año.</p>
+        <ul>
+          <li>Primer mes gratis</li>
+          <li>Cancelas cuando quieras</li>
+          <li>Todo incluido</li>
+        </ul>
+        <a class="btn btn--ghost" href="#empezar">Empezar</a>
+      </div>
+      <div class="plan plan--featured">
+        <span class="plan__flag">El que casi todos eligen</span>
+        <p class="plan__tier">Anual</p>
+        <p class="plan__name">Todo el año</p>
+        <p class="plan__price"><b>$599</b><span>MXN / año</span></p>
+        <p class="plan__pitch">Sale en $50 al mes. Ahorras 57% contra el mensual.</p>
+        <ul>
+          <li>Primer mes gratis también</li>
+          <li>Un solo pago al año</li>
+          <li>Todo incluido</li>
+        </ul>
+        <a class="btn btn--primary" href="#empezar">Empezar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PREGUNTAS ============ -->
+<section class="section" id="preguntas">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Preguntas</span>
+      <h2>Lo que más nos preguntan</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>¿Está en iPhone?</summary>
+        <p>Todavía no. Está en Android y la versión de iPhone viene después. Te lo decimos de frente para que no la esperes en balde.</p>
+      </details>
+      <details>
+        <summary>¿Tengo que pesar todo?</summary>
+        <p>No. Los platillos traen porciones de plato chico, normal y grande, y 176 alimentos se cuentan en piezas: una tortilla, un huevo, una rebanada. Pesar ayuda, pero no es obligatorio para que funcione.</p>
+      </details>
+      <details>
+        <summary>¿Y si como algo que no está?</summary>
+        <p>Lo armas con sus ingredientes y queda guardado en tu teléfono para la próxima. Si es un producto de súper, se busca en línea y también se guarda.</p>
+      </details>
+      <details>
+        <summary>¿Necesito internet?</summary>
+        <p>Para registrar, no. La comida mexicana y los diez mil productos de súper viven dentro de la app. Cuando vuelva a haber señal, todo sube solo.</p>
+      </details>
+      <details>
+        <summary>¿Sirve si tengo alguna condición de salud?</summary>
+        <p>Kálale es una herramienta de registro y seguimiento: no diagnostica, no receta y no sustituye a tu médico ni a tu nutriólogo. Si tienes una condición que requiere un plan, úsala junto con quien te atiende, no en lugar de.</p>
+      </details>
+      <details>
+        <summary>¿De dónde salen los números?</summary>
+        <p>Los platillos mexicanos se calcularon uno por uno desde sus ingredientes. Los productos con código de barras vienen de Open Food Facts, una base pública, y se revisaron para que la energía cuadre con los macros — los que no cuadraban no entraron.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EMPEZAR ============ -->
+<section class="section" id="empezar">
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Estamos abriendo con un grupo chico</h2>
+      <p>Kálale funciona hoy y hay gente registrando en ella todos los días. Todavía no está en la tienda: la estamos abriendo poco a poco, con quienes quieran estrenarla y decirnos qué le falta. Escríbenos y te la mandamos.</p>
+      <div class="btn-row center">
+        <a class="btn btn--wa" href="https://wa.me/525569629713?text=Hola%2C%20vi%20K%C3%A1lale%20en%20mr-wellness.com%20y%20quiero%20probarla." target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.98 1.36-.53.04-1.02.23-3.45-.72-2.9-1.14-4.75-4.1-4.9-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36h.54c.18 0 .42-.07.65.5.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.72-.84.92-1.13.19-.29.39-.24.65-.14.26.1 1.65.78 1.94.92.29.14.48.22.55.34.07.12.07.7-.18 1.39Z"/></svg>
+          Escribirnos por WhatsApp
+        </a>
+      </div>
+    </div>
+    <p class="small muted center" style="margin-top:1.6em">¿Eres profesional de la nutrición y quieres seguir a tus pacientes? <a href="kalale.html">Mira el panel</a>, es gratis.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral" loading="lazy">
+        <p class="small muted" style="margin-top:14px;max-width:34ch">Salud integral con base en ciencia, empatía y resultados. Carlos Zamora, fisioterapeuta deportivo y especialista en entrenamiento personal.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="spanish-coaching.html">Entrenamiento</a></li>
+          <li><a href="spanish-education.html">Bienestar</a></li>
+          <li><a href="spanish-community.html">Comunidad</a></li>
+          <li><a href="kalale.html">Kálale para profesionales</a></li>
+          <li><a href="spanish-privacy.html">Aviso de privacidad</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kálale</h4>
+        <ul>
+          <li><a href="#dietas">Formas de comer</a></li>
+          <li><a href="#precio">Precio</a></li>
+          <li><a href="#preguntas">Preguntas frecuentes</a></li>
+          <li><a href="kalale-privacy.html">Aviso de privacidad de la app</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="disclaimer"><strong>Aviso:</strong> Kálale es una herramienta de registro y seguimiento nutricional. No diagnostica, no prescribe y no sustituye la consulta, el diagnóstico ni el tratamiento de un profesional de la salud. Carlos Zamora es fisioterapeuta deportivo y especialista en entrenamiento personal; no es nutriólogo titulado y no prescribe planes de alimentación. Datos de productos con código de barras: Open Food Facts, bajo licencia ODbL.</p>
+
+    <div class="footer__legal">
+      <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
+      <span>Hecha en México, con comida de aquí.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js" defer></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
