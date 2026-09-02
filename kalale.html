@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kálale, la app de nutrición mexicana | Mr. Wellness</title>
-<meta name="description" content="Kálale es una app de nutrición hecha en México, con 310 platillos mexicanos calculados uno por uno desde sus ingredientes y sellos NOM-051. Panel gratuito para nutriólogos: mira la adherencia de tus pacientes en tiempo real.">
+<meta name="description" content="App de nutrición hecha en México: 310 platillos mexicanos calculados desde sus ingredientes, 10,943 productos de súper con código de barras que funcionan sin señal, y sellos NOM-051. Panel gratuito para nutriólogos.">
 <link rel="canonical" href="https://mr-wellness.com/kalale.html">
 <link rel="alternate" hreflang="es" href="https://mr-wellness.com/kalale.html">
 <link rel="alternate" hreflang="x-default" href="https://mr-wellness.com/">
@@ -82,6 +82,35 @@
   }
   .etiq--bien { background: color-mix(in srgb, var(--sage) 24%, transparent); color: var(--sage-deep); }
   .etiq--ojo  { background: color-mix(in srgb, var(--orange) 24%, transparent); color: var(--orange-deep); }
+
+  /* La tira de números. Se lee de un vistazo y es lo primero que un colega
+     quiere saber: ¿va a encontrar lo que come mi paciente? */
+  .cifras {
+    display: grid; gap: 1px; margin-top: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    background: var(--line); border: 1px solid var(--line);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .cifra { background: var(--surface); padding: 22px 20px; }
+  .cifra b {
+    display: block; font-size: 2rem; font-weight: 800;
+    letter-spacing: -.04em; color: var(--ink); line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .cifra span {
+    display: block; margin-top: 8px; font-size: .84rem;
+    color: var(--muted); line-height: 1.45;
+  }
+
+  /* El desglose del recetario. Va como lista de fichas y no como tabla: son
+     ocho renglones y una tabla para ocho renglones se ve como un trámite. */
+  .desglose { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .desglose li {
+    list-style: none; display: inline-flex; align-items: baseline; gap: .45em;
+    padding: .5em 1em; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--surface); font-size: .9rem; color: var(--ink-2);
+  }
+  .desglose b { color: var(--ink); font-weight: 800; font-variant-numeric: tabular-nums; }
 </style>
 <script type="application/ld+json">
 {
@@ -145,6 +174,7 @@
       </div>
       <div class="trustbar">
         <span>310 platillos mexicanos</span>
+        <span>10,943 códigos de barras</span>
         <span>Sellos NOM-051</span>
         <span>Funciona sin señal</span>
       </div>
@@ -210,6 +240,83 @@
         <div class="card__icon card__icon--sage" aria-hidden="true">📶</div>
         <h3>Funciona sin señal</h3>
         <p>Registra en el camión, en el mercado, donde sea. Cuando hay internet, sube solo. En México eso no es un lujo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LO QUE YA TRAE ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Lo que ya trae</span>
+      <h2>Tu paciente va a encontrar lo que come</h2>
+      <p>Ésta es la pregunta que decide si sigue registrando en marzo o lo deja en la segunda semana. Aquí están los números, hoy.</p>
+    </div>
+
+    <div class="cifras">
+      <div class="cifra"><b>10,943</b><span>productos de súper mexicanos, con su código de barras</span></div>
+      <div class="cifra"><b>310</b><span>platillos mexicanos calculados desde sus ingredientes</span></div>
+      <div class="cifra"><b>545</b><span>ingredientes, para armar lo que no esté</span></div>
+      <div class="cifra"><b>339</b><span>productos de McDonald's, Starbucks y Subway</span></div>
+    </div>
+
+    <h3 style="margin-top:2.4em">El recetario, por dentro</h3>
+    <ul class="desglose">
+      <li><b>82</b> guisados</li>
+      <li><b>65</b> antojitos</li>
+      <li><b>38</b> postres y pan</li>
+      <li><b>32</b> guarniciones</li>
+      <li><b>29</b> bebidas</li>
+      <li><b>27</b> sopas y caldos</li>
+      <li><b>22</b> desayunos</li>
+      <li><b>15</b> salsas</li>
+    </ul>
+    <p style="margin-top:1.2em">Tacos al pastor, tlacoyos, huaraches, tamales, quesadillas fritas, guajolotas, esquites, elote preparado, torta ahogada, cochinita, birria, mole negro, pozole, chilaquiles. Cada uno con su porción de plato chico, normal y grande — porque nadie come «100 gramos de pozole».</p>
+
+    <div class="grid grid-2" style="margin-top:2.4em">
+      <div class="card">
+        <div class="card__icon card__icon--orange" aria-hidden="true">📶</div>
+        <h3>El súper, sin señal</h3>
+        <p>Los diez mil productos <strong>viajan dentro de la app</strong>, no en un servidor. Tu paciente escanea en el pasillo, sin datos y sin esperar. Es el punto donde las demás apps pierden gente: escaneas tres veces, no sale, y la desinstalas.</p>
+        <p>Si algo no está, se consulta en línea y queda guardado para la próxima.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">🌮</div>
+        <h3>Se registra en piezas, no en gramos</h3>
+        <p><strong>176 alimentos</strong> se pueden registrar como los cuenta la gente: una tortilla, un huevo, una rebanada, un diente de ajo. Nadie pesa tres tortillas — y si le pides gramos, adivina, y adivina mal.</p>
+        <p>Donde el peso sí varía de verdad —un aguacate, una pechuga— la app lo dice en vez de fingir precisión.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon" aria-hidden="true">🧮</div>
+        <h3>Las metas se recalculan solas</h3>
+        <p>Cada semana compara lo que comió contra cómo se movió su peso y ajusta. Tú no tienes que rehacer cálculos paciente por paciente, que es la parte que nadie quiere hacer.</p>
+        <p>Con topes de seguridad que no se pueden desactivar.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--orange" aria-hidden="true">📷</div>
+        <h3>Foto y código, en el mismo botón</h3>
+        <p>Una cámara que sirve para las dos cosas. La foto da un punto de partida que la persona corrige antes de guardar — <strong>no se registra sola</strong>, y así debe ser: una foto no sabe cuánta manteca lleva ese guisado.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">📏</div>
+        <h3>Composición y medidas</h3>
+        <p>Peso, porcentaje de grasa por varios métodos, y cinta métrica en los puntos que sirven. La tendencia va encima del peso crudo, porque la báscula miente todos los días.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon" aria-hidden="true">🍽️</div>
+        <h3>De una a quince comidas al día</h3>
+        <p>Hay quien come una vez y quien come quince veces en porciones chicas. Se elige, se cambia por día, y los recordatorios se acomodan solos.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--orange" aria-hidden="true">🔁</div>
+        <h3>Comidas guardadas</h3>
+        <p>El desayuno de siempre son cuatro alimentos y cuatro vueltas de buscar y pesar. Se guarda una vez y se registra en un toque. Quien sigue un plan come casi lo mismo, y eso hay que premiarlo, no castigarlo.</p>
+      </div>
+      <div class="card">
+        <div class="card__icon card__icon--sage" aria-hidden="true">✏️</div>
+        <h3>Todo se corrige</h3>
+        <p>Se le cambian los ingredientes a un platillo —sin queso, con doble tortilla— y los números siguen. Y se puede cambiar la cantidad <strong>después</strong> de haberlo capturado, sin volver a empezar.</p>
       </div>
     </div>
   </div>
