@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel del nutriólogo · Kálale | Mr. Wellness</title>
+<meta name="description" content="Panel de seguimiento para nutriólogos que usan Kálale con sus pacientes.">
+<!-- Herramienta privada: no tiene por qué salir en buscadores. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://mr-wellness.com/panel.html">
+<meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .panel-wrap { max-width: 940px; }
+
+  .entrar { max-width: 26rem; margin-inline: auto; }
+  .campo { display: block; margin-bottom: 14px; }
+  .campo span {
+    display: block; margin-bottom: 6px;
+    font-size: .78rem; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .campo input {
+    width: 100%; padding: .8em 1em;
+    background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line); border-radius: var(--radius-sm);
+  }
+  .campo input:focus-visible { border-color: var(--blue-deep); }
+
+  .aviso {
+    padding: 14px 18px; border-radius: var(--radius-sm);
+    font-size: .93rem; margin-bottom: 16px;
+  }
+  .aviso--mal {
+    background: color-mix(in srgb, var(--orange) 14%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--orange) 40%, var(--line));
+    color: var(--ink);
+  }
+
+  .barra-sesion {
+    display: flex; flex-wrap: wrap; gap: 12px 20px;
+    align-items: center; justify-content: space-between;
+    padding-bottom: 20px; margin-bottom: 24px; border-bottom: 1px solid var(--line);
+  }
+
+  .codigo {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: .55em 1em; border-radius: var(--radius-sm);
+    background: var(--bg-2); border: 1px dashed var(--line);
+  }
+  .codigo b {
+    font-size: 1.35rem; font-weight: 800; letter-spacing: .16em;
+    color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+  .codigo small {
+    font-size: .72rem; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  table.pacientes { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .95rem; }
+  table.pacientes th {
+    text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line);
+    font-size: .72rem; font-weight: 800; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--muted); white-space: nowrap;
+  }
+  table.pacientes td { padding: 14px 16px; border-bottom: 1px solid var(--line-2); }
+  table.pacientes tr:last-child td { border-bottom: 0; }
+  table.pacientes .num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+  table.pacientes tbody tr:hover { background: var(--bg-2); }
+
+  .adh { display: inline-block; width: 46px; height: 6px; border-radius: 999px;
+         background: var(--line); overflow: hidden; margin-right: 10px; vertical-align: middle; }
+  .adh i { display: block; height: 100%; background: currentColor; }
+  .va-bien { color: var(--sage-deep); }
+  .va-medio { color: var(--blue-deep); }
+  .va-mal { color: var(--orange-deep); }
+
+  .etiq { display: inline-block; padding: .3em .8em; border-radius: 999px;
+          font-size: .78rem; font-weight: 800; white-space: nowrap; }
+  .etiq--bien { background: color-mix(in srgb, var(--sage) 24%, transparent); color: var(--sage-deep); }
+  .etiq--ojo  { background: color-mix(in srgb, var(--orange) 24%, transparent); color: var(--orange-deep); }
+  .etiq--frio { background: var(--bg-2); color: var(--muted); }
+
+  .vacio { text-align: center; padding: 48px 20px; }
+  .oculto { display: none !important; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Ir al contenido</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="nav__brand" href="index.html">
+      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral">
+      <span>Mr. Wellness<small>Salud integral</small></span>
+    </a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Abrir menú"><span></span></button>
+    <div class="nav__panel" id="nav-panel">
+      <nav class="nav__links" aria-label="Principal">
+        <a href="kalale.html">Kálale</a>
+        <a href="panel.html" aria-current="page">Panel</a>
+        <a href="kalale-privacy.html">Privacidad</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="section">
+  <div class="wrap panel-wrap">
+
+    <!-- ======== Cargando ======== -->
+    <div id="cargando" class="vacio">
+      <p class="muted">Un momento…</p>
+    </div>
+
+    <!-- ======== Entrar ======== -->
+    <div id="pantalla-entrar" class="oculto">
+      <div class="entrar">
+        <div class="section-head center" style="margin-bottom:28px">
+          <span class="eyebrow">Panel del nutriólogo</span>
+          <h1 style="font-size:clamp(1.7rem,1.3rem+1.6vw,2.3rem)">Entra con tu cuenta de Kálale</h1>
+          <p class="small muted" style="margin-top:.9em">Es la misma cuenta y la misma contraseña que usas en la app.</p>
+        </div>
+
+        <div id="error-entrar" class="aviso aviso--mal oculto" role="alert"></div>
+
+        <form id="forma-entrar" novalidate>
+          <label class="campo">
+            <span>Correo</span>
+            <input type="email" name="correo" autocomplete="username" required>
+          </label>
+          <label class="campo">
+            <span>Contraseña</span>
+            <input type="password" name="clave" autocomplete="current-password" required>
+          </label>
+          <button class="btn btn--primary btn--block" type="submit" id="boton-entrar">Entrar</button>
+        </form>
+
+        <p class="small muted" style="margin-top:20px;text-align:center">
+          ¿Todavía no tienes panel? <a href="kalale.html#contacto">Pídelo aquí</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- ======== No es nutriólogo ======== -->
+    <div id="pantalla-no-eres" class="oculto">
+      <div class="vacio">
+        <h1 style="font-size:clamp(1.6rem,1.3rem+1.4vw,2.1rem)">Tu cuenta todavía no tiene panel</h1>
+        <p class="lead" style="max-width:44ch;margin:1em auto 0">Entraste bien, pero esta cuenta no está dada de alta como nutriólogo. Escríbeme y te lo abro.</p>
+        <div class="btn-row center" style="margin-top:1.8em">
+          <a class="btn btn--primary" href="kalale.html#contacto">Pedir mi panel</a>
+          <button class="btn btn--ghost" type="button" data-salir>Salir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== El panel ======== -->
+    <div id="pantalla-panel" class="oculto">
+      <div class="barra-sesion">
+        <div>
+          <span class="eyebrow">Panel del nutriólogo</span>
+          <h1 id="saludo" style="font-size:clamp(1.5rem,1.25rem+1.2vw,2rem);margin-top:.35em"></h1>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <span class="codigo">
+            <small>Tu código</small>
+            <b id="mi-codigo"></b>
+          </span>
+          <button class="btn btn--ghost btn--sm" type="button" data-salir>Salir</button>
+        </div>
+      </div>
+
+      <div id="error-panel" class="aviso aviso--mal oculto" role="alert"></div>
+
+      <div id="sin-pacientes" class="vacio oculto">
+        <h2 style="font-size:1.4rem">Todavía nadie te ha dado permiso</h2>
+        <p class="muted" style="max-width:46ch;margin:.8em auto 0">
+          Pásale tu código a tus pacientes. Lo escriben en la app, en Ajustes, y
+          desde ahí deciden si comparten contigo.
+        </p>
+      </div>
+
+      <div id="con-pacientes" class="oculto">
+        <div class="table-scroll">
+          <table class="pacientes">
+            <thead>
+              <tr>
+                <th scope="col">Paciente</th>
+                <th scope="col">Días que registró</th>
+                <th scope="col">Última captura</th>
+                <th scope="col">Peso</th>
+                <th scope="col">Cambio en el mes</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+            <tbody id="filas"></tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin-top:16px">
+          Los días son sobre los últimos 14. Ves lo que tus pacientes te dejaron
+          ver; cada uno puede quitarte el permiso cuando quiera, y en ese momento
+          desaparece de esta lista.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="disclaimer"><strong>Aviso:</strong> Kálale es una herramienta de registro y seguimiento nutricional. No diagnostica, no prescribe y no sustituye la consulta ni el criterio de un profesional de la salud. Los datos que ves aquí son los que cada paciente aceptó compartir contigo.</p>
+    <div class="footer__legal">
+      <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
+      <span><a href="kalale-privacy.html">Aviso de privacidad de la app</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js" defer></script>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+/* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
+   hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
+   puede ver cada quien son las políticas de la base, no esta cadena. */
+const supabase = createClient('https://ffymjmycnorkjwkwpcnz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmeW1qbXljbm9ya2p3a3dwY256Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NzA5MjcsImV4cCI6MjEwMjE0NjkyN30.Jlo2Vwdq09KYies-2THsmIAHyfXhXKqibEQSRwTf-4U');
+
+const $ = (id) => document.getElementById(id);
+const ver = (id, si) => $(id).classList.toggle('oculto', !si);
+
+function decirError(id, mensaje) {
+  const caja = $(id);
+  caja.textContent = mensaje;
+  caja.classList.remove('oculto');
+}
+
+/* Los errores de Supabase vienen en inglés y en jerga. Aquí se traducen a lo
+   que de verdad le pasó a la persona; «Invalid login credentials» no le dice
+   a nadie que se equivocó de contraseña. */
+function enCristiano(e) {
+  const t = (e?.message || '').toLowerCase();
+  if (t.includes('invalid login')) return 'El correo o la contraseña no coinciden.';
+  if (t.includes('email not confirmed')) return 'Falta confirmar tu correo. Busca el mensaje que te llegó al registrarte.';
+  if (t.includes('failed to fetch') || t.includes('network')) return 'No hay conexión. Revisa tu internet y vuelve a intentar.';
+  if (t.includes('rate limit') || t.includes('too many')) return 'Demasiados intentos seguidos. Espera un minuto.';
+  return e?.message || 'Algo falló y no supe qué.';
+}
+
+const FECHA = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short' });
+
+/* «hoy», «ayer», «hace 6 días» dicen más que una fecha: lo que importa no es
+   el día exacto, es hace cuánto. */
+function haceCuanto(iso) {
+  if (!iso) return { texto: 'nunca', dias: Infinity };
+  const hoy = new Date();
+  const d = new Date(iso + 'T12:00:00');
+  const dias = Math.round((hoy.setHours(12, 0, 0, 0) - d.getTime()) / 86400000);
+  if (dias <= 0) return { texto: 'hoy', dias: 0 };
+  if (dias === 1) return { texto: 'ayer', dias: 1 };
+  if (dias <= 30) return { texto: `hace ${dias} días`, dias };
+  return { texto: FECHA.format(d), dias };
+}
+
+function pintar(pacientes) {
+  const cuerpo = $('filas');
+  cuerpo.textContent = '';
+
+  /* Primero los que se están cayendo. El panel existe para eso: para que el
+     que necesita una llamada esté hasta arriba y no haya que buscarlo. */
+  const orden = [...pacientes].sort((a, b) => {
+    const ca = haceCuanto(a.ultima_captura).dias - (a.dias_registrados ?? 0);
+    const cb = haceCuanto(b.ultima_captura).dias - (b.dias_registrados ?? 0);
+    return cb - ca;
+  });
+
+  for (const p of orden) {
+    const dias = p.dias_registrados ?? 0;
+    const pct = Math.round((dias / 14) * 100);
+    const ultima = haceCuanto(p.ultima_captura);
+
+    let clase = 'va-bien', etiq = 'etiq--bien', estado = 'Al corriente';
+    if (ultima.dias >= 5 || dias <= 4) { clase = 'va-mal'; etiq = 'etiq--ojo'; estado = 'Se está cayendo'; }
+    else if (ultima.dias >= 3 || dias <= 8) { clase = 'va-medio'; etiq = 'etiq--frio'; estado = 'Va irregular'; }
+    if (ultima.dias === Infinity) { clase = 'va-mal'; etiq = 'etiq--frio'; estado = 'No ha empezado'; }
+
+    const peso = p.peso_actual != null ? p.peso_actual.toFixed(1) + ' kg' : '—';
+    let cambio = '—';
+    if (p.peso_actual != null && p.peso_hace_un_mes != null) {
+      const d = p.peso_actual - p.peso_hace_un_mes;
+      cambio = (d > 0 ? '+' : '−') + Math.abs(d).toFixed(1) + ' kg';
+    }
+
+    const fila = document.createElement('tr');
+    const celda = (html, cls) => {
+      const td = document.createElement('td');
+      if (cls) td.className = cls;
+      td.innerHTML = html;
+      return td;
+    };
+
+    /* El nombre va como texto y no como HTML: lo escribió el paciente y es
+       dato de fuera. Nada que venga de fuera se pinta sin pasar por aquí. */
+    const tdNombre = document.createElement('td');
+    tdNombre.textContent = p.nombre_paciente || 'Sin nombre';
+    fila.append(tdNombre);
+
+    fila.append(celda(
+      `<span class="adh"><i style="width:${pct}%"></i></span>${dias} / 14`,
+      'num ' + clase,
+    ));
+    const tdUlt = document.createElement('td');
+    tdUlt.textContent = ultima.texto;
+    fila.append(tdUlt);
+    fila.append(celda(peso, 'num'));
+    fila.append(celda(cambio, 'num'));
+    fila.append(celda(`<span class="etiq ${etiq}">${estado}</span>`));
+
+    cuerpo.append(fila);
+  }
+}
+
+async function abrirPanel(usuario) {
+  const { data: yo, error: errYo } = await supabase
+    .from('nutriologos')
+    .select('nombre, codigo')
+    .eq('id', usuario.id)
+    .maybeSingle();
+
+  if (errYo) {
+    ver('cargando', false);
+    ver('pantalla-panel', true);
+    decirError('error-panel', 'No se pudo leer tu cuenta: ' + enCristiano(errYo));
+    return;
+  }
+
+  if (!yo) {
+    ver('cargando', false);
+    ver('pantalla-no-eres', true);
+    return;
+  }
+
+  $('saludo').textContent = yo.nombre;
+  $('mi-codigo').textContent = yo.codigo;
+  ver('cargando', false);
+  ver('pantalla-panel', true);
+
+  const { data: pacientes, error } = await supabase
+    .from('panel_pacientes')
+    .select('*');
+
+  if (error) {
+    decirError('error-panel', 'No se pudo traer tu lista: ' + enCristiano(error));
+    return;
+  }
+
+  if (!pacientes || pacientes.length === 0) {
+    ver('sin-pacientes', true);
+    return;
+  }
+
+  pintar(pacientes);
+  ver('con-pacientes', true);
+}
+
+$('forma-entrar').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const boton = $('boton-entrar');
+  const datos = new FormData(e.target);
+  $('error-entrar').classList.add('oculto');
+  boton.disabled = true;
+  boton.textContent = 'Entrando…';
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: String(datos.get('correo')).trim(),
+    password: String(datos.get('clave')),
+  });
+
+  boton.disabled = false;
+  boton.textContent = 'Entrar';
+  if (error) decirError('error-entrar', enCristiano(error));
+});
+
+document.querySelectorAll('[data-salir]').forEach((b) => {
+  b.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    location.reload();
+  });
+});
+
+/* Un solo lugar decide qué pantalla se ve, y es el estado de la sesión. Así no
+   hay manera de que una pantalla se quede puesta cuando ya no toca. */
+supabase.auth.onAuthStateChange((_evento, sesion) => {
+  ver('pantalla-entrar', false);
+  ver('pantalla-no-eres', false);
+  ver('pantalla-panel', false);
+  ver('sin-pacientes', false);
+  ver('con-pacientes', false);
+  ver('cargando', true);
+
+  if (sesion?.user) {
+    abrirPanel(sesion.user);
+  } else {
+    ver('cargando', false);
+    ver('pantalla-entrar', true);
+  }
+});
+</script>
+</body>
+</html>
