@@ -29,7 +29,7 @@ revisar— en vez de desde qué credencial. A un colega eso le sirve más: un
 título ajeno no le ayuda a defender una recomendación, un método auditable sí.
 
 **La palabra sí sirve para terceros:** «tu nutriólogo», «panel para
-nutriólogos», «código de nutriólogo». Ahí habla de los colegas titulados que
+nutriólogos», «código de nutriólogo». Ahí habla de los profesionales titulados que
 usan la herramienta, y es correcta.
 
 Si hace falta una credencial nueva, **se le pregunta a Carlos qué puede
