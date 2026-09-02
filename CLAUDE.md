@@ -35,6 +35,15 @@ usan la herramienta, y es correcta.
 Si hace falta una credencial nueva, **se le pregunta a Carlos qué puede
 sostener**. No se deduce ni se asume.
 
+### «Colega» tampoco
+
+«Lo que me preguntan los colegas» dice que Carlos es uno de ellos: es el mismo
+problema del título por otra puerta. Se dice **profesional**, o se nombra el
+momento —«lo que preguntan antes de recomendarla»—.
+
+Y para vender es mejor: no compite con ellos, les construye una herramienta.
+
+
 ### Texto sin género
 
 La app y el sitio le hablan a cualquiera. Nada de «tú sola», «bienvenido»,
