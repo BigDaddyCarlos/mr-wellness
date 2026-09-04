@@ -546,3 +546,28 @@ table.compare tr:last-child > * { border-bottom: 0; }
 .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
 .js .reveal.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; } }
+
+/* ---------- Redes ----------
+   Las ligas a sus páginas. El color de cada red solo se usa en el borde y en
+   el icono al pasar encima: si se usara en el texto, la mitad de las marcas
+   no alcanzarían contraste sobre el fondo claro ni sobre el oscuro. */
+.social-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.social-link {
+  display: inline-flex; align-items: center; gap: .55em;
+  padding: .62em 1.1em; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--surface);
+  color: var(--ink); font-weight: 700; font-size: .93rem;
+  text-decoration: none; line-height: 1;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.social-link svg { flex: none; width: 18px; height: 18px; color: var(--muted); transition: color .18s ease; }
+.social-link:hover { transform: translateY(-2px); border-color: var(--brand, var(--blue-deep)); box-shadow: var(--shadow-sm); text-decoration: none; }
+.social-link:hover svg { color: var(--brand, var(--blue-deep)); }
+.social-link:focus-visible { outline: none; box-shadow: var(--ring); }
+@media (prefers-reduced-motion: reduce) { .social-link:hover { transform: none; } }
+
+/* En el pie, la fila va debajo de las columnas y arriba del aviso legal. */
+.footer__social { margin-top: 34px; }
+.footer__social h4 { margin-bottom: .9em; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.site-footer .social-link { background: var(--bg); color: var(--ink); }
+.site-footer .social-link:hover { color: var(--ink); text-decoration: none; }
