@@ -86,6 +86,30 @@
 
   .vacio { text-align: center; padding: 48px 20px; }
   .oculto { display: none !important; }
+
+  /* El nombre del paciente es el botón que abre su detalle. Parece enlace
+     porque es lo que hace: llevar a otra vista. */
+  .abrir-paciente {
+    background: none; border: 0; padding: 0; font: inherit; font-weight: 700;
+    color: var(--blue-deep); text-align: left; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .abrir-paciente:focus-visible { outline: 2px solid var(--blue-deep); outline-offset: 3px; border-radius: 4px; }
+
+  .grafica-caja {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 20px 20px 14px; margin-top: 18px;
+  }
+  .grafica-caja h3 { font-size: 1.1rem; margin: 0 0 4px; }
+  .grafica svg { display: block; width: 100%; height: auto; margin-top: 12px; }
+  .g-rejilla { stroke: var(--line); stroke-width: 1; }
+  .g-texto { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .g-punto { fill: var(--muted); }
+  .g-linea { fill: none; stroke: var(--blue-deep); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .g-barra { fill: color-mix(in srgb, var(--sage) 55%, transparent); }
+  .g-sin-datos { padding: 28px 0 18px; }
+  .leyenda { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: .85rem; color: var(--muted); }
+  .leyenda i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
 </style>
 </head>
 <body>
@@ -273,9 +297,38 @@
           </table>
         </div>
         <p class="small muted" style="margin-top:16px">
-          Los días son sobre los últimos 14. Ves lo que tus pacientes te dejaron
-          ver; cada uno puede quitarte el permiso cuando quiera, y en ese momento
-          desaparece de esta lista.
+          Los días son sobre los últimos 14. Toca el nombre de un paciente para
+          ver sus gráficas. Ves lo que tus pacientes te dejaron ver; cada uno
+          puede quitarte el permiso cuando quiera, y en ese momento desaparece
+          de esta lista.
+        </p>
+      </div>
+
+      <!-- ======== El detalle de un paciente ======== -->
+      <div id="detalle" class="oculto">
+        <button class="btn btn--ghost btn--sm" type="button" id="volver-a-lista">← Todos mis pacientes</button>
+        <h2 id="detalle-nombre" style="font-size:1.5rem;margin:20px 0 6px"></h2>
+        <p class="small muted" id="detalle-resumen" style="max-width:70ch"></p>
+        <div id="error-detalle" class="aviso aviso--mal oculto" role="alert"></div>
+
+        <div class="grafica-caja">
+          <h3>Peso</h3>
+          <p class="small muted">Cada punto es una pesada. La línea es el promedio de los últimos siete días: el peso de un solo día se mueve con el agua, la línea no.</p>
+          <div id="grafica-peso" class="grafica"></div>
+          <div class="leyenda"><span><i style="background:var(--muted);height:8px;width:8px;border-radius:50%"></i>Pesada del día</span><span><i style="background:var(--blue-deep)"></i>Promedio de 7 días</span></div>
+        </div>
+
+        <div class="grafica-caja">
+          <h3>Lo que registra comer</h3>
+          <p class="small muted">Las calorías de cada día que registró. Un día sin barra es un día que no anotó, no un día que no comió.</p>
+          <div id="grafica-kcal" class="grafica"></div>
+          <div class="leyenda"><span><i style="background:color-mix(in srgb, var(--sage) 55%, transparent);height:10px"></i>Calorías del día</span><span><i style="background:var(--blue-deep)"></i>Promedio de 7 días</span></div>
+        </div>
+
+        <p class="small muted" style="margin-top:18px;max-width:70ch">
+          Son los últimos 90 días, y es lo que tu paciente aceptó compartir
+          contigo: su peso y lo que registra. Su composición corporal y sus
+          medidas no se ven aquí.
         </p>
       </div>
     </div>
@@ -404,9 +457,16 @@ function pintar(pacientes) {
     };
 
     /* El nombre va como texto y no como HTML: lo escribió el paciente y es
-       dato de fuera. Nada que venga de fuera se pinta sin pasar por aquí. */
+       dato de fuera. Nada que venga de fuera se pinta sin pasar por aquí.
+       Es un botón y no un clic en toda la fila para que también se pueda
+       abrir con el teclado. */
     const tdNombre = document.createElement('td');
-    tdNombre.textContent = p.nombre_paciente || 'Sin nombre';
+    const abrir = document.createElement('button');
+    abrir.type = 'button';
+    abrir.className = 'abrir-paciente';
+    abrir.textContent = p.nombre_paciente || 'Sin nombre';
+    abrir.addEventListener('click', () => abrirDetalle(p));
+    tdNombre.append(abrir);
     fila.append(tdNombre);
 
     fila.append(celda(
@@ -423,6 +483,213 @@ function pintar(pacientes) {
     cuerpo.append(fila);
   }
 }
+
+/* ---------- El detalle de un paciente ----------
+   Lo pidió Carlos el 10 de septiembre de 2026: «valdría la pena que el
+   nutriólogo pudiera ver esas gráficas». Hasta ese día el panel era una
+   tabla, sin ninguna gráfica.
+
+   Aquí va lo que el paciente ya aceptó compartir al vincularse —su peso y lo
+   que registra—, con los mismos permisos de la base que ya existían
+   (sql/015). Si el paciente quita el permiso, la base deja de entregar sus
+   renglones y esto sale vacío: quien niega es la base, no este dibujo.
+
+   La composición corporal y las medidas NO van aquí todavía: amplían lo que
+   el paciente aceptó, y esperan a que el aviso de privacidad lo diga y a que
+   cada paciente lo decida aparte. */
+
+const DIAS_DEL_DETALLE = 90;
+const FECHA_CORTA = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short' });
+
+/* La fecha en el reloj de quien mira, nunca en UTC: en México, después de las
+   seis de la tarde UTC ya es mañana. Es el mismo error que la app tuvo que
+   arreglar. */
+function fechaLocal(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function moverDias(iso, n) {
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + n);
+  return fechaLocal(d);
+}
+function diasEntre(desde, hasta) {
+  const dias = [];
+  for (let d = desde; d <= hasta; d = moverDias(d, 1)) dias.push(d);
+  return dias;
+}
+const corta = (iso) => FECHA_CORTA.format(new Date(iso + 'T12:00:00'));
+
+/* La base entrega de mil en mil. Noventa días de comida son fácilmente más
+   de mil renglones, y sin esto la gráfica se cortaría a la mitad sin avisar. */
+async function todas(consulta) {
+  const filas = [];
+  for (let desde = 0; ; desde += 1000) {
+    const { data, error } = await consulta().range(desde, desde + 999);
+    if (error) throw error;
+    filas.push(...(data ?? []));
+    if (!data || data.length < 1000) return filas;
+  }
+}
+
+/* Promedio de los últimos siete días de calendario, con los días que sí
+   tienen dato. Un día sin dato no cuenta como cero: contarlo hundiría la
+   línea y haría parecer que la persona no comió, cuando no anotó. */
+function promedioMovil(valores, minimo) {
+  return valores.map((_, i) => {
+    const tramo = valores.slice(Math.max(0, i - 6), i + 1).filter((v) => v != null);
+    return tramo.length >= minimo ? tramo.reduce((a, b) => a + b, 0) / tramo.length : null;
+  });
+}
+
+function pasoBonito(x) {
+  const p = 10 ** Math.floor(Math.log10(x));
+  const f = x / p;
+  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p;
+}
+
+/* Una gráfica en SVG, hecha aquí mismo: una biblioteca de gráficas pesa más
+   que todo el panel y hace falta tan poco. Solo lleva números y textos fijos,
+   así que armarla como texto no mete nada de fuera. */
+function grafica({ dias, valores, linea, barras, piso, formato, etiqueta }) {
+  const ANCHO = 720, ALTO = 230, IZQ = 52, DER = 12, ARR = 14, ABA = 28;
+  const con = valores.filter((v) => v != null);
+  let min = piso ?? Math.min(...con);
+  let max = Math.max(...con);
+  if (piso == null) { min -= 0.5; max += 0.5; } else { max = max * 1.1 || 1; }
+  const paso = pasoBonito((max - min) / 5);
+  const marcas = [];
+  for (let m = Math.ceil(min / paso) * paso; m <= max + 1e-9; m += paso) marcas.push(m);
+
+  const x = (i) => IZQ + (dias.length === 1 ? 0 : (i / (dias.length - 1)) * (ANCHO - IZQ - DER));
+  const y = (v) => ARR + (1 - (v - min) / (max - min || 1)) * (ALTO - ARR - ABA);
+
+  let s = `<svg viewBox="0 0 ${ANCHO} ${ALTO}" role="img" aria-label="${etiqueta}">`;
+  for (const m of marcas) {
+    s += `<line class="g-rejilla" x1="${IZQ}" x2="${ANCHO - DER}" y1="${y(m)}" y2="${y(m)}"/>`;
+    s += `<text class="g-texto" x="${IZQ - 8}" y="${y(m) + 4}" text-anchor="end">${formato(m)}</text>`;
+  }
+  const medio = Math.floor((dias.length - 1) / 2);
+  for (const [i, ancla] of [[0, 'start'], [medio, 'middle'], [dias.length - 1, 'end']]) {
+    s += `<text class="g-texto" x="${x(i)}" y="${ALTO - 8}" text-anchor="${ancla}">${corta(dias[i])}</text>`;
+  }
+
+  if (barras) {
+    const ancho = Math.max(2, ((ANCHO - IZQ - DER) / dias.length) * 0.7);
+    valores.forEach((v, i) => {
+      if (v == null) return;
+      s += `<rect class="g-barra" x="${x(i) - ancho / 2}" y="${y(v)}" width="${ancho}" height="${Math.max(0, y(min) - y(v))}" rx="1.5"/>`;
+    });
+  } else {
+    valores.forEach((v, i) => {
+      if (v != null) s += `<circle class="g-punto" cx="${x(i)}" cy="${y(v)}" r="3.2"/>`;
+    });
+  }
+
+  // La línea se corta donde no hay promedio: unir a través del hueco
+  // dibujaría una semana que no existió.
+  let d = '';
+  let dentro = false;
+  linea.forEach((v, i) => {
+    if (v == null) { dentro = false; return; }
+    d += `${dentro ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`;
+    dentro = true;
+  });
+  if (d) s += `<path class="g-linea" d="${d}"/>`;
+  return s + '</svg>';
+}
+
+let detalleAbierto = null;
+
+async function abrirDetalle(p) {
+  detalleAbierto = p.paciente_id;
+  ver('con-pacientes', false);
+  ver('detalle', true);
+  $('detalle-nombre').textContent = p.nombre_paciente || 'Sin nombre';
+  $('detalle-resumen').textContent = 'Trayendo sus datos…';
+  $('error-detalle').classList.add('oculto');
+  $('grafica-peso').textContent = '';
+  $('grafica-kcal').textContent = '';
+  window.scrollTo({ top: 0 });
+
+  const hasta = fechaLocal(new Date());
+  const desde = moverDias(hasta, -(DIAS_DEL_DETALLE - 1));
+
+  try {
+    const [pesadas, comidas] = await Promise.all([
+      todas(() => supabase.from('pesadas').select('fecha, peso_kg')
+        .eq('usuario_id', p.paciente_id).gte('fecha', desde).order('fecha')),
+      todas(() => supabase.from('comidas').select('fecha, kcal, proteina_g')
+        .eq('usuario_id', p.paciente_id).gte('fecha', desde).order('fecha')),
+    ]);
+    // Si mientras cargaba se abrió otro paciente, esto ya no es de nadie.
+    if (detalleAbierto !== p.paciente_id) return;
+
+    const dias = diasEntre(desde, hasta);
+    const pesoDe = new Map(pesadas.map((f) => [f.fecha, Number(f.peso_kg)]));
+    const kcalDe = new Map();
+    const protDe = new Map();
+    for (const c of comidas) {
+      kcalDe.set(c.fecha, (kcalDe.get(c.fecha) ?? 0) + Number(c.kcal));
+      protDe.set(c.fecha, (protDe.get(c.fecha) ?? 0) + Number(c.proteina_g));
+    }
+
+    const pesos = dias.map((d) => pesoDe.get(d) ?? null);
+    const kcal = dias.map((d) => kcalDe.get(d) ?? null);
+
+    if (pesadas.length === 0) {
+      $('grafica-peso').innerHTML = '<p class="muted g-sin-datos">No se ha pesado en estos 90 días.</p>';
+    } else {
+      const primera = pesadas[0], ultima = pesadas.at(-1);
+      $('grafica-peso').innerHTML = grafica({
+        dias, valores: pesos, linea: promedioMovil(pesos, 2),
+        formato: (v) => v.toFixed(v % 1 ? 1 : 0),
+        etiqueta: `Peso: ${Number(primera.peso_kg).toFixed(1)} kg el ${corta(primera.fecha)} y ${Number(ultima.peso_kg).toFixed(1)} kg el ${corta(ultima.fecha)}`,
+      });
+    }
+
+    const registrados = kcal.filter((v) => v != null).length;
+    if (registrados === 0) {
+      $('grafica-kcal').innerHTML = '<p class="muted g-sin-datos">No ha registrado comida en estos 90 días.</p>';
+    } else {
+      const prom = Math.round(kcal.reduce((a, v) => a + (v ?? 0), 0) / registrados);
+      $('grafica-kcal').innerHTML = grafica({
+        dias, valores: kcal, barras: true, piso: 0,
+        // Cuatro de siete, igual que la gráfica de la app: con menos, el
+        // promedio de una semana lo decide un solo día.
+        linea: promedioMovil(kcal, 4),
+        formato: (v) => Math.round(v).toLocaleString('es-MX'),
+        etiqueta: `Calorías: registró ${registrados} de ${DIAS_DEL_DETALLE} días, con un promedio de ${prom} kcal en esos días`,
+      });
+    }
+
+    // El resumen de las dos últimas semanas, que es lo que se revisa en una
+    // consulta de seguimiento.
+    const catorce = dias.slice(-14).filter((d) => kcalDe.has(d));
+    const partes = [];
+    if (catorce.length > 0) {
+      const k = Math.round(catorce.reduce((a, d) => a + kcalDe.get(d), 0) / catorce.length);
+      const pr = Math.round(catorce.reduce((a, d) => a + protDe.get(d), 0) / catorce.length);
+      partes.push(`En los últimos 14 días registró ${catorce.length} ${catorce.length === 1 ? 'día' : 'días'}, con un promedio de ${k.toLocaleString('es-MX')} kcal y ${pr} g de proteína en esos días.`);
+    } else {
+      partes.push('No ha registrado comida en los últimos 14 días.');
+    }
+    if (pesadas.length > 0) {
+      const u = pesadas.at(-1);
+      partes.push(`Su última pesada: ${Number(u.peso_kg).toFixed(1)} kg, ${haceCuanto(u.fecha).texto}.`);
+    }
+    $('detalle-resumen').textContent = partes.join(' ');
+  } catch (e) {
+    if (detalleAbierto !== p.paciente_id) return;
+    $('detalle-resumen').textContent = '';
+    decirError('error-detalle', 'No se pudieron traer sus datos: ' + enCristiano(e));
+  }
+}
+
+$('volver-a-lista').addEventListener('click', () => {
+  detalleAbierto = null;
+  ver('detalle', false);
+  ver('con-pacientes', true);
+});
 
 async function abrirPanel(usuario) {
   const { data: yo, error: errYo } = await supabase
