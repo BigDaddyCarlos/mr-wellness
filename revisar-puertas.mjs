@@ -37,6 +37,24 @@
  *
  * Están escritas aquí a propósito: la lista obliga a decir en voz alta por qué
  * cada una se queda fuera, en vez de que el olvido y la decisión se vean igual.
+ *
+ * ---------------------------------------------------------------------------
+ * LA SEGUNDA REVISIÓN: QUE EL ENLACE LLEVE A DONDE DICE
+ *
+ * Esta revisión pasaba, y Carlos seguía sin encontrar el panel. **Las dos cosas
+ * eran ciertas al mismo tiempo**, y ahí estaba el hueco: preguntaba «¿alguien
+ * enlaza esta página?» y la respuesta era sí —desde el pie y desde una pregunta
+ * frecuente—, mientras que todo lo que se veía y decía «panel» llevaba a otro
+ * lado. El botón grande «Quiero mi panel» iba a WhatsApp; el renglón «Mira el
+ * panel» iba a la página de ventas.
+ *
+ * Para quien busca la puerta, un enlace escondido y ninguna puerta son lo
+ * mismo. Y un enlace cuyas palabras prometen el panel y va a otra parte es peor
+ * que no tenerlo: gasta el único clic que esa persona iba a dar.
+ *
+ * Así que ahora también se revisa al revés: **si el texto del enlace promete
+ * entrar al panel, tiene que ir al panel.** «Ver cómo se ve» y «quiero mi
+ * panel» no prometen entrar — piden ver o pedir— y por eso no cuentan.
  */
 
 import fs from 'node:fs';
@@ -79,8 +97,39 @@ for (const [f, porque] of Object.entries(CON_PUERTA_DE_AFUERA)) {
   }
 }
 
+/**
+ * Enlaces cuyas palabras prometen **entrar** al panel.
+ *
+ * Se buscan verbos de entrar, no de mirar: «ver cómo se ve» y «quiero mi panel»
+ * son promesas distintas y legítimas, y llevan a la demostración y al contacto.
+ */
+const PROMETE_ENTRAR = /(entra|entrar|inicia|ingresa|acced|abre el panel|abrir el panel)/i;
+
+const mentirosos = [];
+for (const [pagina, texto] of textos) {
+  for (const m of texto.matchAll(/<a\s[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi)) {
+    const destino = m[1];
+    const palabras = m[2].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!/panel/i.test(palabras) || !PROMETE_ENTRAR.test(palabras)) continue;
+    if (destino === 'panel.html' || destino.endsWith('/panel')) continue;
+    mentirosos.push({ pagina, palabras, destino });
+  }
+}
+
+if (mentirosos.length > 0) {
+  console.log('\nDICEN «ENTRAR AL PANEL» Y LLEVAN A OTRO LADO:');
+  for (const x of mentirosos) {
+    console.log(`  ${x.pagina} — «${x.palabras}» va a ${x.destino}`);
+  }
+  console.log(
+    '\nUn enlace que promete el panel y va a otra parte gasta el único clic que\n' +
+      'esa persona iba a dar. O cambia el destino, o cambia las palabras.',
+  );
+  process.exit(1);
+}
+
 if (sinExplicar.length === 0) {
-  console.log('\nNinguna página quedó sin puerta ni sin explicación.');
+  console.log('\nNinguna página quedó sin puerta, sin explicación, ni con el destino cambiado.');
   process.exit(0);
 }
 
