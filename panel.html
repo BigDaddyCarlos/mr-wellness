@@ -101,12 +101,25 @@
     border-radius: var(--radius); padding: 20px 20px 14px; margin-top: 18px;
   }
   .grafica-caja h3 { font-size: 1.1rem; margin: 0 0 4px; }
-  .grafica svg { display: block; width: 100%; height: auto; margin-top: 12px; }
+  /* En un teléfono la gráfica se desliza de lado en vez de encogerse: encogida,
+     la letra de los ejes queda de cinco píxeles y no se lee. */
+  .grafica { overflow-x: auto; }
+  .grafica svg { display: block; width: 100%; min-width: 560px; height: auto; margin-top: 12px; }
   .g-rejilla { stroke: var(--line); stroke-width: 1; }
   .g-texto { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
   .g-punto { fill: var(--muted); }
   .g-linea { fill: none; stroke: var(--blue-deep); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
   .g-barra { fill: color-mix(in srgb, var(--sage) 55%, transparent); }
+  .g-fuera { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+  .g-meta { fill: none; stroke: var(--orange-deep); stroke-width: 2; stroke-dasharray: 6 4; }
+
+  .cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+  .cifra { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px; }
+  .cifra b { display: block; font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ink); }
+  .cifra span { font-size: .8rem; color: var(--muted); }
+  .cita { margin: 8px 0 0; padding-left: 14px; border-left: 3px solid var(--blue-deep); max-width: 66ch; }
+  .riel { height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; margin-top: 12px; }
+  .riel i { display: block; height: 100%; background: var(--blue-deep); border-radius: 999px; }
   .g-sin-datos { padding: 28px 0 18px; }
   .leyenda { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: .85rem; color: var(--muted); }
   .leyenda i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
@@ -311,24 +324,51 @@
         <p class="small muted" id="detalle-resumen" style="max-width:70ch"></p>
         <div id="error-detalle" class="aviso aviso--mal oculto" role="alert"></div>
 
-        <div class="grafica-caja">
-          <h3>Peso</h3>
-          <p class="small muted">Cada punto es una pesada. La línea es el promedio de los últimos siete días: el peso de un solo día se mueve con el agua, la línea no.</p>
-          <div id="grafica-peso" class="grafica"></div>
-          <div class="leyenda"><span><i style="background:var(--muted);height:8px;width:8px;border-radius:50%"></i>Pesada del día</span><span><i style="background:var(--blue-deep)"></i>Promedio de 7 días</span></div>
+        <div class="cifras" id="cifras"></div>
+
+        <div class="grafica-caja oculto" id="caja-como-va">
+          <h3 id="como-va-titulo">Cómo va</h3>
+          <p class="small muted">Lo que la app le está diciendo esta semana, según su objetivo:</p>
+          <p id="como-va" class="cita"></p>
         </div>
 
         <div class="grafica-caja">
-          <h3>Lo que registra comer</h3>
+          <h3>Peso</h3>
+          <p class="small muted">Cada punto es lo que marcó su báscula. La línea es su tendencia: <b>la misma que ve tu paciente en su app</b>, calculada con el mismo motor. Si un día sube medio kilo y la línea no se mueve, era agua.</p>
+          <div id="grafica-peso" class="grafica"></div>
+          <div class="leyenda"><span><i style="background:var(--muted);height:8px;width:8px;border-radius:50%"></i>Pesada del día</span><span><i style="border:1.5px solid var(--muted);height:8px;width:8px;border-radius:50%;background:none"></i>Quedó fuera de la tendencia</span><span><i style="background:var(--blue-deep)"></i>Tendencia</span></div>
+        </div>
+
+        <div class="grafica-caja">
+          <h3>Lo que registra comer, contra su meta</h3>
           <p class="small muted">Las calorías de cada día que registró. Un día sin barra es un día que no anotó, no un día que no comió.</p>
           <div id="grafica-kcal" class="grafica"></div>
-          <div class="leyenda"><span><i style="background:color-mix(in srgb, var(--sage) 55%, transparent);height:10px"></i>Calorías del día</span><span><i style="background:var(--blue-deep)"></i>Promedio de 7 días</span></div>
+          <div class="leyenda"><span><i style="background:color-mix(in srgb, var(--sage) 55%, transparent);height:10px"></i>Calorías del día</span><span><i style="background:var(--blue-deep)"></i>Promedio de 7 días</span><span><i style="background:repeating-linear-gradient(90deg,var(--orange-deep) 0 5px,transparent 5px 8px)"></i>Su meta de esa semana</span></div>
+        </div>
+
+        <div class="grafica-caja" id="caja-gasto">
+          <h3>Su gasto y qué tanto lo conoce la app</h3>
+          <div id="gasto-sin" class="oculto">
+            <p class="muted g-sin-datos">Todavía no llega ninguna semana calculada. Aparece cuando tu paciente abra la app y se calcule su semana.</p>
+          </div>
+          <div id="gasto-con" class="oculto">
+            <div class="riel"><i id="riel-avance"></i></div>
+            <p id="confianza" style="margin:10px 0 4px"></p>
+            <p class="small muted" id="confianza-explica"></p>
+            <div id="grafica-gasto" class="grafica"></div>
+            <p class="small muted">Cada punto es lo que la app sabía de su gasto esa semana, no lo que sabe hoy mirando hacia atrás. Al principio manda una fórmula general; conforme registra, mandan sus datos.</p>
+            <h3 style="margin-top:20px">Sus metas de esta semana</h3>
+            <div class="cifras" id="metas"></div>
+            <p class="small muted" id="metas-nota"></p>
+          </div>
         </div>
 
         <p class="small muted" style="margin-top:18px;max-width:70ch">
-          Son los últimos 90 días, y es lo que tu paciente aceptó compartir
-          contigo: su peso y lo que registra. Su composición corporal y sus
-          medidas no se ven aquí.
+          El peso y la comida son de los últimos 90 días; el gasto, desde su
+          primera semana. Es lo que tu paciente aceptó
+          compartir contigo: su perfil, su peso, lo que registra, y lo que la
+          app calcula con eso. Su composición corporal y sus medidas no se ven
+          aquí, y tampoco sus pasos, que se quedan en su teléfono.
         </p>
       </div>
     </div>
@@ -355,6 +395,12 @@
 // automática, y esa conversión traía rota la parte que guarda la sesión —
 // entrabas bien y la siguiente pregunta a la base ya iba sin credencial.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+// El motor de la app, el mismo archivo: la tendencia que ve el nutriólogo es la
+// que ve su paciente. Lo genera eatwell/armar-motor-del-panel.mjs; no se edita
+// a mano, y la huella del final la pone ese mismo script.
+// Se carga al abrir a un paciente y no al entrar: si algún día fallara, la
+// lista y la entrada siguen sirviendo.
+const cargarMotor = () => import('./assets/motor-kalale.js?v=2bc9dbc07818');
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
@@ -550,9 +596,11 @@ function pasoBonito(x) {
 /* Una gráfica en SVG, hecha aquí mismo: una biblioteca de gráficas pesa más
    que todo el panel y hace falta tan poco. Solo lleva números y textos fijos,
    así que armarla como texto no mete nada de fuera. */
-function grafica({ dias, valores, linea, barras, piso, formato, etiqueta }) {
+function grafica({ dias, valores, linea, barras, piso, formato, etiqueta, fuera, meta }) {
   const ANCHO = 720, ALTO = 230, IZQ = 52, DER = 12, ARR = 14, ABA = 28;
-  const con = valores.filter((v) => v != null);
+  // La escala abarca todo lo que se dibuja, no solo los puntos: una meta o una
+  // tendencia fuera del rango se saldría del cuadro.
+  const con = [...valores, ...linea, ...(meta ?? [])].filter((v) => v != null);
   let min = piso ?? Math.min(...con);
   let max = Math.max(...con);
   if (piso == null) { min -= 0.5; max += 0.5; } else { max = max * 1.1 || 1; }
@@ -580,22 +628,105 @@ function grafica({ dias, valores, linea, barras, piso, formato, etiqueta }) {
       s += `<rect class="g-barra" x="${x(i) - ancho / 2}" y="${y(v)}" width="${ancho}" height="${Math.max(0, y(min) - y(v))}" rx="1.5"/>`;
     });
   } else {
+    // Las pesadas que el motor apartó van huecas, igual que no cuentan: se
+    // ven, para que nadie crea que se perdieron, pero no jalan la línea.
     valores.forEach((v, i) => {
-      if (v != null) s += `<circle class="g-punto" cx="${x(i)}" cy="${y(v)}" r="3.2"/>`;
+      if (v == null) return;
+      s += fuera?.[i]
+        ? `<circle class="g-fuera" cx="${x(i)}" cy="${y(v)}" r="3.4"/>`
+        : `<circle class="g-punto" cx="${x(i)}" cy="${y(v)}" r="3.2"/>`;
     });
   }
 
-  // La línea se corta donde no hay promedio: unir a través del hueco
-  // dibujaría una semana que no existió.
-  let d = '';
-  let dentro = false;
-  linea.forEach((v, i) => {
-    if (v == null) { dentro = false; return; }
-    d += `${dentro ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`;
-    dentro = true;
-  });
+  // Las líneas se cortan donde no hay dato: unir a través del hueco dibujaría
+  // una semana que no existió.
+  const trazo = (serie) => {
+    let d = '';
+    let dentro = false;
+    serie.forEach((v, i) => {
+      if (v == null) { dentro = false; return; }
+      d += `${dentro ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`;
+      dentro = true;
+    });
+    return d;
+  };
+  if (meta) {
+    const d = trazo(meta);
+    if (d) s += `<path class="g-meta" d="${d}"/>`;
+  }
+  const d = trazo(linea);
   if (d) s += `<path class="g-linea" d="${d}"/>`;
   return s + '</svg>';
+}
+
+/* Una cifra suelta con su etiqueta. Con textContent: aunque aquí solo van
+   números, así nunca hay que acordarse de cuáles no. */
+function cifra(valor, etiqueta) {
+  const caja = document.createElement('div');
+  caja.className = 'cifra';
+  const b = document.createElement('b');
+  b.textContent = valor;
+  const s = document.createElement('span');
+  s.textContent = etiqueta;
+  caja.append(b, s);
+  return caja;
+}
+
+const conSigno = (kg) =>
+  kg == null ? '—' : `${kg > 0.05 ? '+' : kg < -0.05 ? '−' : ''}${Math.abs(kg).toFixed(1)} kg`;
+
+const OBJETIVOS_DEL_MOTOR = ['bajar_grasa', 'recomposicion', 'subir_musculo', 'mantener'];
+
+/* El gasto y las metas, de lo que la app de su paciente sube cada semana
+   (metas_semanales). Es lo mismo que Progreso le enseña a él: «Qué tanto te
+   conozco» y «Cómo he ido conociendo tu gasto». */
+function pintarGasto(metas, hoy) {
+  if (metas.length === 0) {
+    ver('gasto-sin', true);
+    return;
+  }
+  ver('gasto-con', true);
+  const u = metas.at(-1);
+  const conf = Math.max(0, Math.min(1, Number(u.confianza)));
+  $('riel-avance').style.width = `${Math.round(conf * 100)}%`;
+  $('confianza').textContent = `${Math.round(conf * 100)}% de lo que la app calcula de su gasto sale de sus datos.`;
+  // Los mismos cortes que Progreso, dichos en tercera persona.
+  $('confianza-explica').textContent =
+    (conf < 0.35
+      ? 'El resto todavía sale de una fórmula general. Con unas tres semanas de registro, la app conoce su gasto real.'
+      : conf < 0.7
+        ? 'Ya pesan más sus datos que la fórmula.'
+        : 'Prácticamente todo sale de sus datos: aquí es donde el motor vale la pena.') +
+    ` Lleva ${Math.round(Number(u.dias_utiles))} días útiles de registro.`;
+
+  if (metas.length >= 2) {
+    const gastos = metas.map((m) => Number(m.gasto_estimado_kcal));
+    $('grafica-gasto').innerHTML = grafica({
+      dias: metas.map((m) => m.semana_inicio),
+      valores: gastos,
+      linea: gastos,
+      formato: (v) => Math.round(v).toLocaleString('es-MX'),
+      etiqueta: `Gasto estimado: ${gastos.at(-1).toLocaleString('es-MX')} kcal al día la última semana`,
+    });
+  } else {
+    $('grafica-gasto').innerHTML = '<p class="muted g-sin-datos">Con su segunda semana aparece aquí la gráfica.</p>';
+  }
+
+  const ritmo = Number(u.ritmo_aplicado_kg_semana);
+  $('metas').append(
+    cifra(`${Number(u.kcal).toLocaleString('es-MX')} kcal`, 'Al día'),
+    cifra(`${u.proteina_g} g`, 'Proteína'),
+    cifra(`${u.carbohidratos_g} g`, 'Carbohidratos'),
+    cifra(`${u.grasa_g} g`, 'Grasa'),
+    cifra(`${Number(u.gasto_estimado_kcal).toLocaleString('es-MX')} kcal`, 'Su gasto estimado'),
+    cifra(ritmo === 0 ? 'Sin cambio' : `${ritmo > 0 ? '+' : '−'}${Math.abs(ritmo)} kg`, 'Ritmo por semana'),
+  );
+  const notas = [`Semana del ${corta(u.semana_inicio)}.`];
+  if (moverDias(u.semana_inicio, 13) < hoy) {
+    notas.push('Es la última que llegó: su app no ha calculado una semana nueva desde entonces.');
+  }
+  if (u.aviso_seguridad) notas.push(`La app le avisó: «${u.aviso_seguridad}»`);
+  $('metas-nota').textContent = notas.join(' ');
 }
 
 let detalleAbierto = null;
@@ -607,22 +738,38 @@ async function abrirDetalle(p) {
   $('detalle-nombre').textContent = p.nombre_paciente || 'Sin nombre';
   $('detalle-resumen').textContent = 'Trayendo sus datos…';
   $('error-detalle').classList.add('oculto');
-  $('grafica-peso').textContent = '';
-  $('grafica-kcal').textContent = '';
+  for (const caja of ['grafica-peso', 'grafica-kcal', 'grafica-gasto', 'cifras', 'metas']) {
+    $(caja).textContent = '';
+  }
+  ver('caja-como-va', false);
+  ver('gasto-sin', false);
+  ver('gasto-con', false);
   window.scrollTo({ top: 0 });
 
+  const id = p.paciente_id;
   const hasta = fechaLocal(new Date());
   const desde = moverDias(hasta, -(DIAS_DEL_DETALLE - 1));
 
   try {
-    const [pesadas, comidas] = await Promise.all([
+    const [{ calcularTendencia, leerProgreso, nombreDeObjetivo }, pesadas, comidas, primeraComida, metas, perfil] = await Promise.all([
+      cargarMotor(),
+      // Todas las pesadas, no solo las de 90 días: la tendencia arranca en la
+      // primera, igual que en la app. Cortarla aquí daría otra línea.
       todas(() => supabase.from('pesadas').select('fecha, peso_kg')
-        .eq('usuario_id', p.paciente_id).gte('fecha', desde).order('fecha')),
+        .eq('usuario_id', id).order('fecha')),
       todas(() => supabase.from('comidas').select('fecha, kcal, proteina_g')
-        .eq('usuario_id', p.paciente_id).gte('fecha', desde).order('fecha')),
+        .eq('usuario_id', id).gte('fecha', desde).order('fecha')),
+      supabase.from('comidas').select('fecha').eq('usuario_id', id).order('fecha').limit(1),
+      // Sin el permiso de sql/017 la base contesta vacío, no con error: la
+      // caja del gasto lo dice y lo demás sigue igual.
+      todas(() => supabase.from('metas_semanales')
+        .select('semana_inicio, gasto_estimado_kcal, confianza, dias_utiles, kcal, proteina_g, carbohidratos_g, grasa_g, ritmo_aplicado_kg_semana, aviso_seguridad')
+        .eq('usuario_id', id).order('semana_inicio')),
+      supabase.from('perfiles').select('objetivo').eq('id', id).maybeSingle(),
     ]);
     // Si mientras cargaba se abrió otro paciente, esto ya no es de nadie.
-    if (detalleAbierto !== p.paciente_id) return;
+    if (detalleAbierto !== id) return;
+    if (primeraComida.error) throw primeraComida.error;
 
     const dias = diasEntre(desde, hasta);
     const pesoDe = new Map(pesadas.map((f) => [f.fecha, Number(f.peso_kg)]));
@@ -633,20 +780,64 @@ async function abrirDetalle(p) {
       protDe.set(c.fecha, (protDe.get(c.fecha) ?? 0) + Number(c.proteina_g));
     }
 
-    const pesos = dias.map((d) => pesoDe.get(d) ?? null);
-    const kcal = dias.map((d) => kcalDe.get(d) ?? null);
+    /* La tendencia, con el motor de la app (assets/motor-kalale.js).
+       Los días se arman como los arma la app en historialParaElMotor: del
+       primer registro —pesada o comida— a hoy, con los días sin pesada
+       vacíos. Si se armaran distinto, el mismo motor daría otra línea. */
+    const inicio = [pesadas[0]?.fecha, primeraComida.data?.[0]?.fecha].filter(Boolean).sort()[0];
+    const puntos = inicio
+      ? calcularTendencia(diasEntre(inicio, hasta).map((fecha) => ({ fecha, pesoKg: pesoDe.get(fecha), kcal: undefined })))
+      : [];
+    const puntoDe = new Map(puntos.map((t) => [t.fecha, t]));
+    const conTendencia = puntos.filter((t) => t.tendenciaKg != null);
+    const ultimo = conTendencia.at(-1);
+    // Igual que Progreso: la tendencia de hoy contra la de hace n días.
+    const cambio = (n) => {
+      const antes = conTendencia.at(-1 - n);
+      return antes && ultimo ? ultimo.tendenciaKg - antes.tendenciaKg : null;
+    };
 
+    if (ultimo) {
+      $('cifras').append(
+        cifra(`${ultimo.tendenciaKg.toFixed(1)} kg`, 'Su tendencia hoy'),
+        cifra(conSigno(cambio(7)), 'Última semana'),
+        cifra(conSigno(cambio(30)), 'Último mes'),
+        cifra(conSigno(ultimo.tendenciaKg - conTendencia[0].tendenciaKg), 'Desde que empezó'),
+      );
+    }
+
+    // Lo que la app le está diciendo, con las mismas palabras. Le sirve al
+    // nutriólogo para no contradecirla sin querer en la consulta.
+    const objetivo = perfil.data?.objetivo;
+    if (OBJETIVOS_DEL_MOTOR.includes(objetivo) && cambio(7) != null) {
+      $('como-va-titulo').textContent = `Cómo va · ${nombreDeObjetivo(objetivo)}`;
+      $('como-va').textContent = `«${leerProgreso(objetivo, cambio(7))}»`;
+      ver('caja-como-va', true);
+    }
+
+    const pesos = dias.map((d) => pesoDe.get(d) ?? null);
     if (pesadas.length === 0) {
+      $('grafica-peso').innerHTML = '<p class="muted g-sin-datos">Todavía no se ha pesado.</p>';
+    } else if (pesos.every((v) => v == null)) {
       $('grafica-peso').innerHTML = '<p class="muted g-sin-datos">No se ha pesado en estos 90 días.</p>';
     } else {
-      const primera = pesadas[0], ultima = pesadas.at(-1);
+      const ultima = pesadas.at(-1);
       $('grafica-peso').innerHTML = grafica({
-        dias, valores: pesos, linea: promedioMovil(pesos, 2),
+        dias, valores: pesos,
+        linea: dias.map((d) => puntoDe.get(d)?.tendenciaKg ?? null),
+        fuera: dias.map((d) => puntoDe.get(d)?.descartada ?? false),
         formato: (v) => v.toFixed(v % 1 ? 1 : 0),
-        etiqueta: `Peso: ${Number(primera.peso_kg).toFixed(1)} kg el ${corta(primera.fecha)} y ${Number(ultima.peso_kg).toFixed(1)} kg el ${corta(ultima.fecha)}`,
+        etiqueta: `Peso: su última pesada fue de ${Number(ultima.peso_kg).toFixed(1)} kg el ${corta(ultima.fecha)}${ultimo ? `, y su tendencia está en ${ultimo.tendenciaKg.toFixed(1)} kg` : ''}`,
       });
     }
 
+    // La meta de cada día es la de su semana: la última que ya había empezado.
+    const metaDe = (d) => {
+      let m = null;
+      for (const s of metas) if (s.semana_inicio <= d) m = s.kcal;
+      return m;
+    };
+    const kcal = dias.map((d) => kcalDe.get(d) ?? null);
     const registrados = kcal.filter((v) => v != null).length;
     if (registrados === 0) {
       $('grafica-kcal').innerHTML = '<p class="muted g-sin-datos">No ha registrado comida en estos 90 días.</p>';
@@ -657,10 +848,13 @@ async function abrirDetalle(p) {
         // Cuatro de siete, igual que la gráfica de la app: con menos, el
         // promedio de una semana lo decide un solo día.
         linea: promedioMovil(kcal, 4),
+        meta: metas.length > 0 ? dias.map(metaDe) : null,
         formato: (v) => Math.round(v).toLocaleString('es-MX'),
         etiqueta: `Calorías: registró ${registrados} de ${DIAS_DEL_DETALLE} días, con un promedio de ${prom} kcal en esos días`,
       });
     }
+
+    pintarGasto(metas, hasta);
 
     // El resumen de las dos últimas semanas, que es lo que se revisa en una
     // consulta de seguimiento.
