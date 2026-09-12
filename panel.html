@@ -125,6 +125,16 @@
   .g-sin-datos { padding: 28px 0 18px; }
   .leyenda { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: .85rem; color: var(--muted); }
   .leyenda i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+  /* El acuerdo de confidencialidad (sql/019). */
+  .acuerdo-texto { margin: 14px 0 0; padding-left: 1.3em; max-width: 70ch; }
+  .acuerdo-texto li { margin-bottom: 10px; }
+  .acuerdo-check { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 6px; font-weight: 600; cursor: pointer; }
+  .acuerdo-check input { width: 1.15em; height: 1.15em; margin-top: .2em; flex: none; }
+  /* Imprimir es copiar: el panel no sale en papel. */
+  @media print {
+    #main, .site-header, .site-footer, .skip-link { display: none !important; }
+    body::before { content: "El panel de seguimiento es confidencial y no se imprime."; display: block; padding: 2rem; }
+  }
 </style>
 </head>
 <body>
@@ -318,7 +328,8 @@
           contra su primera pesada, y dice desde cuándo. Toca el nombre de un paciente para
           ver sus gráficas. Ves lo que tus pacientes te dejaron ver; cada uno
           puede quitarte el permiso cuando quiera, y en ese momento desaparece
-          de esta lista.
+          de esta lista. Antes de ver los datos de cada paciente aceptas un
+          acuerdo de confidencialidad, uno por paciente.
         </p>
       </div>
 
@@ -328,6 +339,26 @@
         <h2 id="detalle-nombre" style="font-size:1.5rem;margin:20px 0 6px"></h2>
         <p class="small muted" id="detalle-resumen" style="max-width:70ch"></p>
         <div id="error-detalle" class="aviso aviso--mal oculto" role="alert"></div>
+
+        <!-- El acuerdo de confidencialidad, uno por paciente (sql/019). El texto
+             es el de ACUERDO-DE-CONFIDENCIALIDAD.md, en la carpeta de Kálale:
+             si se cambia aquí, se cambia allá y se sube la versión en los tres. -->
+        <div class="grafica-caja oculto" id="caja-acuerdo">
+          <h3>Acuerdo de confidencialidad</h3>
+          <p class="small muted">Para ver los datos de <b data-nombre-acuerdo></b>, primero lee y acepta esto. Se acepta una vez por cada paciente. Versión <span id="version-acuerdo"></span>.</p>
+          <ol class="acuerdo-texto" id="acuerdo-texto">
+            <li><b>Confidencialidad.</b> Los datos de esta persona que veas en este panel, y cualquier otra información que la aplicación te dé sobre ella, son confidenciales. Los usas solo para darle seguimiento profesional.</li>
+            <li><b>Prohibido copiarlos.</b> Cualquier copia total o parcial de los datos a los que tienes acceso está absolutamente prohibida, por cualquier medio: descargarlos, imprimirlos, tomarles captura de pantalla o foto, transcribirlos, o pasarlos a otro sistema o a otra persona.</li>
+            <li><b>La responsabilidad es tuya.</b> Lo que pueda salir de tu panel, y de cualquier otra información que la aplicación pueda darte, es responsabilidad de cada profesional que accede a usar el panel: en este caso, tuya.</li>
+          </ol>
+          <label class="acuerdo-check"><input type="checkbox" id="acuerdo-acepto"><span>Leí el acuerdo y lo acepto para <b data-nombre-acuerdo></b>.</span></label>
+          <p class="small muted">Queda guardado con tu cuenta, la fecha y la hora.</p>
+          <div id="error-acuerdo" class="aviso aviso--mal oculto" role="alert"></div>
+          <button class="btn btn--primary" type="button" id="boton-acuerdo" disabled>Aceptar y ver sus datos</button>
+        </div>
+
+        <div id="detalle-datos">
+        <p class="small muted oculto" id="nota-confidencial" style="margin:0">Confidencial: aceptaste no copiar nada de esto, ni total ni parcialmente.</p>
 
         <div class="cifras" id="cifras"></div>
 
@@ -385,6 +416,7 @@
           ven si activó ese permiso aparte en su app. Sus pasos no se ven: se
           quedan en su teléfono.
         </p>
+        </div>
       </div>
     </div>
 
@@ -480,6 +512,28 @@ function haceCuanto(iso) {
   return { texto: FECHA.format(d), dias };
 }
 
+/* Sin el acuerdo la base no entrega nada de esta persona: en vez de ceros que
+   parecerían abandono, la fila dice qué falta. El nombre sí sale, para saber a
+   quién aceptarle. */
+function filaSinAcuerdo(p) {
+  const fila = document.createElement('tr');
+  const tdNombre = document.createElement('td');
+  const abrir = document.createElement('button');
+  abrir.type = 'button';
+  abrir.className = 'abrir-paciente';
+  abrir.textContent = p.nombre_paciente || 'Sin nombre';
+  abrir.addEventListener('click', () => abrirDetalle(p));
+  tdNombre.append(abrir);
+  const falta = document.createElement('td');
+  falta.colSpan = 5;
+  falta.className = 'muted';
+  falta.textContent = 'Acepta el acuerdo de confidencialidad para ver sus datos.';
+  const estado = document.createElement('td');
+  estado.innerHTML = '<span class="etiq etiq--ojo">Falta tu acuerdo</span>';
+  fila.append(tdNombre, falta, estado);
+  return fila;
+}
+
 function pintar(pacientes) {
   const cuerpo = $('filas');
   cuerpo.textContent = '';
@@ -487,12 +541,15 @@ function pintar(pacientes) {
   /* Primero los que se están cayendo. El panel existe para eso: para que el
      que necesita una llamada esté hasta arriba y no haya que buscarlo. */
   const orden = [...pacientes].sort((a, b) => {
+    const sinA = a.firmo_acuerdo === false, sinB = b.firmo_acuerdo === false;
+    if (sinA !== sinB) return sinA ? -1 : 1;
     const ca = haceCuanto(a.ultima_captura).dias - (a.dias_registrados ?? 0);
     const cb = haceCuanto(b.ultima_captura).dias - (b.dias_registrados ?? 0);
     return cb - ca;
   });
 
   for (const p of orden) {
+    if (p.firmo_acuerdo === false) { cuerpo.append(filaSinAcuerdo(p)); continue; }
     const dias = p.dias_registrados ?? 0;
     const pct = Math.round((dias / 14) * 100);
     const ultima = haceCuanto(p.ultima_captura);
@@ -890,6 +947,16 @@ async function abrirDetalle(p) {
   ver('caja-cuerpo', false);
   window.scrollTo({ top: 0 });
 
+  // Sin la columna (sql/019 sin correr) se comporta como antes.
+  const sinAcuerdo = p.firmo_acuerdo === false;
+  ver('caja-acuerdo', sinAcuerdo);
+  ver('detalle-datos', !sinAcuerdo);
+  ver('nota-confidencial', p.firmo_acuerdo === true);
+  if (sinAcuerdo) {
+    pedirAcuerdo(p);
+    return;
+  }
+
   const id = p.paciente_id;
   const hasta = fechaLocal(new Date());
   const desde = moverDias(hasta, -(DIAS_DEL_DETALLE - 1));
@@ -1035,6 +1102,53 @@ async function abrirDetalle(p) {
   }
 }
 
+/* ---------- El acuerdo de confidencialidad ----------
+   Lo pidió el abogado el 12 de septiembre de 2026: un acuerdo por cada
+   paciente, que prohíbe cualquier copia total o parcial y deja la
+   responsabilidad en cada profesional. Quién aceptó y cuándo lo pone la base
+   (sql/019), no esta página. La versión tiene que ser la de sql/019. */
+const VERSION_DEL_ACUERDO = '2026-09-12';
+$('version-acuerdo').textContent = VERSION_DEL_ACUERDO;
+let pacienteDelAcuerdo = null;
+
+function pedirAcuerdo(p) {
+  pacienteDelAcuerdo = p;
+  $('detalle-resumen').textContent = '';
+  // Como texto: el nombre lo escribió el paciente.
+  document.querySelectorAll('[data-nombre-acuerdo]').forEach((b) => { b.textContent = p.nombre_paciente || 'esta persona'; });
+  $('acuerdo-acepto').checked = false;
+  $('boton-acuerdo').disabled = true;
+  $('error-acuerdo').classList.add('oculto');
+}
+
+$('acuerdo-acepto').addEventListener('change', (e) => {
+  $('boton-acuerdo').disabled = !e.target.checked;
+});
+
+$('boton-acuerdo').addEventListener('click', async () => {
+  const p = pacienteDelAcuerdo;
+  if (!p || !$('acuerdo-acepto').checked) return;
+  const boton = $('boton-acuerdo');
+  boton.disabled = true;
+  boton.textContent = 'Guardando…';
+  const { error } = await supabase.from('acuerdos_confidencialidad')
+    .insert({ paciente_id: p.paciente_id, version: VERSION_DEL_ACUERDO });
+  boton.textContent = 'Aceptar y ver sus datos';
+  // 23505: ya estaba aceptado, por ejemplo desde otra pestaña. Cuenta igual.
+  if (error && error.code !== '23505') {
+    boton.disabled = false;
+    decirError('error-acuerdo', 'No se pudo guardar tu aceptación: ' + enCristiano(error));
+    return;
+  }
+  const lista = await cargarLista();
+  const ya = lista?.find((x) => x.paciente_id === p.paciente_id);
+  if (!ya) return;
+  abrirDetalle(ya);
+  if (ya.firmo_acuerdo === false) {
+    decirError('error-acuerdo', 'Se guardó, pero la base todavía no lo reconoce. Avísale a quien administra el panel.');
+  }
+});
+
 $('volver-a-lista').addEventListener('click', () => {
   detalleAbierto = null;
   ver('detalle', false);
@@ -1112,18 +1226,26 @@ async function abrirPanel(usuario) {
   ver('cargando', false);
   ver('pantalla-panel', true);
 
+  await cargarLista();
+}
+
+/* La lista, aparte de la entrada: se vuelve a traer después de aceptar un
+   acuerdo, para que la fila ya salga con sus datos. */
+async function cargarLista() {
+  $('error-panel').classList.add('oculto');
+  ver('sin-pacientes', false);
   const { data: pacientes, error } = await supabase
     .from('panel_pacientes')
     .select('*');
 
   if (error) {
     decirError('error-panel', 'No se pudo traer tu lista: ' + enCristiano(error));
-    return;
+    return null;
   }
 
   if (!pacientes || pacientes.length === 0) {
     ver('sin-pacientes', true);
-    return;
+    return [];
   }
 
   /* Las pesadas de todos, en una sola consulta: con eso la lista dice cuántos
@@ -1131,7 +1253,8 @@ async function abrirPanel(usuario) {
      usa el detalle (sql/015). Si fallara, la lista sale como antes, con lo que
      trae la vista. */
   try {
-    const ids = pacientes.map((p) => p.paciente_id);
+    // Sin acuerdo la base no entregaría nada: ni se pregunta.
+    const ids = pacientes.filter((p) => p.firmo_acuerdo !== false).map((p) => p.paciente_id);
     const filas = await todas(() => supabase.from('pesadas')
       .select('usuario_id, fecha, peso_kg').in('usuario_id', ids)
       .order('usuario_id').order('fecha'));
@@ -1142,6 +1265,7 @@ async function abrirPanel(usuario) {
 
   pintar(pacientes);
   ver('con-pacientes', true);
+  return pacientes;
 }
 
 $('forma-entrar').addEventListener('submit', async (e) => {
