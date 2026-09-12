@@ -60,7 +60,7 @@
     text-transform: uppercase; color: var(--muted);
   }
 
-  table.pacientes { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .95rem; }
+  table.pacientes { border-collapse: collapse; width: 100%; min-width: 720px; font-size: .95rem; }
   table.pacientes th {
     text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line);
     font-size: .72rem; font-weight: 800; letter-spacing: .09em;
@@ -83,6 +83,8 @@
   .etiq--bien { background: color-mix(in srgb, var(--sage) 24%, transparent); color: var(--sage-deep); }
   .etiq--ojo  { background: color-mix(in srgb, var(--orange) 24%, transparent); color: var(--orange-deep); }
   .etiq--frio { background: var(--bg-2); color: var(--muted); }
+  /* La segunda línea de una celda: «hace 2 días», «desde el 20 ago». */
+  table.pacientes .sub { display: block; font-weight: 400; font-size: .8rem; color: var(--muted); white-space: nowrap; }
 
   .vacio { text-align: center; padding: 48px 20px; }
   .oculto { display: none !important; }
@@ -302,7 +304,8 @@
                 <th scope="col">Días que registró</th>
                 <th scope="col">Última captura</th>
                 <th scope="col">Peso</th>
-                <th scope="col">Cambio en el mes</th>
+                <th scope="col">Cambio</th>
+                <th scope="col">Se pesó</th>
                 <th scope="col">Estado</th>
               </tr>
             </thead>
@@ -310,7 +313,9 @@
           </table>
         </div>
         <p class="small muted" style="margin-top:16px">
-          Los días son sobre los últimos 14. Toca el nombre de un paciente para
+          Los días que registró y los que se pesó son sobre los últimos 14. El
+          cambio es contra su peso de hace un mes; si todavía no lleva un mes,
+          contra su primera pesada, y dice desde cuándo. Toca el nombre de un paciente para
           ver sus gráficas. Ves lo que tus pacientes te dejaron ver; cada uno
           puede quitarte el permiso cuando quiera, y en ese momento desaparece
           de esta lista.
@@ -487,12 +492,41 @@ function pintar(pacientes) {
     else if (ultima.dias >= 3 || dias <= 8) { clase = 'va-medio'; etiq = 'etiq--frio'; estado = 'Va irregular'; }
     if (ultima.dias === Infinity) { clase = 'va-mal'; etiq = 'etiq--frio'; estado = 'No ha empezado'; }
 
-    const peso = p.peso_actual != null ? p.peso_actual.toFixed(1) + ' kg' : '—';
-    let cambio = '—';
-    if (p.peso_actual != null && p.peso_hace_un_mes != null) {
-      const d = p.peso_actual - p.peso_hace_un_mes;
-      cambio = (d > 0 ? '+' : '−') + Math.abs(d).toFixed(1) + ' kg';
+    /* El peso, con hace cuánto, y contra qué se compara.
+       Lo pidió Carlos el 12 de septiembre de 2026: «que se note que se están
+       pesando y cuánto está cambiando». El cambio iba solo contra hace un mes,
+       y en un piloto de semanas nadie tenía una pesada tan vieja: la columna
+       salía en blanco aunque la pesada de ayer sí hubiera llegado. Mientras no
+       haya un mes, se compara contra su primera pesada y se dice desde cuándo.
+       Todo lo que se pinta aquí son números y fechas de la base, no texto
+       escrito por el paciente. */
+    const pes = p.pesadas ?? [];
+    const ultimaPesada = pes.at(-1);
+    const pesoActual = ultimaPesada ? Number(ultimaPesada.peso_kg)
+      : p.peso_actual != null ? Number(p.peso_actual) : null;
+    const kg = (d) => (Math.abs(d) < 0.05 ? '0.0' : (d > 0 ? '+' : '−') + Math.abs(d).toFixed(1)) + ' kg';
+
+    let peso = '—';
+    if (pesoActual != null) {
+      peso = `${pesoActual.toFixed(1)} kg`;
+      if (ultimaPesada) peso += `<span class="sub">${haceCuanto(ultimaPesada.fecha).texto}</span>`;
     }
+
+    let cambio = '—';
+    if (pesoActual != null && p.peso_hace_un_mes != null) {
+      cambio = `${kg(pesoActual - Number(p.peso_hace_un_mes))}<span class="sub">en el mes</span>`;
+    } else if (pesoActual != null && pes.length >= 2) {
+      const primera = pes[0];
+      cambio = `${kg(pesoActual - Number(primera.peso_kg))}<span class="sub">desde el ${FECHA.format(new Date(primera.fecha + 'T12:00:00'))}</span>`;
+    } else if (pes.length === 1) {
+      cambio = '<span class="sub">lleva una sola pesada</span>';
+    }
+
+    const hace14 = moverDias(fechaLocal(new Date()), -13);
+    const diasPesado = new Set(pes.filter((x) => x.fecha >= hace14).map((x) => x.fecha)).size;
+    const sePeso = p.pesadas == null ? '—'
+      : pes.length === 0 ? '<span class="sub">nunca</span>'
+      : `${diasPesado} / 14<span class="sub">${pes.length} en total</span>`;
 
     const fila = document.createElement('tr');
     const celda = (html, cls) => {
@@ -524,6 +558,7 @@ function pintar(pacientes) {
     fila.append(tdUlt);
     fila.append(celda(peso, 'num'));
     fila.append(celda(cambio, 'num'));
+    fila.append(celda(sePeso, 'num'));
     fila.append(celda(`<span class="etiq ${etiq}">${estado}</span>`));
 
     cuerpo.append(fila);
@@ -869,7 +904,8 @@ async function abrirDetalle(p) {
     }
     if (pesadas.length > 0) {
       const u = pesadas.at(-1);
-      partes.push(`Su última pesada: ${Number(u.peso_kg).toFixed(1)} kg, ${haceCuanto(u.fecha).texto}.`);
+      const seSePeso = dias.slice(-14).filter((d) => pesoDe.has(d)).length;
+      partes.push(`Su última pesada: ${Number(u.peso_kg).toFixed(1)} kg, ${haceCuanto(u.fecha).texto}. Se pesó ${seSePeso} de los últimos 14 días.`);
     }
     $('detalle-resumen').textContent = partes.join(' ');
   } catch (e) {
@@ -968,6 +1004,20 @@ async function abrirPanel(usuario) {
   if (!pacientes || pacientes.length === 0) {
     ver('sin-pacientes', true);
     return;
+  }
+
+  /* Las pesadas de todos, en una sola consulta: con eso la lista dice cuántos
+     días se pesó cada quien y cuánto ha cambiado. Es el mismo permiso que ya
+     usa el detalle (sql/015). Si fallara, la lista sale como antes, con lo que
+     trae la vista. */
+  try {
+    const ids = pacientes.map((p) => p.paciente_id);
+    const filas = await todas(() => supabase.from('pesadas')
+      .select('usuario_id, fecha, peso_kg').in('usuario_id', ids)
+      .order('usuario_id').order('fecha'));
+    for (const p of pacientes) p.pesadas = filas.filter((f) => f.usuario_id === p.paciente_id);
+  } catch {
+    // Nada que avisar: la lista se pinta igual, sin las columnas nuevas.
   }
 
   pintar(pacientes);
