@@ -368,12 +368,22 @@
           </div>
         </div>
 
+        <!-- Composición y medidas: solo si el paciente activó el permiso aparte
+             (sql/018). La caja siempre sale, para decir por qué está vacía. -->
+        <div class="grafica-caja oculto" id="caja-cuerpo">
+          <h3>Su composición y sus medidas</h3>
+          <p class="small muted" id="cuerpo-nota"></p>
+          <div id="cuerpo-composicion"></div>
+          <div id="cuerpo-medidas"></div>
+        </div>
+
         <p class="small muted" style="margin-top:18px;max-width:70ch">
           El peso y la comida son de los últimos 90 días; el gasto, desde su
           primera semana. Es lo que tu paciente aceptó
           compartir contigo: su perfil, su peso, lo que registra, y lo que la
-          app calcula con eso. Su composición corporal y sus medidas no se ven
-          aquí, y tampoco sus pasos, que se quedan en su teléfono.
+          app calcula con eso. Su composición corporal y sus medidas solo se
+          ven si activó ese permiso aparte en su app. Sus pasos no se ven: se
+          quedan en su teléfono.
         </p>
       </div>
     </div>
@@ -575,9 +585,9 @@ function pintar(pacientes) {
    (sql/015). Si el paciente quita el permiso, la base deja de entregar sus
    renglones y esto sale vacío: quien niega es la base, no este dibujo.
 
-   La composición corporal y las medidas NO van aquí todavía: amplían lo que
-   el paciente aceptó, y esperan a que el aviso de privacidad lo diga y a que
-   cada paciente lo decida aparte. */
+   La composición corporal y las medidas van desde el 12 de septiembre de
+   2026, cuando el abogado aprobó el aviso, y SOLO si el paciente activó ese
+   permiso aparte (sql/018). Igual que lo demás: quien niega es la base. */
 
 const DIAS_DEL_DETALLE = 90;
 const FECHA_CORTA = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short' });
@@ -766,6 +776,104 @@ function pintarGasto(metas, hoy) {
 
 let detalleAbierto = null;
 
+/* ---------- Su composición y sus medidas ----------
+   Solo llegan si el paciente activó el permiso aparte (sql/018). Sin él la
+   base contesta vacío, y la caja lo dice en vez de parecer rota. Sin etiquetas
+   de «saludable» u «obeso», igual que en la app. Todo se pinta como texto. */
+const ZONAS_CUERPO = [['brazo_der', 'Brazo derecho'], ['brazo_izq', 'Brazo izquierdo'], ['tronco', 'Tronco'], ['pierna_der', 'Pierna derecha'], ['pierna_izq', 'Pierna izquierda']];
+const METODOS = { bascula: 'báscula', plicometro: 'plicómetro', inbody: 'InBody', cinta: 'cinta', dexa: 'DEXA' };
+
+function tablaSimple(titulo, columnas, filas) {
+  const caja = document.createElement('div');
+  caja.style.marginTop = '16px';
+  const h = document.createElement('h4');
+  h.textContent = titulo;
+  h.style.margin = '0 0 6px';
+  const envoltura = document.createElement('div');
+  envoltura.className = 'table-scroll';
+  const tabla = document.createElement('table');
+  tabla.className = 'pacientes';
+  tabla.style.minWidth = '0';
+  const thead = document.createElement('thead');
+  const cab = document.createElement('tr');
+  for (const [, etiqueta] of columnas) {
+    const th = document.createElement('th');
+    th.textContent = etiqueta;
+    cab.append(th);
+  }
+  thead.append(cab);
+  const tbody = document.createElement('tbody');
+  for (const f of filas) {
+    const tr = document.createElement('tr');
+    for (const [clave, , formato] of columnas) {
+      const td = document.createElement('td');
+      const v = f[clave];
+      td.textContent = v == null || v === '' ? '—' : formato ? formato(v, f) : String(v);
+      if (clave !== 'fecha') td.className = 'num';
+      tr.append(td);
+    }
+    tbody.append(tr);
+  }
+  tabla.append(thead, tbody);
+  envoltura.append(tabla);
+  caja.append(h, envoltura);
+  return caja;
+}
+
+function pintarCuerpo(p, composiciones, medidas) {
+  ver('caja-cuerpo', true);
+  const nota = $('cuerpo-nota');
+  if (composiciones.length === 0 && medidas.length === 0) {
+    nota.textContent = p.comparte_cuerpo === true
+      ? 'Activó compartir su composición y sus medidas, pero todavía no ha capturado ninguna.'
+      : 'Tu paciente no ha activado compartir su composición y sus medidas. Es un permiso aparte que decide desde su app, en Ajustes.';
+    return;
+  }
+  nota.textContent = 'Lo compartió con un permiso aparte. Compara mediciones del mismo método: una báscula y una cinta no dan el mismo porcentaje. Son las 8 más recientes.';
+  const recientes = (lista) => lista.slice(-8).reverse();
+  const n1 = (v) => Number(v).toFixed(1);
+
+  if (composiciones.length > 0) {
+    $('cuerpo-composicion').append(tablaSimple('Composición', [
+      ['fecha', 'Fecha', (v) => corta(v)],
+      ['metodo', 'Método', (v) => METODOS[v] ?? v],
+      ['peso_kg', 'Peso', (v) => n1(v) + ' kg'],
+      ['porcentaje_grasa', 'Grasa', (v) => n1(v) + ' %'],
+      ['musculo_kg', 'Músculo', (v, f) => n1(v) + ' kg' + (f.tipo_musculo === 'esqueletico' ? ' (esquelético)' : f.tipo_musculo === 'masa_muscular' ? ' (masa muscular)' : '')],
+      ['agua_pct', 'Agua', (v) => n1(v) + ' %'],
+      ['visceral', 'Visceral', n1],
+    ], recientes(composiciones)));
+
+    const conZonas = [...composiciones].reverse().find((c) => c.segmentos && (c.segmentos.grasa || c.segmentos.musculo));
+    if (conZonas) {
+      const filas = ZONAS_CUERPO.map(([clave, nombre]) => ({
+        fecha: nombre,
+        grasa: conZonas.segmentos.grasa?.[clave],
+        musculo: conZonas.segmentos.musculo?.[clave],
+      }));
+      $('cuerpo-composicion').append(tablaSimple(`Por zona · ${corta(conZonas.fecha)}`, [
+        ['fecha', 'Zona'],
+        ['grasa', 'Grasa', (v) => n1(v) + ' kg'],
+        ['musculo', 'Músculo', (v) => n1(v) + ' kg'],
+      ], filas));
+    }
+  }
+
+  if (medidas.length > 0) {
+    const cm = (v) => n1(v) + ' cm';
+    $('cuerpo-medidas').append(tablaSimple('Medidas con cinta', [
+      ['fecha', 'Fecha', (v) => corta(v)],
+      ['cintura_cm', 'Cintura', cm],
+      ['cadera_cm', 'Cadera', cm],
+      ['cuello_cm', 'Cuello', cm],
+      ['pecho_cm', 'Pecho', cm],
+      ['brazo_cm', 'Brazo', cm],
+      ['muslo_cm', 'Muslo', cm],
+      ['pantorrilla_cm', 'Pantorrilla', cm],
+    ], recientes(medidas)));
+  }
+}
+
 async function abrirDetalle(p) {
   detalleAbierto = p.paciente_id;
   ver('con-pacientes', false);
@@ -773,12 +881,13 @@ async function abrirDetalle(p) {
   $('detalle-nombre').textContent = p.nombre_paciente || 'Sin nombre';
   $('detalle-resumen').textContent = 'Trayendo sus datos…';
   $('error-detalle').classList.add('oculto');
-  for (const caja of ['grafica-peso', 'grafica-kcal', 'grafica-gasto', 'cifras', 'metas']) {
+  for (const caja of ['grafica-peso', 'grafica-kcal', 'grafica-gasto', 'cifras', 'metas', 'cuerpo-nota', 'cuerpo-composicion', 'cuerpo-medidas']) {
     $(caja).textContent = '';
   }
   ver('caja-como-va', false);
   ver('gasto-sin', false);
   ver('gasto-con', false);
+  ver('caja-cuerpo', false);
   window.scrollTo({ top: 0 });
 
   const id = p.paciente_id;
@@ -786,7 +895,7 @@ async function abrirDetalle(p) {
   const desde = moverDias(hasta, -(DIAS_DEL_DETALLE - 1));
 
   try {
-    const [{ calcularTendencia, leerProgreso, nombreDeObjetivo }, pesadas, comidas, primeraComida, metas, perfil] = await Promise.all([
+    const [{ calcularTendencia, leerProgreso, nombreDeObjetivo }, pesadas, comidas, primeraComida, metas, perfil, cuerpo] = await Promise.all([
       cargarMotor(),
       // Todas las pesadas, no solo las de 90 días: la tendencia arranca en la
       // primera, igual que en la app. Cortarla aquí daría otra línea.
@@ -801,6 +910,16 @@ async function abrirDetalle(p) {
         .select('semana_inicio, gasto_estimado_kcal, confianza, dias_utiles, kcal, proteina_g, carbohidratos_g, grasa_g, ritmo_aplicado_kg_semana, aviso_seguridad')
         .eq('usuario_id', id).order('semana_inicio')),
       supabase.from('perfiles').select('objetivo').eq('id', id).maybeSingle(),
+      // Sin el permiso aparte la base contesta vacío. Si fallaran, el resto del
+      // detalle sale igual: por eso cada una se cuida sola.
+      Promise.all([
+        todas(() => supabase.from('composiciones')
+          .select('fecha, porcentaje_grasa, musculo_kg, tipo_musculo, agua_pct, visceral, peso_kg, metodo, segmentos')
+          .eq('usuario_id', id).order('fecha')).catch(() => []),
+        todas(() => supabase.from('medidas')
+          .select('fecha, cintura_cm, cadera_cm, cuello_cm, pecho_cm, brazo_cm, muslo_cm, pantorrilla_cm')
+          .eq('usuario_id', id).order('fecha')).catch(() => []),
+      ]),
     ]);
     // Si mientras cargaba se abrió otro paciente, esto ya no es de nadie.
     if (detalleAbierto !== id) return;
@@ -890,6 +1009,7 @@ async function abrirDetalle(p) {
     }
 
     pintarGasto(metas, hasta);
+    pintarCuerpo(p, cuerpo[0], cuerpo[1]);
 
     // El resumen de las dos últimas semanas, que es lo que se revisa en una
     // consulta de seguimiento.
