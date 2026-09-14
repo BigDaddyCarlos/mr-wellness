@@ -877,7 +877,7 @@ function tablaSimple(titulo, columnas, filas) {
   return caja;
 }
 
-function pintarCuerpo(p, composiciones, medidas) {
+function pintarCuerpo(p, composiciones, medidas, pesoDe = new Map()) {
   ver('caja-cuerpo', true);
   const nota = $('cuerpo-nota');
   if (composiciones.length === 0 && medidas.length === 0) {
@@ -886,20 +886,38 @@ function pintarCuerpo(p, composiciones, medidas) {
       : 'Tu paciente no ha activado compartir su composición y sus medidas. Es un permiso aparte que decide desde su app, en Ajustes.';
     return;
   }
-  nota.textContent = 'Lo compartió con un permiso aparte. Compara mediciones del mismo método: una báscula y una cinta no dan el mismo porcentaje. Son las 8 más recientes.';
+  nota.textContent = 'Lo compartió con un permiso aparte. Compara mediciones del mismo método: una báscula y una cinta no dan el mismo porcentaje. Son las 8 más recientes. La grasa en kilos y el músculo en porcentaje salen del peso de esa medición, o de su pesada de ese día si la medición no lo trae; sin ninguno de los dos, quedan en blanco.';
   const recientes = (lista) => lista.slice(-8).reverse();
   const n1 = (v) => Number(v).toFixed(1);
 
   if (composiciones.length > 0) {
+    /* Grasa y músculo, cada uno en kilos y en porcentaje.
+       Lo pidió Carlos el 13 de septiembre de 2026: la app guarda la grasa en
+       porcentaje y el músculo en kilos, y el panel enseñaba uno de cada uno.
+       La otra mitad se calcula con el peso: el de la medición si lo trae, y si
+       no, el de la pesada del mismo día. Sin peso no se inventa. */
+    const filas = recientes(composiciones).map((f) => {
+      const peso = f.peso_kg != null ? Number(f.peso_kg) : pesoDe.get(f.fecha);
+      const hayPeso = Number.isFinite(peso) && peso > 0;
+      return {
+        ...f,
+        peso_usado: hayPeso ? peso : null,
+        grasa_kg: hayPeso && f.porcentaje_grasa != null ? (peso * Number(f.porcentaje_grasa)) / 100 : null,
+        musculo_pct: hayPeso && f.musculo_kg != null ? (Number(f.musculo_kg) / peso) * 100 : null,
+      };
+    });
+    const tipoMusculo = (f) => (f.tipo_musculo === 'esqueletico' ? ' (esquelético)' : f.tipo_musculo === 'masa_muscular' ? ' (masa muscular)' : '');
     $('cuerpo-composicion').append(tablaSimple('Composición', [
       ['fecha', 'Fecha', (v) => corta(v)],
       ['metodo', 'Método', (v) => METODOS[v] ?? v],
-      ['peso_kg', 'Peso', (v) => n1(v) + ' kg'],
-      ['porcentaje_grasa', 'Grasa', (v) => n1(v) + ' %'],
-      ['musculo_kg', 'Músculo', (v, f) => n1(v) + ' kg' + (f.tipo_musculo === 'esqueletico' ? ' (esquelético)' : f.tipo_musculo === 'masa_muscular' ? ' (masa muscular)' : '')],
+      ['peso_usado', 'Peso', (v, f) => n1(v) + ' kg' + (f.peso_kg == null ? ' (pesada)' : '')],
+      ['porcentaje_grasa', 'Grasa %', (v) => n1(v) + ' %'],
+      ['grasa_kg', 'Grasa kg', (v) => n1(v) + ' kg'],
+      ['musculo_kg', 'Músculo kg', (v, f) => n1(v) + ' kg' + tipoMusculo(f)],
+      ['musculo_pct', 'Músculo %', (v) => n1(v) + ' %'],
       ['agua_pct', 'Agua', (v) => n1(v) + ' %'],
       ['visceral', 'Visceral', n1],
-    ], recientes(composiciones)));
+    ], filas));
 
     const conZonas = [...composiciones].reverse().find((c) => c.segmentos && (c.segmentos.grasa || c.segmentos.musculo));
     if (conZonas) {
@@ -1076,7 +1094,7 @@ async function abrirDetalle(p) {
     }
 
     pintarGasto(metas, hasta);
-    pintarCuerpo(p, cuerpo[0], cuerpo[1]);
+    pintarCuerpo(p, cuerpo[0], cuerpo[1], pesoDe);
 
     // El resumen de las dos últimas semanas, que es lo que se revisa en una
     // consulta de seguimiento.
