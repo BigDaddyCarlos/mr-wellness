@@ -1,7 +1,7 @@
 // GENERADO: no se edita a mano.
 // Sale de eatwell/src/motor/para-el-panel.ts con «node armar-motor-del-panel.mjs».
 // Es el mismo motor de la app, para que el nutriólogo vea la misma tendencia
-// que su paciente. huella: 2bc9dbc07818
+// que su paciente. huella: 8e8d02aaa434
 // src/motor/tendencia.ts
 var ALFA = 0.15;
 var BETA = 0.05;
@@ -10,6 +10,8 @@ var SIGMA_MINIMA = 0.4;
 var MINIMO_PARA_DESCARTAR = 7;
 var DIAS_ARRANQUE = 14;
 var MINIMO_PARA_ARRANQUE = 4;
+var MAXIMO_DESCARTES_SEGUIDOS = 2;
+var AMORTIGUACION = 0.85;
 function desviacionRobusta(residuos) {
   if (residuos.length === 0) return SIGMA_MINIMA;
   const mediana = medianaDe(residuos);
@@ -22,6 +24,10 @@ function medianaDe(valores) {
   const orden = [...valores].sort((a, b) => a - b);
   const mitad = Math.floor(orden.length / 2);
   return orden.length % 2 === 0 ? (orden[mitad - 1] + orden[mitad]) / 2 : orden[mitad];
+}
+function diasProyectados(dias, phi = AMORTIGUACION) {
+  if (dias <= 0) return 0;
+  return phi === 1 ? dias : (1 - phi ** dias) / (1 - phi);
 }
 function ajustarRecta(muestras) {
   const n = muestras.length;
@@ -44,6 +50,7 @@ function calcularTendencia(dias, alfa = ALFA, beta = BETA) {
   let pendiente = 0;
   let diasDesdeUltimaPesada = 0;
   const residuos = [];
+  let descartesSeguidos = 0;
   const primeraPesada = dias.findIndex((d) => d.pesoKg != null);
   let desde = 0;
   if (primeraPesada !== -1) {
@@ -86,7 +93,7 @@ function calcularTendencia(dias, alfa = ALFA, beta = BETA) {
       puntos.push({
         fecha: dia.fecha,
         pesoKg: null,
-        tendenciaKg: nivel == null ? null : nivel + pendiente * diasDesdeUltimaPesada,
+        tendenciaKg: nivel == null ? null : nivel + pendiente * diasProyectados(diasDesdeUltimaPesada),
         pendienteKgDia: nivel == null ? null : pendiente,
         descartada: false
       });
@@ -106,22 +113,40 @@ function calcularTendencia(dias, alfa = ALFA, beta = BETA) {
       continue;
     }
     const salto = diasDesdeUltimaPesada + 1;
-    const pronostico = nivel + pendiente * salto;
+    const pronostico = nivel + pendiente * diasProyectados(salto);
     const residuo = dia.pesoKg - pronostico;
     const puedeDescartar = residuos.length >= MINIMO_PARA_DESCARTAR;
     const sigma = desviacionRobusta(residuos);
-    const descartada = puedeDescartar && Math.abs(residuo) > UMBRAL_SIGMA * sigma;
+    const pareceRara = puedeDescartar && Math.abs(residuo) > UMBRAL_SIGMA * sigma;
+    const descartada = pareceRara && descartesSeguidos < MAXIMO_DESCARTES_SEGUIDOS;
     if (descartada) {
+      descartesSeguidos += 1;
       diasDesdeUltimaPesada += 1;
       puntos.push({
         fecha: dia.fecha,
         pesoKg: dia.pesoKg,
-        tendenciaKg: nivel + pendiente * diasDesdeUltimaPesada,
+        tendenciaKg: nivel + pendiente * diasProyectados(diasDesdeUltimaPesada),
         pendienteKgDia: pendiente,
         descartada: true
       });
       continue;
     }
+    if (pareceRara) {
+      nivel = dia.pesoKg;
+      pendiente = 0;
+      descartesSeguidos = 0;
+      diasDesdeUltimaPesada = 0;
+      residuos.length = 0;
+      puntos.push({
+        fecha: dia.fecha,
+        pesoKg: dia.pesoKg,
+        tendenciaKg: nivel,
+        pendienteKgDia: 0,
+        descartada: false
+      });
+      continue;
+    }
+    descartesSeguidos = 0;
     const nivelPrevio = nivel;
     nivel = pronostico + alfa * residuo;
     pendiente = beta * ((nivel - nivelPrevio) / salto) + (1 - beta) * pendiente;
