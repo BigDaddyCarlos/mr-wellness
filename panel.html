@@ -70,6 +70,17 @@
   table.pacientes tr:last-child td { border-bottom: 0; }
   table.pacientes .num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
   table.pacientes tbody tr:hover { background: var(--bg-2); }
+  table.equivalentes { min-width: 640px; }
+  table.equivalentes td, table.equivalentes th { padding: 9px 10px; }
+  table.equivalentes td.num, table.equivalentes th.num { text-align: right; }
+  table.equivalentes .promedio { background: var(--bg-2); }
+  .resumen-consulta { margin: 8px 0 0; }
+  .resumen-consulta dt { font-weight: 800; margin-top: 12px; }
+  .resumen-consulta dd { margin: 2px 0 0; max-width: 75ch; }
+  .hablarle { list-style: none; padding: 0; margin: 8px 0 0; }
+  .hablarle li { padding: 10px 0; border-bottom: 1px solid var(--line-2); }
+  .hablarle li:last-child { border-bottom: 0; }
+  .hablarle .motivo { display: block; margin-top: 2px; }
 
   .adh { display: inline-block; width: 46px; height: 6px; border-radius: 999px;
          background: var(--line); overflow: hidden; margin-right: 10px; vertical-align: middle; }
@@ -306,6 +317,13 @@
       </div>
 
       <div id="con-pacientes" class="oculto">
+        <!-- Por qué llamarle a alguien hoy, con palabras. Lo pidió Carlos el 16
+             de septiembre de 2026. La cuenta es la de la app (panel/consulta.ts). -->
+        <div class="grafica-caja oculto" id="caja-hablarle" style="margin-bottom:16px">
+          <h3>A quién hablarle hoy</h3>
+          <p class="small muted">Quien lleva días sin registrar, registra menos que la semana pasada o dejó de pesarse. Toca el nombre para ver sus datos.</p>
+          <ul class="hablarle" id="hablarle"></ul>
+        </div>
         <div class="table-scroll">
           <table class="pacientes">
             <thead>
@@ -362,6 +380,18 @@
 
         <div class="cifras" id="cifras"></div>
 
+        <!-- Lo que pasó desde la última consulta, junto. Solo en pantalla: el
+             acuerdo de confidencialidad prohíbe copiar, imprimir o descargar
+             estos datos, y por eso aquí no hay botón para hacerlo. -->
+        <div class="grafica-caja" id="caja-consulta">
+          <h3>Resumen para la consulta</h3>
+          <label class="small muted" for="consulta-desde">Desde tu última consulta con esta persona:
+            <input type="date" id="consulta-desde" style="margin-left:6px">
+          </label>
+          <p class="small muted" id="consulta-periodo" style="margin-top:8px"></p>
+          <dl class="resumen-consulta" id="consulta-renglones"></dl>
+        </div>
+
         <div class="grafica-caja oculto" id="caja-como-va">
           <h3 id="como-va-titulo">Cómo va</h3>
           <p class="small muted">Lo que la app le está diciendo esta semana, según su objetivo:</p>
@@ -380,6 +410,15 @@
           <p class="small muted">Las calorías de cada día que registró. Un día sin barra es un día que no anotó, no un día que no comió.</p>
           <div id="grafica-kcal" class="grafica"></div>
           <div class="leyenda"><span><i style="background:color-mix(in srgb, var(--sage) 55%, transparent);height:10px"></i>Calorías del día</span><span><i style="background:var(--blue-deep)"></i>Promedio de 7 días</span><span><i style="background:repeating-linear-gradient(90deg,var(--orange-deep) 0 5px,transparent 5px 8px)"></i>Su meta de esa semana</span></div>
+        </div>
+
+        <!-- Lo que registró, en equivalentes del SMAE. Lo pidió Carlos el 16 de
+             septiembre de 2026: el nutriólogo en México cuenta en equivalentes. -->
+        <div class="grafica-caja" id="caja-equivalentes">
+          <h3>Lo que come, en equivalentes</h3>
+          <p class="small muted">Lo que registró, traducido al Sistema Mexicano de Alimentos Equivalentes (4.ª ed.). No es su plan: es lo que de verdad anotó que comió. Cada platillo se desarma en sus ingredientes con la receta de la app.</p>
+          <div id="equivalentes"></div>
+          <p class="small muted" id="equivalentes-nota"></p>
         </div>
 
         <div class="grafica-caja" id="caja-gasto">
@@ -447,7 +486,14 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 // a mano, y la huella del final la pone ese mismo script.
 // Se carga al abrir a un paciente y no al entrar: si algún día fallara, la
 // lista y la entrada siguen sirviendo.
-const cargarMotor = () => import('./assets/motor-kalale.js?v=8e8d02aaa434');
+/* La tabla de equivalentes de cada platillo, calculada con el recetario de la
+   app por armar-motor-del-panel.mjs. Se pide una vez y se guarda. */
+let tablaDeEquivalentes = null;
+const cargarEquivalentes = () =>
+  (tablaDeEquivalentes ??= fetch('./assets/equivalentes-kalale.json?v=54d73304a0e5')
+    .then((r) => { if (!r.ok) throw new Error('sin tabla'); return r.json(); })
+    .catch((e) => { tablaDeEquivalentes = null; throw e; }));
+const cargarMotor = () => import('./assets/motor-kalale.js?v=611ed72cc5ce');
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
@@ -956,7 +1002,7 @@ async function abrirDetalle(p) {
   $('detalle-nombre').textContent = p.nombre_paciente || 'Sin nombre';
   $('detalle-resumen').textContent = 'Trayendo sus datos…';
   $('error-detalle').classList.add('oculto');
-  for (const caja of ['grafica-peso', 'grafica-kcal', 'grafica-gasto', 'cifras', 'metas', 'cuerpo-nota', 'cuerpo-composicion', 'cuerpo-medidas']) {
+  for (const caja of ['grafica-peso', 'grafica-kcal', 'grafica-gasto', 'cifras', 'metas', 'cuerpo-nota', 'cuerpo-composicion', 'cuerpo-medidas', 'equivalentes', 'equivalentes-nota', 'consulta-periodo', 'consulta-renglones']) {
     $(caja).textContent = '';
   }
   ver('caja-como-va', false);
@@ -980,13 +1026,13 @@ async function abrirDetalle(p) {
   const desde = moverDias(hasta, -(DIAS_DEL_DETALLE - 1));
 
   try {
-    const [{ calcularTendencia, leerProgreso, nombreDeObjetivo }, pesadas, comidas, primeraComida, metas, perfil, cuerpo] = await Promise.all([
+    const [motor, pesadas, comidas, primeraComida, metas, perfil, cuerpo, tablaEq] = await Promise.all([
       cargarMotor(),
       // Todas las pesadas, no solo las de 90 días: la tendencia arranca en la
       // primera, igual que en la app. Cortarla aquí daría otra línea.
       todas(() => supabase.from('pesadas').select('fecha, peso_kg')
         .eq('usuario_id', id).order('fecha')),
-      todas(() => supabase.from('comidas').select('fecha, kcal, proteina_g')
+      todas(() => supabase.from('comidas').select('fecha, kcal, proteina_g, carbohidratos_g, grasa_g, alimento_id, nombre, cantidad_g')
         .eq('usuario_id', id).gte('fecha', desde).order('fecha')),
       supabase.from('comidas').select('fecha').eq('usuario_id', id).order('fecha').limit(1),
       // Sin el permiso de sql/017 la base contesta vacío, no con error: la
@@ -1005,7 +1051,10 @@ async function abrirDetalle(p) {
           .select('fecha, cintura_cm, cadera_cm, cuello_cm, pecho_cm, brazo_cm, muslo_cm, pantorrilla_cm')
           .eq('usuario_id', id).order('fecha')).catch(() => []),
       ]),
+      // Si la tabla no llega, la caja de equivalentes lo dice y lo demás sigue.
+      cargarEquivalentes().catch(() => null),
     ]);
+    const { calcularTendencia, leerProgreso, nombreDeObjetivo } = motor;
     // Si mientras cargaba se abrió otro paciente, esto ya no es de nadie.
     if (detalleAbierto !== id) return;
     if (primeraComida.error) throw primeraComida.error;
@@ -1093,6 +1142,8 @@ async function abrirDetalle(p) {
       });
     }
 
+    pintarEquivalentes(motor, tablaEq, comidas, hasta);
+    prepararResumen({ id, motor, desdeMinimo: desde, hasta, pesadas, tendencia: puntos, comidas, metas, composiciones: cuerpo[0], tabla: tablaEq });
     pintarGasto(metas, hasta);
     pintarCuerpo(p, cuerpo[0], cuerpo[1], pesoDe);
 
@@ -1118,6 +1169,144 @@ async function abrirDetalle(p) {
     $('detalle-resumen').textContent = '';
     decirError('error-detalle', 'No se pudieron traer sus datos: ' + enCristiano(e));
   }
+}
+
+/* ---------- El resumen para la consulta ----------
+   La fecha de la última consulta se recuerda en este navegador, por paciente:
+   es una comodidad de quien usa el panel, no un dato del paciente. Si el
+   navegador no deja guardar, se empieza cuatro semanas atrás. */
+let datosDelResumen = null;
+const claveConsulta = (id) => 'kalale-ultima-consulta-' + id;
+
+function prepararResumen(datos) {
+  datosDelResumen = datos;
+  const campo = $('consulta-desde');
+  campo.min = datos.desdeMinimo;
+  campo.max = datos.hasta;
+  let guardada = null;
+  try { guardada = localStorage.getItem(claveConsulta(datos.id)); } catch { /* sin almacenamiento */ }
+  const porOmision = moverDias(datos.hasta, -27);
+  campo.value = guardada && guardada >= datos.desdeMinimo && guardada <= datos.hasta ? guardada : porOmision;
+  pintarResumen();
+}
+
+function pintarResumen() {
+  const d = datosDelResumen;
+  if (!d) return;
+  const desde = $('consulta-desde').value || moverDias(d.hasta, -27);
+  const r = d.motor.resumenParaLaConsulta({
+    desde, hasta: d.hasta, pesadas: d.pesadas, tendencia: d.tendencia, comidas: d.comidas,
+    metas: d.metas, composiciones: d.composiciones, tablaDeEquivalentes: d.tabla,
+  });
+  $('consulta-periodo').textContent = r.periodo;
+  const lista = $('consulta-renglones');
+  lista.textContent = '';
+  for (const x of r.renglones) {
+    const dt = document.createElement('dt');
+    dt.textContent = x.titulo;
+    const dd = document.createElement('dd');
+    dd.textContent = x.texto;
+    lista.append(dt, dd);
+  }
+}
+
+$('consulta-desde').addEventListener('change', () => {
+  const v = $('consulta-desde').value;
+  if (datosDelResumen && v) {
+    try { localStorage.setItem(claveConsulta(datosDelResumen.id), v); } catch { /* sin almacenamiento */ }
+  }
+  pintarResumen();
+});
+
+/* ---------- A quién hablarle hoy ---------- */
+async function pintarAQuienHablarle(pacientes) {
+  const caja = $('hablarle');
+  caja.textContent = '';
+  try {
+    const motor = await cargarMotor();
+    const avisos = motor.aQuienHablarleHoy(pacientes.map((p) => ({
+      paciente_id: p.paciente_id,
+      nombre_paciente: p.nombre_paciente,
+      ultima_captura: p.ultima_captura,
+      ultima_pesada: p.pesadas?.at(-1)?.fecha ?? p.ultima_pesada,
+      fechasDeRegistro: p.fechasDeRegistro ?? [],
+      firmo_acuerdo: p.firmo_acuerdo,
+    })), fechaLocal(new Date()));
+    if (avisos.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'muted';
+      li.textContent = 'Hoy nadie lleva días sin registrar ni dejó de pesarse.';
+      caja.append(li);
+    }
+    for (const a of avisos) {
+      const p = pacientes.find((x) => x.paciente_id === a.paciente_id);
+      const li = document.createElement('li');
+      const abrir = document.createElement('button');
+      abrir.type = 'button';
+      abrir.className = 'abrir-paciente';
+      // Como texto: el nombre lo escribió el paciente.
+      abrir.textContent = a.nombre;
+      abrir.addEventListener('click', () => abrirDetalle(p));
+      li.append(abrir);
+      for (const m of a.motivos) {
+        const s = document.createElement('span');
+        s.className = 'motivo small';
+        s.textContent = m;
+        li.append(s);
+      }
+      caja.append(li);
+    }
+    ver('caja-hablarle', true);
+  } catch {
+    // Si el motor no carga, la lista de abajo sigue ordenada igual.
+    ver('caja-hablarle', false);
+  }
+}
+
+/* ---------- Lo que come, en equivalentes ----------
+   Los últimos 7 días, uno por columna, y el promedio de los días que registró
+   en los últimos 30. «—» es un día sin registros: no es un día sin comer.
+   La cuenta es la de la app (nutricion/equivalentes/), empacada en el motor. */
+function pintarEquivalentes(motor, tabla, comidas, hasta) {
+  const caja = $('equivalentes');
+  const nota = $('equivalentes-nota');
+  nota.textContent = '';
+  if (!tabla) {
+    caja.innerHTML = '<p class="muted g-sin-datos">No se pudo traer la tabla de equivalentes. Recarga la página.</p>';
+    return;
+  }
+  const desde = moverDias(hasta, -29);
+  const recientes = comidas.filter((c) => c.fecha >= desde);
+  if (recientes.length === 0) {
+    caja.innerHTML = '<p class="muted g-sin-datos">No ha registrado comida en los últimos 30 días.</p>';
+    return;
+  }
+  const r = motor.resumenDeEquivalentes(recientes, tabla);
+  const semana = diasEntre(moverDias(hasta, -6), hasta);
+  const valor = (dia, k) => r.porDia[dia]?.[k] ?? 0;
+  const filas = motor.ORDEN_SMAE.filter(
+    (k) => (r.promedio[k] ?? 0) >= 0.05 || semana.some((d) => valor(d, k) >= 0.05),
+  );
+  const num = (v) => (v < 0.05 ? '0' : v.toFixed(1));
+  const celda = (d, k) => (r.porDia[d] ? num(valor(d, k)) : '<span class="muted">—</span>');
+
+  caja.innerHTML =
+    '<div class="table-scroll"><table class="pacientes equivalentes"><thead><tr>' +
+    '<th scope="col">Grupo</th>' +
+    semana.map((d) => `<th scope="col" class="num">${corta(d)}</th>`).join('') +
+    '<th scope="col" class="num promedio">Promedio</th></tr></thead><tbody>' +
+    filas.map((k) =>
+      `<tr><th scope="row">${motor.NOMBRE_SMAE[k]}</th>` +
+      semana.map((d) => `<td class="num">${celda(d, k)}</td>`).join('') +
+      `<td class="num promedio">${num(r.promedio[k] ?? 0)}</td></tr>`,
+    ).join('') +
+    '</tbody></table></div>';
+
+  const partes = [`El promedio es de los ${r.dias} ${r.dias === 1 ? 'día' : 'días'} que registró en los últimos 30.`];
+  if (r.aproximados > 0) {
+    partes.push(`${r.aproximados} de sus ${r.registros} registros ${r.aproximados === 1 ? 'es aproximado' : 'son aproximados'}: productos del súper, platillos de cadena o capturas a mano, que no traen receta y se repartieron por sus macros, o platillos que registró con cambios a la receta.`);
+  }
+  nota.textContent = partes.join(' ');
 }
 
 /* ---------- El acuerdo de confidencialidad ----------
@@ -1281,7 +1470,23 @@ async function cargarLista() {
     // Nada que avisar: la lista se pinta igual, sin las columnas nuevas.
   }
 
+  /* Las fechas en que registró cada quien, de los últimos 14 días: con eso se
+     nota si alguien registra menos que la semana pasada. Mismo permiso. */
+  try {
+    const ids = pacientes.filter((p) => p.firmo_acuerdo !== false).map((p) => p.paciente_id);
+    const hace14 = moverDias(fechaLocal(new Date()), -13);
+    const filas = await todas(() => supabase.from('comidas')
+      .select('usuario_id, fecha').in('usuario_id', ids).gte('fecha', hace14)
+      .order('usuario_id').order('fecha'));
+    for (const p of pacientes) {
+      p.fechasDeRegistro = [...new Set(filas.filter((f) => f.usuario_id === p.paciente_id).map((f) => f.fecha))];
+    }
+  } catch {
+    // Sin las fechas solo se avisa por días sin registrar y sin pesarse.
+  }
+
   pintar(pacientes);
+  pintarAQuienHablarle(pacientes);
   ver('con-pacientes', true);
   return pacientes;
 }
