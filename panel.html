@@ -490,7 +490,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
    app por armar-motor-del-panel.mjs. Se pide una vez y se guarda. */
 let tablaDeEquivalentes = null;
 const cargarEquivalentes = () =>
-  (tablaDeEquivalentes ??= fetch('./assets/equivalentes-kalale.json?v=cfd73380c1a3')
+  (tablaDeEquivalentes ??= fetch('./assets/equivalentes-kalale.json?v=6f32f5d1c3e4')
     .then((r) => { if (!r.ok) throw new Error('sin tabla'); return r.json(); })
     .catch((e) => { tablaDeEquivalentes = null; throw e; }));
 const cargarMotor = () => import('./assets/motor-kalale.js?v=611ed72cc5ce');
