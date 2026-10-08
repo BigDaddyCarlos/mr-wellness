@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Panel de seguimiento · Kálale | Mr. Wellness</title>
-<meta name="description" content="Panel de seguimiento para quienes acompañan pacientes con Kálale.">
+<title>Panel de seguimiento · Ikite | Mr. Wellness</title>
+<meta name="description" content="Panel de seguimiento para quienes acompañan pacientes con Ikite.">
 <!-- Herramienta privada: no tiene por qué salir en buscadores. -->
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://mr-wellness.com/panel.html">
@@ -160,7 +160,7 @@
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Abrir menú"><span></span></button>
     <div class="nav__panel" id="nav-panel">
       <nav class="nav__links" aria-label="Principal">
-        <a href="kalale.html">Kálale</a>
+        <a href="kalale.html">Ikite</a>
         <a href="panel.html" aria-current="page">Panel</a>
         <a href="kalale-privacy.html">Privacidad</a>
       </nav>
@@ -182,7 +182,7 @@
       <div class="entrar">
         <div class="section-head center" style="margin-bottom:28px">
           <span class="eyebrow">Panel de seguimiento</span>
-          <h1 style="font-size:clamp(1.7rem,1.3rem+1.6vw,2.3rem)">Entra con tu cuenta de Kálale</h1>
+          <h1 style="font-size:clamp(1.7rem,1.3rem+1.6vw,2.3rem)">Entra con tu cuenta de Ikite</h1>
           <p class="small muted" style="margin-top:.9em">Es la misma cuenta y la misma contraseña que usas en la app.</p>
         </div>
 
@@ -465,7 +465,7 @@
 
 <footer class="site-footer">
   <div class="wrap">
-    <p class="disclaimer"><strong>Aviso:</strong> Kálale es una herramienta de registro y seguimiento de hábitos: alimentación, movimiento, descanso y prácticas de calma. No diagnostica, no prescribe y no sustituye la consulta ni el criterio de un profesional de la salud. Los datos que ves aquí son los que cada paciente aceptó compartir contigo.</p>
+    <p class="disclaimer"><strong>Aviso:</strong> Ikite es una herramienta de registro y seguimiento de hábitos: alimentación, movimiento, descanso y prácticas de calma. No diagnostica, no prescribe y no sustituye la consulta ni el criterio de un profesional de la salud. Los datos que ves aquí son los que cada paciente aceptó compartir contigo.</p>
     <div class="footer__legal">
       <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
       <span><a href="kalale-privacy.html">Aviso de privacidad de la app</a></span>
@@ -531,7 +531,7 @@ function enCristiano(e) {
   if (t.includes('failed to fetch') || t.includes('network')) return 'No hay conexión. Revisa tu internet y vuelve a intentar.';
   if (t.includes('rate limit') || t.includes('too many')) return 'Demasiados intentos seguidos. Espera un minuto.';
   if (t.includes('signups not allowed') || t.includes('user not found'))
-    return 'Ese correo no tiene cuenta en Kálale. Revísalo, o pide tu panel primero.';
+    return 'Ese correo no tiene cuenta en Ikite. Revísalo, o pide tu panel primero.';
   if (t.includes('token has expired') || t.includes('expired'))
     return 'Ese código ya venció. Pide uno nuevo.';
   if (t.includes('invalid') && t.includes('token'))
