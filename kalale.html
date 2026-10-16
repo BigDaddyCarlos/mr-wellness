@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ikite, la app de bienestar mexicana | Mr. Wellness</title>
+<title>Ikite para profesionales de la nutrición | Mr. Wellness</title>
 <meta name="description" content="App de bienestar hecha en México, con la comida como base: 410 platillos —mexicanos y de otras seis cocinas— calculados desde sus ingredientes, 10,943 productos de súper con código de barras que funcionan sin señal, y sellos NOM-051. Panel gratis durante el piloto para nutriólogos.">
 <link rel="canonical" href="https://mr-wellness.com/kalale.html">
 <link rel="alternate" hreflang="es" href="https://mr-wellness.com/kalale.html">
@@ -24,17 +24,6 @@
 <style>
   /* Sólo lo que esta página necesita y el sistema no tiene todavía. */
 
-  /* Los octágonos de la NOM-051. Se dibujan, no se ilustran: son la forma que
-     todo México ya sabe leer y no hay que explicarla. */
-  .sello {
-    display: inline-grid; place-items: center;
-    width: 62px; height: 62px; flex: none;
-    background: #14181C; color: #fff;
-    clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
-    font-size: .58rem; font-weight: 800; line-height: 1.15;
-    text-align: center; letter-spacing: .01em; text-transform: uppercase;
-  }
-  @media (prefers-color-scheme: dark) { .sello { background: #EDEAE4; color: #16191D; } }
 
   .sello-fila { display: flex; gap: 18px; align-items: flex-start; }
   /* Sólo el texto se estira. Si esto dijera `> div` alcanzaría también al
@@ -83,24 +72,6 @@
   .etiq--bien { background: color-mix(in srgb, var(--sage) 24%, transparent); color: var(--sage-deep); }
   .etiq--ojo  { background: color-mix(in srgb, var(--orange) 24%, transparent); color: var(--orange-deep); }
 
-  /* La tira de números. Se lee de un vistazo y es lo primero que un profesional
-     quiere saber: ¿va a encontrar lo que come mi paciente? */
-  .cifras {
-    display: grid; gap: 1px; margin-top: 8px;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    background: var(--line); border: 1px solid var(--line);
-    border-radius: var(--radius); overflow: hidden;
-  }
-  .cifra { background: var(--surface); padding: 22px 20px; }
-  .cifra b {
-    display: block; font-size: 2rem; font-weight: 800;
-    letter-spacing: -.04em; color: var(--ink); line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .cifra span {
-    display: block; margin-top: 8px; font-size: .84rem;
-    color: var(--muted); line-height: 1.45;
-  }
 
   /* El desglose del recetario. Va como lista de fichas y no como tabla: son
      ocho renglones y una tabla para ocho renglones se ve como un trámite. */
@@ -166,172 +137,129 @@
 <main id="main">
 
 <!-- ============ HERO ============ -->
-<section class="hero">
+<section class="hero hero--ikite">
   <div class="wrap hero__grid">
     <div>
-      <span class="eyebrow">Ikite · Aplicación de bienestar</span>
+      <span class="eyebrow">Ikite · Para profesionales de la nutrición</span>
       <h1>Tus pacientes ya llevan un diario. Casi ninguno te lo enseña.</h1>
-      <p class="lead">Ikite es una app de bienestar hecha en México. Su base es la comida mexicana calculada platillo por platillo desde sus ingredientes, y está creciendo hacia cinco apartados —Hoy, Alimentación, Entrenamiento, Descanso y Plenitud— para que tu paciente también lleve su entrenamiento, su descanso y su calma. Tú ves lo que registran, día con día, y llegas a consulta con datos en lugar de con memoria.</p>
+      <p class="lead" style="margin-top:.8em">Ikite es una app de bienestar hecha en México. Tú ves lo que registran y llegas a consulta con datos en lugar de con memoria.</p>
+      <ul class="ticks">
+        <li>410 platillos, mexicanos y del mundo, calculados desde sus ingredientes</li>
+        <li>10,943 productos con código de barras que funcionan sin señal</li>
+        <li>Tu panel es gratis durante el piloto: no adelantas nada</li>
+      </ul>
       <div class="btn-row">
-        <a class="btn btn--primary" href="#contacto">Quiero mi panel — gratis durante el piloto</a>
+        <a class="btn btn--primary" href="#contacto">Quiero mi panel</a>
         <a class="btn btn--ghost" href="#panel">Ver cómo se ve</a>
       </div>
-      <p class="small muted" style="margin-top:.9em">¿Ya tienes tu panel? <a href="panel.html">Entra aquí</a> con tu cuenta de Ikite.</p>
-      <div class="trustbar">
-        <span>410 platillos, mexicanos y del mundo</span>
-        <span>10,943 códigos de barras</span>
-        <span>Sellos NOM-051</span>
-        <span>Funciona sin señal</span>
-      </div>
+      <p class="fineprint">¿Ya tienes tu panel? <a href="panel.html">Entra aquí</a> con tu cuenta de Ikite.</p>
     </div>
 
-    <aside class="hero__card">
+    <div class="logo-tile">
       <img src="assets/kalale-640.png" width="640" height="1023" alt="Ikite by Mr. Wellness" fetchpriority="high">
-      <hr>
-      <p class="small muted" style="margin-bottom:14px">La hice porque llevo años pidiendo diarios de tres días que nadie llena completos.</p>
-      <ul class="credentials">
-        <li><span class="tick" aria-hidden="true">✓</span><span><b>Los platillos los calculé yo.</b> Uno por uno, desde sus ingredientes y con tablas públicas. No están copiados de una base extranjera, y puedes revisarlos.</span></li>
-        <li><span class="tick" aria-hidden="true">✓</span><span><b>Hecha para México.</b> Zacahuil, papadzules, caldo de piedra, uchepos, cochinita, pozole.</span></li>
-        <li><span class="tick" aria-hidden="true">✓</span><span><b>Tu panel es gratis durante el piloto.</b> No adelantas nada.</span></li>
-      </ul>
-    </aside>
+    </div>
   </div>
 </section>
 
 <!-- ============ EL PROBLEMA ============ -->
-<section class="section section--tint section--edge">
-  <div class="wrap">
-    <div class="section-head">
+<section class="section section--tint section--edge section--tight">
+  <div class="wrap" style="max-width:820px">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">El problema</span>
-      <h2>El recordatorio de 24 horas es lo mejor que tenemos, y es malísimo</h2>
+      <h2>El recordatorio de 24 horas es malísimo, y es lo mejor que tenemos</h2>
     </div>
-    <div class="grid grid-2">
-      <div class="stack">
-        <p>Le pides a tu paciente que anote lo que come. Regresa a las tres semanas con media hoja llena, escrita de memoria el día anterior, sin cantidades. Con eso ajustas un plan.</p>
-        <p>Las apps que ya existen no lo arreglan, porque no están hechas para acá. El paciente busca <em>uchepos</em> y no sale. Busca <em>pozole</em> y aparece uno que capturó un desconocido en otro país, con números que nadie revisó.</p>
-      </div>
-      <div class="stack">
-        <p class="pull">A la tercera vez que no encuentra su comida, deja de registrar. Y tú te enteras un mes después, en consulta.</p>
-        <p>Esa es la fuga real. No es que la gente no quiera registrar: es que registrar les cuesta demasiado cuando la app no conoce lo que comen.</p>
-      </div>
-    </div>
+    <p class="pull">A la tercera vez que el paciente no encuentra su comida, deja de registrar. Y tú te enteras un mes después, en consulta.</p>
+    <p style="margin-top:1em">Las apps que existen no están hechas para acá: busca <em>uchepos</em> y no sale; busca <em>pozole</em> y aparece uno capturado por un desconocido en otro país, con números que nadie revisó. Registrar les cuesta demasiado cuando la app no conoce lo que comen.</p>
   </div>
 </section>
 
 <!-- ============ QUÉ TIENE DISTINTO ============ -->
-<section class="section">
+<section class="section section--tight">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">Qué tiene distinto</span>
       <h2>Está hecha para lo que come tu paciente</h2>
     </div>
-    <div class="grid grid-4">
-      <div class="card">
-        <div class="card__icon card__icon--sage" aria-hidden="true">🍲</div>
-        <h3>410 platillos, mexicanos y del mundo</h3>
-        <p>Zacahuil, papadzules, caldo de piedra, tikin xic, manchamanteles, cochito horneado — y el pozole, la cochinita y el mole negro de siempre. Calculados desde sus ingredientes, con porciones reales de plato chico, normal y grande.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon card__icon--orange" aria-hidden="true">⬢</div>
-        <h3>Los sellos de la NOM-051</h3>
-        <p>Cuando escanea un producto del súper, ve los mismos octágonos negros que trae el empaque. No hay que explicarle nada a nadie.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon" aria-hidden="true">📈</div>
-        <h3>Calorías que se corrigen solas</h3>
-        <p>En vez de una fórmula de edad y estatura, compara lo que come contra cómo se mueve su peso y despeja su gasto real. Cada semana se reajusta.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon card__icon--sage" aria-hidden="true">📶</div>
-        <h3>Funciona sin señal</h3>
-        <p>Registra en el camión, en el mercado, donde sea. Cuando hay internet, sube solo. En México eso no es un lujo.</p>
-      </div>
-    </div>
+    <ul class="why">
+      <li>
+        <span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3v7a2 2 0 0 0 2 2v9M9 3v7a2 2 0 0 1-2 2M17 3c-2 0-3 2.5-3 6s1 4 3 4v8"/></svg></span>
+        <b>410 platillos, mexicanos y del mundo</b>
+        <span>Calculados desde sus ingredientes, con porciones de plato chico, normal y grande.</span>
+      </li>
+      <li>
+        <span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3h8l5 5v8l-5 5H8l-5-5V8Z"/></svg></span>
+        <b>Los sellos de la NOM-051</b>
+        <span>Al escanear un producto ve los mismos octágonos negros del empaque.</span>
+      </li>
+      <li>
+        <span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
+        <b>Calorías que se corrigen solas</b>
+        <span>Compara lo que come con cómo se mueve su peso y despeja su gasto real, cada semana.</span>
+      </li>
+      <li>
+        <span class="why__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20v-4M9 20v-8M14 20V8M19 20V4"/></svg></span>
+        <b>Funciona sin señal</b>
+        <span>Registra en el camión o en el mercado; cuando hay internet, sube solo.</span>
+      </li>
+    </ul>
   </div>
 </section>
 
 <!-- ============ LO QUE YA TRAE ============ -->
-<section class="section">
+<section class="section section--tint section--edge section--tight">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">Lo que ya trae</span>
       <h2>Tu paciente va a encontrar lo que come</h2>
-      <p>Ésta es la pregunta que decide si sigue registrando en marzo o lo deja en la segunda semana. Aquí están los números, hoy.</p>
+      <p>Es la pregunta que decide si sigue registrando en marzo o lo deja en la segunda semana. Los números, hoy:</p>
     </div>
 
     <div class="cifras">
       <div class="cifra"><b>10,943</b><span>productos de súper mexicanos, con su código de barras</span></div>
       <div class="cifra"><b>410</b><span>platillos calculados desde sus ingredientes, mexicanos y de otras seis cocinas</span></div>
       <div class="cifra"><b>527</b><span>ingredientes, para armar lo que no esté</span></div>
-      <div class="cifra"><b>1,457</b><span>productos de 16 cadenas: McDonald's, Burger King, Carl's Jr, Domino's, Dunkin', Italianni's, KFC, Krispy Kreme, Panda Express, Papa John's, P.F. Chang's, Shake Shack, Subway, Starbucks, VIPS y Bisquets Obregón</span></div>
+      <div class="cifra"><b>1,457</b><span>productos de 16 cadenas, como McDonald's, Starbucks y Subway</span></div>
     </div>
 
-    <h3 style="margin-top:2.4em">El recetario, por dentro</h3>
-    <ul class="desglose">
-      <li><b>123</b> guisados</li>
-      <li><b>103</b> antojitos</li>
-      <li><b>45</b> guarniciones</li>
-      <li><b>36</b> postres y pan</li>
-      <li><b>34</b> sopas y caldos</li>
-      <li><b>28</b> desayunos</li>
-      <li><b>24</b> bebidas</li>
-      <li><b>17</b> salsas</li>
-    </ul>
-    <p style="margin-top:1.2em">Zacahuil, papadzules, caldo de piedra, uchepos, corundas, tikin xic, salbutes, manchamanteles, sopa tarasca, chileatole, cochito horneado, chongos zamoranos. Y los de todos los días: tacos al pastor, tlacoyos, guajolotas, esquites, torta ahogada, cochinita, birria, mole negro, pozole, chilaquiles. Cada uno con su porción de plato chico, normal y grande — porque nadie come «100 gramos de pozole».</p>
-    <p>Y lo que en México también se come de otras cocinas, calculado igual: arroz frito y pollo agridulce, empanadas argentinas y choripán, lasaña y pizza, hamburguesa y chili con carne, latkes y bagel con salmón, kibbe, tabule y shawarma.</p>
-
-    <div class="grid grid-2" style="margin-top:2.4em">
-      <div class="card">
-        <div class="card__icon card__icon--orange" aria-hidden="true">📶</div>
-        <h3>El súper, sin señal</h3>
-        <p>Los diez mil productos <strong>viajan dentro de la app</strong>, no en un servidor. Tu paciente escanea en el pasillo, sin datos y sin esperar. Es el punto donde las demás apps pierden gente: escaneas tres veces, no sale, y la desinstalas.</p>
-        <p>Si algo no está, se consulta en línea y queda guardado para la próxima.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon card__icon--sage" aria-hidden="true">🌮</div>
-        <h3>Se registra en piezas, no en gramos</h3>
-        <p><strong>184 alimentos</strong> se pueden registrar como los cuenta la gente: una tortilla, un huevo, una rebanada, un diente de ajo. Nadie pesa tres tortillas — y si le pides gramos, adivina, y adivina mal.</p>
-        <p>Donde el peso sí varía de verdad —un aguacate, una pechuga— la app lo dice en vez de fingir precisión.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon" aria-hidden="true">🧮</div>
-        <h3>Las metas se recalculan solas</h3>
-        <p>Cada semana compara lo que comió contra cómo se movió su peso y ajusta. Tú no tienes que rehacer cálculos paciente por paciente, que es la parte que nadie quiere hacer.</p>
-        <p>Con topes de seguridad que no se pueden desactivar.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon card__icon--orange" aria-hidden="true">📷</div>
-        <h3>Foto y código, en el mismo botón</h3>
-        <p>Una cámara que sirve para las dos cosas. La foto da un punto de partida que la persona corrige antes de guardar — <strong>no se registra sola</strong>, y así debe ser: una foto no sabe cuánta manteca lleva ese guisado. Son hasta tres fotos al día por persona.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon card__icon--sage" aria-hidden="true">📏</div>
-        <h3>Composición y medidas</h3>
-        <p>Peso, porcentaje de grasa por varios métodos, y cinta métrica en los puntos que sirven. La tendencia va encima del peso crudo, porque la báscula miente todos los días.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon" aria-hidden="true">🍽️</div>
-        <h3>De una a quince comidas al día</h3>
-        <p>Hay quien come una vez y quien come quince veces en porciones chicas. Se elige, se cambia por día, y los recordatorios se acomodan solos.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon card__icon--orange" aria-hidden="true">🔁</div>
-        <h3>Comidas guardadas</h3>
-        <p>El desayuno de siempre son cuatro alimentos y cuatro vueltas de buscar y pesar. Se guarda una vez —el desayuno, la comida o el día entero— y se registra en un toque desde la pantalla de Hoy. Quien sigue un plan come casi lo mismo, y eso hay que premiarlo, no castigarlo.</p>
-      </div>
-      <div class="card">
-        <div class="card__icon card__icon--sage" aria-hidden="true">✏️</div>
-        <h3>Todo se corrige</h3>
-        <p>Se le cambian los ingredientes a un platillo —sin queso, con doble tortilla— y los números siguen. Y se puede cambiar la cantidad <strong>después</strong> de haberlo capturado, sin volver a empezar. Lo que se olvidó anotar se agrega a ayer o a antier, y cualquier día pasado se corrige o se borra.</p>
-      </div>
+    <div class="faq" style="margin-top:22px">
+      <details>
+        <summary>El recetario, por dentro</summary>
+        <div class="faq__body">
+          <ul class="desglose">
+            <li><b>123</b> guisados</li>
+            <li><b>103</b> antojitos</li>
+            <li><b>45</b> guarniciones</li>
+            <li><b>36</b> postres y pan</li>
+            <li><b>34</b> sopas y caldos</li>
+            <li><b>28</b> desayunos</li>
+            <li><b>24</b> bebidas</li>
+            <li><b>17</b> salsas</li>
+          </ul>
+          <p>Zacahuil, papadzules, caldo de piedra, uchepos, tikin xic, manchamanteles, cochito horneado, y los de todos los días: tacos al pastor, tlacoyos, cochinita, birria, mole negro, pozole, chilaquiles. De otras cocinas, calculado igual: arroz frito, empanadas argentinas, lasaña, hamburguesa, bagel con salmón, shawarma. Cada uno con su porción de plato chico, normal y grande.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Cómo se registra, sin fricción</summary>
+        <div class="faq__body">
+          <ul>
+            <li><strong>En piezas, no en gramos:</strong> 184 alimentos se registran como los cuenta la gente (una tortilla, un huevo). Donde el peso sí varía de verdad, la app lo dice en vez de fingir precisión.</li>
+            <li><strong>Foto y código, en el mismo botón:</strong> la foto es un punto de partida que la persona corrige antes de guardar; no se registra sola. Hasta tres fotos al día por persona.</li>
+            <li><strong>El súper, sin señal:</strong> los diez mil productos viajan dentro de la app. Si algo no está, se consulta en línea y queda guardado.</li>
+            <li><strong>Metas que se recalculan solas,</strong> con topes de seguridad que no se pueden desactivar.</li>
+            <li><strong>Composición y medidas:</strong> peso, porcentaje de grasa por varios métodos y cinta métrica; la tendencia va encima del peso crudo.</li>
+            <li><strong>De una a quince comidas al día</strong> y comidas guardadas en un toque.</li>
+            <li><strong>Todo se corrige:</strong> ingredientes, cantidades después de capturar, y días pasados.</li>
+          </ul>
+        </div>
+      </details>
     </div>
   </div>
 </section>
 
 <!-- ============ EL PANEL ============ -->
-<section class="section section--tint section--edge" id="panel">
+<section class="section section--tight" id="panel">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">Tu panel</span>
       <h2>Ves quién se está cayendo antes de que abandone</h2>
       <p>Un tablero con tus pacientes, que se abre en la computadora de tu consultorio. No instalas nada.</p>
@@ -385,62 +313,38 @@
       <p class="panel__pie">Ejemplo con datos inventados.</p>
     </div>
 
-    <div class="grid grid-3" style="margin-top:28px">
-      <div class="card">
-        <h3>Adherencia, no promesas</h3>
-        <p>Cuántos de los últimos catorce días registró de verdad. Es el número que predice si el plan va a funcionar, y el que nunca tienes.</p>
-      </div>
-      <div class="card">
-        <h3>Peso real contra tendencia</h3>
-        <p>La báscula miente todos los días. Ves la línea suavizada encima del peso crudo, que es la que sirve para decidir.</p>
-      </div>
-      <div class="card">
-        <h3>Qué come de verdad</h3>
-        <p>Sus platillos más frecuentes y sus promedios de calorías y macros. Entras a consulta ya sabiendo de qué van a hablar.</p>
-      </div>
-      <div class="card">
-        <h3>Si se está pesando</h3>
-        <p>Cuántos de los últimos catorce días se pesó y cuánto ha cambiado, desde la primera semana: mientras no lleve un mes, contra su primera pesada.</p>
-      </div>
-      <div class="card">
-        <h3>Composición y medidas, si te deja</h3>
-        <p>Grasa, músculo, grasa visceral, análisis por zona y medidas con cinta. <strong>Solo si tu paciente activa ese permiso aparte</strong> desde su app, y lo quita cuando quiera.</p>
-      </div>
-      <div class="card">
-        <h3>Lo que come, en equivalentes</h3>
-        <p>Lo que registró, traducido al Sistema Mexicano de Alimentos Equivalentes: cada platillo se desarma en sus ingredientes. Lo que no trae receta se reparte por sus macros y <strong>se marca aproximado</strong>.</p>
-      </div>
-      <div class="card">
-        <h3>Un resumen antes de la consulta</h3>
-        <p>Pones la fecha de su última consulta y lees en frases cortas qué pasó desde entonces: peso, días que registró, equivalentes, gasto y composición. Solo en pantalla: no se imprime ni se descarga.</p>
-      </div>
-      <div class="card">
-        <h3>A quién hablarle hoy</h3>
-        <p>Arriba de tu lista: quién lleva días sin registrar, quién registra menos que la semana pasada y quién dejó de pesarse. Con el porqué, en palabras.</p>
-      </div>
-    </div>
+    <ul class="ticks ticks--soft ticks--cols" style="margin-top:26px">
+      <li><span><b>Adherencia, no promesas.</b> Cuántos de los últimos 14 días registró de verdad.</span></li>
+      <li><span><b>Peso real contra tendencia.</b> La línea suavizada encima del peso crudo.</span></li>
+      <li><span><b>Qué come de verdad.</b> Sus platillos más frecuentes y sus promedios de calorías y macros.</span></li>
+      <li><span><b>Si se está pesando.</b> Cuántos de los últimos 14 días se pesó y cuánto ha cambiado.</span></li>
+      <li><span><b>Composición y medidas, si te deja.</b> Solo si tu paciente activa ese permiso aparte, y lo quita cuando quiera.</span></li>
+      <li><span><b>En equivalentes.</b> Lo que registró, en el Sistema Mexicano de Alimentos Equivalentes; lo que no trae receta se marca aproximado.</span></li>
+      <li><span><b>Resumen antes de la consulta.</b> Qué pasó desde la última, solo en pantalla: no se imprime ni se descarga.</span></li>
+      <li><span><b>A quién hablarle hoy.</b> Quién lleva días sin registrar, quién registra menos y quién dejó de pesarse.</span></li>
+    </ul>
   </div>
 </section>
 
 <!-- ============ TÚ MIRAS, NO TOCAS ============ -->
-<section class="section">
+<section class="section section--tint section--edge section--tight">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">Lo que no hace, a propósito</span>
       <h2>Tú miras. No tocas.</h2>
     </div>
     <div class="grid grid-2">
       <div class="stack">
-        <p>Desde el panel no puedes cambiarle las metas a nadie, ni corregir sus capturas, ni escribir en su registro. Solo ver.</p>
-        <p>Es una decisión, no una carencia. En el momento en que un profesional puede modificar los datos de otra persona, esto deja de ser el registro del paciente y se convierte en un expediente clínico —con todo lo que eso arrastra encima, para ti y para él. <strong>El registro es suyo; tú lo lees.</strong></p>
+        <p>Desde el panel no puedes cambiar metas, corregir capturas ni escribir en el registro. Solo ver.</p>
+        <p>Es una decisión, no una carencia: si un profesional pudiera modificar los datos de otra persona, esto dejaría de ser el registro del paciente y sería un expediente clínico. <strong>El registro es suyo; tú lo lees.</strong></p>
       </div>
 
       <div class="note sello-fila">
         <div class="sello" aria-hidden="true">Su<br>permiso</div>
         <div>
           <h3 style="margin-bottom:.4em">Tu paciente decide, y puede cambiar de opinión</h3>
-          <p>Nadie ve los datos de nadie sin que la persona lo acepte, expresamente, desde su teléfono. Y puede quitarte el acceso cuando quiera, por su cuenta, sin avisarte ni pedirte permiso.</p>
-          <p style="margin-top:.8em">Lo que come, cuánto pesa y cuánto mide son datos sensibles de salud, y la ley mexicana los trata así desde 2025. Pero aunque no lo pidiera la ley, estaría hecho igual.</p>
+          <p>Nadie ve los datos de nadie sin que la persona lo acepte desde su teléfono, y puede quitarte el acceso cuando quiera, sin avisarte.</p>
+          <p style="margin-top:.8em">Lo que come, cuánto pesa y cuánto mide son datos sensibles de salud, y la ley mexicana los trata así desde 2025.</p>
         </div>
       </div>
     </div>
@@ -448,9 +352,9 @@
 </section>
 
 <!-- ============ PLANES ============ -->
-<section class="section section--tint section--edge" id="planes">
+<section class="section section--tight" id="planes">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">Planes</span>
       <h2>Tu panel es gratis durante el piloto.</h2>
       <p>Paga el paciente, y solo si le sirve: el primer mes es gratis. Tú no adelantas nada ni te comprometes a nada.</p>
@@ -500,18 +404,17 @@
       </div>
     </div>
 
-    <div class="note" style="margin-top:28px">
-      <div>
-        <strong>Si tu paciente deja de pagar, sus datos no se borran ni se esconden.</strong> Siguen ahí, completos, y se los puede llevar cuando quiera. Cobrar por el acceso a la propia historia de alguien nos parece una manera fea de hacer negocio.
-      </div>
+    <div class="note note--slim" style="margin-top:24px">
+      <span class="note__mark" aria-hidden="true">✓</span>
+      <p><strong>Si tu paciente deja de pagar, sus datos no se borran ni se esconden.</strong> Siguen ahí, completos, y se los puede llevar cuando quiera.</p>
     </div>
   </div>
 </section>
 
 <!-- ============ CÓMO EMPIEZA ============ -->
-<section class="section">
+<section class="section section--tint section--edge section--tight">
   <div class="wrap">
-    <div class="section-head">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">Cómo empieza</span>
       <h2>Tres pasos, una tarde</h2>
     </div>
@@ -526,16 +429,16 @@
       </div>
       <div class="step">
         <h3>Los ves desde tu computadora</h3>
-        <p>Desde el primer día que registren. Sin instalar nada y sin capacitación. Entras en <a href="panel.html">mr-wellness.com/panel</a>, con la misma cuenta de Ikite.</p>
+        <p>Desde el primer día que registren, sin instalar nada. Entras en <a href="panel.html">mr-wellness.com/panel</a> con la misma cuenta de Ikite.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============ PREGUNTAS ============ -->
-<section class="section section--tint section--edge" id="preguntas">
-  <div class="wrap">
-    <div class="section-head">
+<section class="section section--tight" id="preguntas">
+  <div class="wrap" style="max-width:820px">
+    <div class="section-head section-head--sm">
       <span class="eyebrow">Preguntas</span>
       <h2>Lo que preguntan antes de recomendarla</h2>
     </div>
@@ -569,13 +472,13 @@
 </section>
 
 <!-- ============ CONTACTO ============ -->
-<section class="section" id="contacto">
+<section class="section section--tight" id="contacto">
   <div class="wrap">
-    <div class="cta-band">
+    <div class="cta-band cta-band--compact">
       <h2>Estoy abriendo el panel con un grupo chico de profesionales</h2>
-      <p>No es una lista de espera ni la promesa de algo que va a existir: la app funciona hoy y hay gente registrando en ella. Lo que estoy armando es el primer grupo de nutriólogos que la va a estrenar en consulta — y que va a decidir qué se construye después.</p>
+      <p>La app funciona hoy y hay gente registrando en ella. Busco el primer grupo de nutriólogos que la estrene en consulta y decida qué se construye después.</p>
       <div class="btn-row center">
-        <a class="btn btn--wa" href="https://wa.me/525569629713?text=Hola%20Carlos%2C%20soy%20nutri%C3%B3logo%20y%20vi%20K%C3%A1lale%20en%20mr-wellness.com.%20Quiero%20mi%20panel." target="_blank" rel="noopener">
+        <a class="btn btn--wa" href="https://wa.me/525569629713?text=Hola%20Carlos%2C%20soy%20nutri%C3%B3logo%20y%20vi%20Ikite%20en%20mr-wellness.com.%20Quiero%20mi%20panel." target="_blank" rel="noopener">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Zm5.8 14.06c-.25.69-1.44 1.32-1.98 1.36-.53.04-1.02.23-3.45-.72-2.9-1.14-4.75-4.1-4.9-4.29-.14-.19-1.17-1.55-1.17-2.96s.74-2.1 1-2.39c.26-.29.57-.36.76-.36h.54c.18 0 .42-.07.65.5.25.6.83 2.07.9 2.22.07.15.12.32.02.51-.1.19-.15.31-.3.48-.14.17-.3.37-.43.5-.15.14-.3.3-.13.59.17.29.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.35 1.46.29.15.46.12.63-.07.17-.19.72-.84.92-1.13.19-.29.39-.24.65-.14.26.1 1.65.78 1.94.92.29.14.48.22.55.34.07.12.07.7-.18 1.39Z"/></svg>
           Escribirme por WhatsApp
         </a>
