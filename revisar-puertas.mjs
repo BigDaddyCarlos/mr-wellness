@@ -31,7 +31,7 @@
  *
  *   empieza.html            se llega desde la biografía de las redes y de los
  *                           videos. Es la página de campaña.
- *   kalale-confirmado.html  se llega desde el correo de confirmación de la
+ *   ikite-confirmado.html  se llega desde el correo de confirmación de la
  *                           cuenta. Nadie la busca; le cae encima.
  *   guia-inicio.html        se comparte a mano, en consulta y por mensaje.
  *
@@ -66,7 +66,7 @@ const aqui = path.dirname(fileURLToPath(import.meta.url));
 /** Páginas a las que se llega desde afuera, no desde el sitio. */
 const CON_PUERTA_DE_AFUERA = {
   'empieza.html': 'desde la biografía de las redes y los videos',
-  'kalale-confirmado.html': 'desde el correo de confirmación de la cuenta',
+  'ikite-confirmado.html': 'desde el correo de confirmación de la cuenta',
   'guia-inicio.html': 'se comparte a mano, en consulta y por mensaje',
 };
 

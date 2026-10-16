@@ -160,9 +160,9 @@
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Abrir menú"><span></span></button>
     <div class="nav__panel" id="nav-panel">
       <nav class="nav__links" aria-label="Principal">
-        <a href="kalale.html">Ikite</a>
+        <a href="ikite-profesionales.html">Ikite</a>
         <a href="panel.html" aria-current="page">Panel</a>
-        <a href="kalale-privacy.html">Privacidad</a>
+        <a href="ikite-privacidad.html">Privacidad</a>
       </nav>
     </div>
   </div>
@@ -205,7 +205,7 @@
         </button>
 
         <p class="small muted" style="margin-top:20px;text-align:center">
-          ¿Todavía no tienes panel? <a href="kalale.html#contacto">Pídelo aquí</a>.
+          ¿Todavía no tienes panel? <a href="ikite-profesionales.html#contacto">Pídelo aquí</a>.
         </p>
       </div>
     </div>
@@ -284,7 +284,7 @@
         </p>
         <p class="small muted" style="max-width:44ch;margin:1.2em auto 0">Si ése no es el correo que esperabas, sal y vuelve a entrar con el correcto.</p>
         <div class="btn-row center" style="margin-top:1.8em">
-          <a class="btn btn--primary" href="kalale.html#contacto">Pedir mi panel</a>
+          <a class="btn btn--primary" href="ikite-profesionales.html#contacto">Pedir mi panel</a>
           <button class="btn btn--ghost" type="button" data-salir>Salir</button>
         </div>
       </div>
@@ -468,7 +468,7 @@
     <p class="disclaimer"><strong>Aviso:</strong> Ikite es una herramienta de registro y seguimiento de hábitos: alimentación, movimiento, descanso y prácticas de calma. No es un dispositivo médico: no diagnostica, no prescribe y no sustituye la consulta ni el criterio de un profesional de la salud. Ikite fue creada por Carlos Zamora, fisioterapeuta deportivo y especialista en entrenamiento personal; no es médico ni nutriólogo, y la app no prescribe dietas ni tratamientos. Los datos que ves aquí son los que cada paciente aceptó compartir contigo.</p>
     <div class="footer__legal">
       <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
-      <span><a href="kalale-privacy.html">Aviso de privacidad de la app</a></span>
+      <span><a href="ikite-privacidad.html">Aviso de privacidad de la app</a></span>
     </div>
   </div>
 </footer>
@@ -490,10 +490,10 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
    app por armar-motor-del-panel.mjs. Se pide una vez y se guarda. */
 let tablaDeEquivalentes = null;
 const cargarEquivalentes = () =>
-  (tablaDeEquivalentes ??= fetch('./assets/equivalentes-kalale.json?v=6f32f5d1c3e4')
+  (tablaDeEquivalentes ??= fetch('./assets/equivalentes-ikite.json?v=6f32f5d1c3e4')
     .then((r) => { if (!r.ok) throw new Error('sin tabla'); return r.json(); })
     .catch((e) => { tablaDeEquivalentes = null; throw e; }));
-const cargarMotor = () => import('./assets/motor-kalale.js?v=611ed72cc5ce');
+const cargarMotor = () => import('./assets/motor-ikite.js?v=611ed72cc5ce');
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
@@ -1068,7 +1068,7 @@ async function abrirDetalle(p) {
       protDe.set(c.fecha, (protDe.get(c.fecha) ?? 0) + Number(c.proteina_g));
     }
 
-    /* La tendencia, con el motor de la app (assets/motor-kalale.js).
+    /* La tendencia, con el motor de la app (assets/motor-ikite.js).
        Los días se arman como los arma la app en historialParaElMotor: del
        primer registro —pesada o comida— a hoy, con los días sin pesada
        vacíos. Si se armaran distinto, el mismo motor daría otra línea. */
