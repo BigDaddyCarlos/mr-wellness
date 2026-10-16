@@ -54,6 +54,20 @@
     targets.forEach(function (el) { el.classList.add('is-in'); });
   }
 
+  /* --- Interruptor de precios (Mensual / Anual) ---
+     Sin JS no hay botones y se ven los dos precios. */
+  document.querySelectorAll('.pricing').forEach(function (box) {
+    var buttons = box.querySelectorAll('.toggle [data-mode]');
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        box.setAttribute('data-mode', b.getAttribute('data-mode'));
+        buttons.forEach(function (o) {
+          o.setAttribute('aria-pressed', String(o === b));
+        });
+      });
+    });
+  });
+
   /* --- Recordar el idioma elegido en la portada --- */
   var langLinks = document.querySelectorAll('[data-lang-choice]');
   langLinks.forEach(function (a) {

@@ -15,6 +15,8 @@
   --orange-deep: #AE5A05;  /* 4.7:1 sobre --bg y 4.9:1 con texto blanco */
   --sage:        #A3BC3C;
   --sage-deep:   #5E7519;  /* 5.0:1 sobre --bg */
+  --violet:      #8878A8;  /* del logotipo de Ikite */
+  --violet-deep: #65558F;  /* contraste suficiente sobre --bg */
 
   /* Neutros cálidos */
   --ink:      #22262C;
@@ -50,6 +52,8 @@
     --orange-deep: #FFB067;
     --sage:        #B7CE58;
     --sage-deep:   #C6DA72;
+    --violet:      #A596CC;
+    --violet-deep: #C0B4E6;
 
     --ink:      #EDEAE4;
     --ink-2:    #C3BFB8;
@@ -158,7 +162,7 @@ a { color: var(--blue-deep); text-decoration-thickness: 1.5px; text-underline-of
   --btn-bg: var(--ink);
   --btn-fg: #fff;
   display: inline-flex; align-items: center; justify-content: center; gap: .6em;
-  padding: .95em 1.6em;
+  padding: .95em 1.6em; min-height: 44px;
   background: var(--btn-bg); color: var(--btn-fg);
   border: 1px solid transparent; border-radius: 999px;
   font-size: 1rem; font-weight: 700; letter-spacing: -.01em;
@@ -211,6 +215,7 @@ a { color: var(--blue-deep); text-decoration-thickness: 1.5px; text-underline-of
 }
 .nav__brand small { display: block; font-size: .68rem; font-weight: 600; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
 
+.nav__panel { display: flex; align-items: center; gap: 14px; }
 .nav__links { display: flex; align-items: center; gap: 4px; }
 .nav__links a {
   padding: .5em .8em; border-radius: 999px;
@@ -571,3 +576,179 @@ table.compare tr:last-child > * { border-bottom: 0; }
 .footer__social h4 { margin-bottom: .9em; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .site-footer .social-link { background: var(--bg); color: var(--ink); }
 .site-footer .social-link:hover { color: var(--ink); text-decoration: none; }
+
+/* =========================================================
+   Ikite — páginas resumidas (kalale-app, empieza, kalale)
+   Todo lo de abajo usa los tokens de arriba; sirve en claro y oscuro.
+   ========================================================= */
+
+/* Héroe de Ikite: el logo es alto (640×1023), así que va en una ficha clara
+   con alto máximo. La ficha es blanca en los dos temas porque el gris del
+   logo no tendría contraste sobre el fondo oscuro. */
+.hero--ikite { padding-block: clamp(28px, 5vw, 72px) clamp(36px, 5vw, 72px); }
+.hero--ikite .hero__grid { grid-template-columns: 1.15fr .85fr; }
+.hero--ikite h1 { font-size: clamp(2rem, 1.3rem + 3vw, 3.3rem); }
+.hero--ikite .btn-row { margin-top: 1.5em; }
+.logo-tile {
+  justify-self: center; display: grid; place-items: center;
+  background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: clamp(14px, 2vw, 26px) clamp(22px, 3vw, 40px); box-shadow: var(--shadow-lg);
+}
+.logo-tile img { width: auto; height: auto; max-height: 300px; }
+@media (max-width: 900px) {
+  .hero--ikite .hero__grid { grid-template-columns: 1fr; gap: 22px; }
+  .logo-tile { order: -1; padding: 12px 26px; }
+  .logo-tile img { max-height: 200px; }
+}
+
+.ticks { list-style: none; padding: 0; display: grid; gap: 10px; margin-top: 1.1em; }
+.ticks li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.45; color: var(--ink); font-weight: 600; }
+.ticks li::before {
+  content: '✓'; flex: none; width: 24px; height: 24px; margin-top: -1px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 13px; font-weight: 900;
+  background: color-mix(in srgb, var(--sage) 28%, transparent); color: var(--sage-deep);
+}
+.fineprint { margin-top: 1.1em; font-size: .86rem; color: var(--muted); }
+
+/* Secciones más compactas */
+.section--tight { padding-block: clamp(36px, 5.5vw, 68px); }
+.section--tight .section-head { margin-bottom: clamp(18px, 3vw, 30px); }
+.section-head--sm h2 { font-size: clamp(1.45rem, 1.15rem + 1.3vw, 2rem); }
+
+/* Los cuatro apartados */
+.areas { display: grid; gap: 14px; grid-template-columns: 1fr; list-style: none; padding: 0; }
+@media (min-width: 560px) { .areas { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .areas { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+.area {
+  --accent: var(--orange); --accent-deep: var(--orange-deep);
+  position: relative; display: grid; grid-template-columns: 48px 1fr; gap: 4px 16px; align-items: start;
+  background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent);
+  border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow-sm);
+}
+.area--fortalecer { --accent: var(--blue); --accent-deep: var(--blue-deep); }
+.area--recuperar  { --accent: var(--sage); --accent-deep: var(--sage-deep); }
+.area--serenar    { --accent: var(--violet); --accent-deep: var(--violet-deep); }
+.area__icon {
+  grid-row: span 3; width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--accent-deep);
+}
+.area__icon svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.area h3 { font-size: 1.2rem; margin: 0; }
+.area p { font-size: .95rem; line-height: 1.45; }
+.area .badge { justify-self: start; font-size: .66rem; padding: .25em .7em; }
+@media (min-width: 1000px) {
+  .area { grid-template-columns: 1fr; padding: 22px 20px; }
+  .area__icon { grid-row: auto; margin-bottom: 10px; }
+}
+
+/* Lo que lo hace distinto */
+.why { display: grid; gap: 16px 28px; grid-template-columns: 1fr; list-style: none; padding: 0; }
+@media (min-width: 720px) { .why { grid-template-columns: 1fr 1fr; } }
+.why li { display: grid; grid-template-columns: 44px 1fr; gap: 2px 14px; align-items: start; }
+.why__icon {
+  grid-row: span 2; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--blue) 20%, transparent); color: var(--blue-deep);
+}
+.why__icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.why b { color: var(--ink); font-size: 1.02rem; line-height: 1.3; letter-spacing: -.01em; }
+.why span { font-size: .93rem; line-height: 1.45; }
+
+/* Interruptor Mensual / Anual. Sin JS no se ve y se muestran los dos precios. */
+.pricing .toggle {
+  display: none; margin: 0 auto 26px; padding: 4px; gap: 4px; width: fit-content; max-width: 100%;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--surface);
+}
+.js .pricing .toggle { display: flex; }
+.toggle button {
+  min-height: 44px; min-width: 104px; padding: 0 1.2em; border: 0; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--ink-2); font-weight: 700; font-size: .95rem;
+  transition: background-color .18s ease, color .18s ease;
+}
+.toggle button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.toggle button:focus-visible { box-shadow: var(--ring); border-radius: 999px; }
+.js .pricing[data-mode="a"] [data-per="m"],
+.js .pricing[data-mode="m"] [data-per="a"] { display: none; }
+.pricing .plans { max-width: 820px; margin-inline: auto; margin-top: 0; }
+.plan__sub { font-size: .9rem; color: var(--muted); margin-bottom: 1.1em; min-height: 1.5em; }
+.plan__sub strong { color: var(--sage-deep); }
+.pricing__foot { margin-top: 22px; text-align: center; font-size: .93rem; }
+.pricing__foot strong { color: var(--ink); }
+
+/* La escalera: tira de cuatro pasos */
+.ladder { list-style: none; padding: 0; display: grid; gap: 12px; position: relative; align-items: start; }
+@media (min-width: 860px) {
+  .ladder { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .ladder::before {
+    content: ''; position: absolute; left: 12%; right: 12%; top: 22px; height: 3px; border-radius: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--sage), var(--orange), var(--violet)); opacity: .55;
+  }
+}
+.rung {
+  position: relative; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow-sm);
+}
+@media (min-width: 860px) { .rung { background: transparent; border: 0; box-shadow: none; padding: 0 6px; text-align: center; } }
+.rung__num {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--ink); color: var(--bg); font-weight: 800; position: relative; z-index: 1;
+}
+@media (min-width: 860px) { .rung__num { margin: 0 auto 12px; } }
+.rung__top { display: flex; gap: 14px; align-items: center; }
+@media (min-width: 860px) { .rung__top { display: block; } }
+.rung h3 { font-size: 1.08rem; margin: 0; }
+.rung__line { font-size: .9rem; color: var(--muted); font-weight: 600; line-height: 1.4; }
+.rung details { margin-top: 4px; text-align: left; }
+.rung summary {
+  cursor: pointer; list-style: none; min-height: 44px; display: inline-flex; align-items: center; gap: .4em;
+  color: var(--blue-deep); font-weight: 700; font-size: .92rem;
+}
+.rung summary::-webkit-details-marker { display: none; }
+.rung summary::after { content: '+'; font-size: 1.2rem; line-height: 1; transition: transform .2s ease; }
+.rung details[open] summary::after { transform: rotate(45deg); }
+@media (min-width: 860px) { .rung details { text-align: center; } }
+.rung details p { font-size: .92rem; line-height: 1.5; }
+.rung details p + p, .rung details .btn { margin-top: .7em; }
+
+/* Acordeón de detalle (reusa .faq) */
+.faq__body { padding: 0 0 20px; font-size: .96rem; display: grid; gap: .8em; }
+.faq__body ul { padding-left: 1.1em; display: grid; gap: 6px; }
+.faq__body li::marker { color: var(--orange); }
+.faq .cifras { margin: 0 0 4px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 720px) { .faq .cifras { grid-template-columns: repeat(4, 1fr); } }
+.faq .cifra { padding: 16px 14px; }
+.faq .cifra b { font-size: 1.6rem; }
+.faq .chips { margin: 0; padding: 0; }
+
+/* Los octágonos de la NOM-051, dibujados */
+.sello {
+  display: inline-grid; place-items: center; width: 58px; height: 58px; flex: none;
+  background: #14181C; color: #fff;
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+  font-size: .55rem; font-weight: 800; line-height: 1.15; text-align: center; text-transform: uppercase;
+}
+@media (prefers-color-scheme: dark) { .sello { background: #EDEAE4; color: #16191D; } }
+.sellos-fila { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.cifras {
+  display: grid; gap: 1px; margin-top: 8px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+}
+.cifra { background: var(--surface); padding: 22px 20px; }
+.cifra b { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -.04em; color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums; }
+.cifra span { display: block; margin-top: 8px; font-size: .84rem; color: var(--muted); line-height: 1.45; }
+
+/* Aviso corto de una línea */
+.note--slim { padding: 14px 18px; font-size: .9rem; align-items: center; }
+.note--slim p { margin: 0; }
+.note__mark { flex: none; font-size: 18px; line-height: 1; }
+
+.cta-band--compact { padding: clamp(28px, 4vw, 48px); }
+.cta-band--compact h2 { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem); }
+.cta-band .link-light { color: #fff; font-weight: 700; }
+
+/* Variante de .area con botón (empieza.html) */
+.area__tier { font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
+.area .btn { grid-column: 2; justify-self: start; margin-top: 10px; }
+@media (min-width: 1000px) { .area .btn { grid-column: 1; } .areas--btn .area { grid-template-rows: auto auto auto 1fr; } .areas--btn .area .btn { align-self: end; } }
+@media (min-width: 860px) { .rung__line { min-height: 2.8em; } }
+.chips--center { justify-content: center; }
