@@ -493,7 +493,7 @@ const cargarEquivalentes = () =>
   (tablaDeEquivalentes ??= fetch('./assets/equivalentes-ikite.json?v=6f32f5d1c3e4')
     .then((r) => { if (!r.ok) throw new Error('sin tabla'); return r.json(); })
     .catch((e) => { tablaDeEquivalentes = null; throw e; }));
-const cargarMotor = () => import('./assets/motor-ikite.js?v=611ed72cc5ce');
+const cargarMotor = () => import('./assets/motor-ikite.js?v=42ac9f74e90c');
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
@@ -988,9 +988,12 @@ function pintarCuerpo(p, composiciones, medidas, pesoDe = new Map()) {
       ['cadera_cm', 'Cadera', cm],
       ['cuello_cm', 'Cuello', cm],
       ['pecho_cm', 'Pecho', cm],
-      ['brazo_cm', 'Brazo', cm],
-      ['muslo_cm', 'Muslo', cm],
-      ['pantorrilla_cm', 'Pantorrilla', cm],
+      ['brazo_der_cm', 'Brazo der.', cm],
+      ['brazo_izq_cm', 'Brazo izq.', cm],
+      ['muslo_der_cm', 'Muslo der.', cm],
+      ['muslo_izq_cm', 'Muslo izq.', cm],
+      ['pantorrilla_der_cm', 'Pantorrilla der.', cm],
+      ['pantorrilla_izq_cm', 'Pantorrilla izq.', cm],
     ], recientes(medidas)));
   }
 }
@@ -1048,7 +1051,7 @@ async function abrirDetalle(p) {
           .select('fecha, porcentaje_grasa, musculo_kg, tipo_musculo, agua_pct, visceral, peso_kg, metodo, segmentos')
           .eq('usuario_id', id).order('fecha')).catch(() => []),
         todas(() => supabase.from('medidas')
-          .select('fecha, cintura_cm, cadera_cm, cuello_cm, pecho_cm, brazo_cm, muslo_cm, pantorrilla_cm')
+          .select('fecha, cintura_cm, cadera_cm, cuello_cm, pecho_cm, brazo_der_cm, brazo_izq_cm, muslo_der_cm, muslo_izq_cm, pantorrilla_der_cm, pantorrilla_izq_cm')
           .eq('usuario_id', id).order('fecha')).catch(() => []),
       ]),
       // Si la tabla no llega, la caja de equivalentes lo dice y lo demás sigue.
@@ -1143,7 +1146,7 @@ async function abrirDetalle(p) {
     }
 
     pintarEquivalentes(motor, tablaEq, comidas, hasta);
-    prepararResumen({ id, motor, desdeMinimo: desde, hasta, pesadas, tendencia: puntos, comidas, metas, composiciones: cuerpo[0], tabla: tablaEq });
+    prepararResumen({ id, motor, desdeMinimo: desde, hasta, pesadas, tendencia: puntos, comidas, metas, composiciones: cuerpo[0], medidas: cuerpo[1], tabla: tablaEq });
     pintarGasto(metas, hasta);
     pintarCuerpo(p, cuerpo[0], cuerpo[1], pesoDe);
 
@@ -1196,7 +1199,7 @@ function pintarResumen() {
   const desde = $('consulta-desde').value || moverDias(d.hasta, -27);
   const r = d.motor.resumenParaLaConsulta({
     desde, hasta: d.hasta, pesadas: d.pesadas, tendencia: d.tendencia, comidas: d.comidas,
-    metas: d.metas, composiciones: d.composiciones, tablaDeEquivalentes: d.tabla,
+    metas: d.metas, composiciones: d.composiciones, medidas: d.medidas, tablaDeEquivalentes: d.tabla,
   });
   $('consulta-periodo').textContent = r.periodo;
   const lista = $('consulta-renglones');

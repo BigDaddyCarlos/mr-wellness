@@ -1,7 +1,7 @@
 // GENERADO: no se edita a mano.
 // Sale de eatwell/src/motor/para-el-panel.ts con «node armar-motor-del-panel.mjs».
 // Es el mismo motor de la app, para que el nutriólogo vea la misma tendencia
-// que su paciente. huella: 611ed72cc5ce
+// que su paciente. huella: 42ac9f74e90c
 // src/motor/tendencia.ts
 var ALFA = 0.15;
 var BETA = 0.05;
@@ -373,6 +373,25 @@ function corta(iso) {
 var miles = (n) => Math.round(n).toLocaleString("es-MX");
 var kg = (n) => `${n > 0.05 ? "+" : n < -0.05 ? "\u2212" : ""}${Math.abs(n).toFixed(1)} kg`;
 var plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+var NOMBRE_DE_MEDIDA = {
+  cuello_cm: "cuello",
+  pecho_cm: "pecho",
+  cintura_cm: "cintura",
+  cadera_cm: "cadera",
+  brazo_der_cm: "brazo derecho",
+  brazo_izq_cm: "brazo izquierdo",
+  muslo_der_cm: "muslo derecho",
+  muslo_izq_cm: "muslo izquierdo",
+  pantorrilla_der_cm: "pantorrilla derecha",
+  pantorrilla_izq_cm: "pantorrilla izquierda"
+};
+var NOMBRE_DE_ZONA_DE_BASCULA = {
+  brazo_der: "brazo derecho",
+  brazo_izq: "brazo izquierdo",
+  tronco: "tronco",
+  pierna_der: "pierna derecha",
+  pierna_izq: "pierna izquierda"
+};
 var GRUPOS = [
   ["verduras", "verduras"],
   ["frutas", "frutas"],
@@ -478,6 +497,43 @@ function resumenParaLaConsulta(e) {
       }
       if (partes.length > 0) {
         renglones.push({ titulo: "Su composici\xF3n", texto: `Del ${corta(primera.fecha)} al ${corta(ultimaComp.fecha)}, con el mismo m\xE9todo: ${partes.join("; ")}.` });
+      }
+    }
+  }
+  const medidas = enPeriodo(e.medidas ?? []);
+  if (medidas.length >= 2) {
+    const partes = [];
+    for (const campo of Object.keys(NOMBRE_DE_MEDIDA)) {
+      const con = medidas.filter((m) => m[campo] != null);
+      if (con.length < 2) continue;
+      const a = Number(con[0][campo]);
+      const b = Number(con[con.length - 1][campo]);
+      partes.push(`${NOMBRE_DE_MEDIDA[campo]} ${a.toFixed(1)} \u2192 ${b.toFixed(1)} cm`);
+    }
+    if (partes.length > 0) {
+      renglones.push({
+        titulo: "Sus medidas con cinta",
+        texto: `Del ${corta(medidas[0].fecha)} al ${corta(medidas[medidas.length - 1].fecha)}: ${partes.join("; ")}. Son estimaciones con cinta; sin juicio sobre ninguna zona.`
+      });
+    }
+  }
+  const conZonas = enPeriodo(e.composiciones).filter((c) => c.segmentos?.musculo && Object.keys(c.segmentos.musculo).length > 0);
+  const ultimaConZonas = conZonas[conZonas.length - 1];
+  if (ultimaConZonas) {
+    const mismas = conZonas.filter((c) => c.metodo === ultimaConZonas.metodo);
+    const primera = mismas[0];
+    if (mismas.length >= 2 && primera !== ultimaConZonas) {
+      const partes = [];
+      for (const [zona, nombre] of Object.entries(NOMBRE_DE_ZONA_DE_BASCULA)) {
+        const a = primera.segmentos?.musculo?.[zona];
+        const b = ultimaConZonas.segmentos?.musculo?.[zona];
+        if (a != null && b != null) partes.push(`${nombre} ${Number(a).toFixed(1)} \u2192 ${Number(b).toFixed(1)} kg`);
+      }
+      if (partes.length > 0) {
+        renglones.push({
+          titulo: "Su m\xFAsculo por zona",
+          texto: `Del ${corta(primera.fecha)} al ${corta(ultimaConZonas.fecha)}, con el mismo m\xE9todo: ${partes.join("; ")}. Es lo que estima su b\xE1scula.`
+        });
       }
     }
   }
