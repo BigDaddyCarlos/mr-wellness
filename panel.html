@@ -493,7 +493,7 @@ const cargarEquivalentes = () =>
   (tablaDeEquivalentes ??= fetch('./assets/equivalentes-ikite.json?v=6f32f5d1c3e4')
     .then((r) => { if (!r.ok) throw new Error('sin tabla'); return r.json(); })
     .catch((e) => { tablaDeEquivalentes = null; throw e; }));
-const cargarMotor = () => import('./assets/motor-ikite.js?v=42ac9f74e90c');
+const cargarMotor = () => import('./assets/motor-ikite.js?v=88525a10f201');
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
@@ -1029,7 +1029,7 @@ async function abrirDetalle(p) {
   const desde = moverDias(hasta, -(DIAS_DEL_DETALLE - 1));
 
   try {
-    const [motor, pesadas, comidas, primeraComida, metas, perfil, cuerpo, tablaEq] = await Promise.all([
+    const [motor, pesadas, comidas, primeraComida, metas, perfil, cuerpo, tablaEq, actividades, cardio, entrenos, glucosa, chequeos, noches, respiraciones] = await Promise.all([
       cargarMotor(),
       // Todas las pesadas, no solo las de 90 días: la tendencia arranca en la
       // primera, igual que en la app. Cortarla aquí daría otra línea.
@@ -1056,6 +1056,24 @@ async function abrirDetalle(p) {
       ]),
       // Si la tabla no llega, la caja de equivalentes lo dice y lo demás sigue.
       cargarEquivalentes().catch(() => null),
+      // Acción, Descanso y Plenitud: un permiso aparte (sql/029). Sin él, o
+      // sin la migración corrida, la base contesta vacío o con error: cada
+      // una se cuida sola, igual que composición/medidas arriba.
+      todas(() => supabase.from('actividades_hechas').select('fecha, actividad, minutos')
+        .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
+      todas(() => supabase.from('sesiones_cardio').select('fecha, tipo, minutos')
+        .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
+      todas(() => supabase.from('sesiones_entreno').select('fecha, minutos')
+        .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
+      todas(() => supabase.from('glucosa_lecturas').select('fecha, mg_dl')
+        .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
+      todas(() => supabase.from('chequeos').select('fecha, energia, animo, dolor')
+        .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
+      todas(() => supabase.from('noches').select('fecha, calidad')
+        .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
+      // Sin columna fecha: esta tabla solo trae empezo_en (timestamp).
+      todas(() => supabase.from('sesiones_respiracion').select('empezo_en, completa')
+        .eq('usuario_id', id)).catch(() => []),
     ]);
     const { calcularTendencia, leerProgreso, nombreDeObjetivo } = motor;
     // Si mientras cargaba se abrió otro paciente, esto ya no es de nadie.
@@ -1146,7 +1164,20 @@ async function abrirDetalle(p) {
     }
 
     pintarEquivalentes(motor, tablaEq, comidas, hasta);
-    prepararResumen({ id, motor, desdeMinimo: desde, hasta, pesadas, tendencia: puntos, comidas, metas, composiciones: cuerpo[0], medidas: cuerpo[1], tabla: tablaEq });
+    prepararResumen({
+      id, motor, desdeMinimo: desde, hasta, pesadas, tendencia: puntos, comidas, metas,
+      composiciones: cuerpo[0], medidas: cuerpo[1], tabla: tablaEq,
+      // Acción, Descanso y Plenitud: mismos nombres de campo que espera
+      // resumenParaLaConsulta (src/panel/consulta.ts), con el cambio a
+      // camelCase que no trae la base (mg_dl, empezo_en).
+      actividades,
+      cardio,
+      entrenos,
+      glucosa: glucosa.map((g) => ({ fecha: g.fecha, mgDl: g.mg_dl })),
+      chequeos,
+      noches,
+      respiraciones: respiraciones.map((r) => ({ empezoEn: r.empezo_en, completa: r.completa })),
+    });
     pintarGasto(metas, hasta);
     pintarCuerpo(p, cuerpo[0], cuerpo[1], pesoDe);
 
@@ -1200,6 +1231,8 @@ function pintarResumen() {
   const r = d.motor.resumenParaLaConsulta({
     desde, hasta: d.hasta, pesadas: d.pesadas, tendencia: d.tendencia, comidas: d.comidas,
     metas: d.metas, composiciones: d.composiciones, medidas: d.medidas, tablaDeEquivalentes: d.tabla,
+    actividades: d.actividades, cardio: d.cardio, entrenos: d.entrenos, glucosa: d.glucosa,
+    chequeos: d.chequeos, noches: d.noches, respiraciones: d.respiraciones,
   });
   $('consulta-periodo').textContent = r.periodo;
   const lista = $('consulta-renglones');

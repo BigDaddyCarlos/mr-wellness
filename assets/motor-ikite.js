@@ -1,7 +1,7 @@
 // GENERADO: no se edita a mano.
 // Sale de eatwell/src/motor/para-el-panel.ts con «node armar-motor-del-panel.mjs».
 // Es el mismo motor de la app, para que el nutriólogo vea la misma tendencia
-// que su paciente. huella: 42ac9f74e90c
+// que su paciente. huella: 88525a10f201
 // src/motor/tendencia.ts
 var ALFA = 0.15;
 var BETA = 0.05;
@@ -536,6 +536,52 @@ function resumenParaLaConsulta(e) {
         });
       }
     }
+  }
+  const entrenos = enPeriodo(e.entrenos ?? []);
+  const cardio = enPeriodo(e.cardio ?? []);
+  const actividades = enPeriodo(e.actividades ?? []);
+  if (entrenos.length + cardio.length + actividades.length > 0) {
+    const minutos = [...entrenos, ...cardio, ...actividades].reduce((s, x) => s + (Number(x.minutos) || 0), 0);
+    const clausulas = [
+      entrenos.length > 0 ? plural(entrenos.length, "sesi\xF3n de entrenamiento", "sesiones de entrenamiento") : null,
+      cardio.length > 0 ? plural(cardio.length, "sesi\xF3n de cardio", "sesiones de cardio") : null,
+      actividades.length > 0 ? actividades.length === 1 ? "1 de otro deporte" : `${actividades.length} de otros deportes` : null
+    ].filter((x) => x != null);
+    const lista = clausulas.length <= 1 ? clausulas.join("") : `${clausulas.slice(0, -1).join(", ")} y ${clausulas[clausulas.length - 1]}`;
+    renglones.push({
+      titulo: "Su actividad",
+      texto: `Hizo ${lista} en este periodo, con ${miles(minutos)} minutos en total.`
+    });
+  }
+  const noches = enPeriodo(e.noches ?? []);
+  const chequeos = enPeriodo(e.chequeos ?? []);
+  const respiraciones = (e.respiraciones ?? []).filter((r) => {
+    const f = r.empezoEn.slice(0, 10);
+    return f >= desde && f <= hasta;
+  });
+  const glucosa = enPeriodo(e.glucosa ?? []);
+  if (noches.length + chequeos.length + respiraciones.length > 0) {
+    const partes = [];
+    if (noches.length > 0) {
+      const conCalidad = noches.filter((n) => n.calidad != null);
+      let t = `Durmi\xF3 ${plural(noches.length, "noche", "noches")}`;
+      if (conCalidad.length > 0) {
+        t += `, con calidad promedio de ${(conCalidad.reduce((s, n) => s + Number(n.calidad), 0) / conCalidad.length).toFixed(1)}`;
+      }
+      partes.push(t + ".");
+    }
+    if (chequeos.length > 0) {
+      partes.push(`Hizo ${plural(chequeos.length, "chequeo", "chequeos")} en el periodo.`);
+    }
+    if (respiraciones.length > 0) {
+      const completas = respiraciones.filter((r) => r.completa).length;
+      partes.push(`${plural(respiraciones.length, "sesi\xF3n de respiraci\xF3n", "sesiones de respiraci\xF3n")}, ${plural(completas, "completa", "completas")}.`);
+    }
+    if (glucosa.length > 0) {
+      const prom = glucosa.reduce((s, g) => s + Number(g.mgDl), 0) / glucosa.length;
+      partes.push(`Su glucosa promedi\xF3 ${Math.round(prom)} mg/dL en ${plural(glucosa.length, "lectura", "lecturas")}.`);
+    }
+    renglones.push({ titulo: "Su descanso y Plenitud", texto: partes.join(" ") });
   }
   return { periodo: `Del ${corta(desde)} al ${corta(hasta)} \xB7 ${plural(dias, "d\xEDa", "d\xEDas")}`, renglones };
 }
