@@ -1,7 +1,7 @@
 // GENERADO: no se edita a mano.
 // Sale de eatwell/src/motor/para-el-panel.ts con «node armar-motor-del-panel.mjs».
 // Es el mismo motor de la app, para que el nutriólogo vea la misma tendencia
-// que su paciente. huella: 88525a10f201
+// que su paciente. huella: 3065838e162d
 // src/motor/tendencia.ts
 var ALFA = 0.15;
 var BETA = 0.05;
@@ -559,7 +559,6 @@ function resumenParaLaConsulta(e) {
     const f = r.empezoEn.slice(0, 10);
     return f >= desde && f <= hasta;
   });
-  const glucosa = enPeriodo(e.glucosa ?? []);
   if (noches.length + chequeos.length + respiraciones.length > 0) {
     const partes = [];
     if (noches.length > 0) {
@@ -577,11 +576,15 @@ function resumenParaLaConsulta(e) {
       const completas = respiraciones.filter((r) => r.completa).length;
       partes.push(`${plural(respiraciones.length, "sesi\xF3n de respiraci\xF3n", "sesiones de respiraci\xF3n")}, ${plural(completas, "completa", "completas")}.`);
     }
-    if (glucosa.length > 0) {
-      const prom = glucosa.reduce((s, g) => s + Number(g.mgDl), 0) / glucosa.length;
-      partes.push(`Su glucosa promedi\xF3 ${Math.round(prom)} mg/dL en ${plural(glucosa.length, "lectura", "lecturas")}.`);
-    }
     renglones.push({ titulo: "Su descanso y Plenitud", texto: partes.join(" ") });
+  }
+  const glucosa = enPeriodo(e.glucosa ?? []);
+  if (glucosa.length > 0) {
+    const prom = glucosa.reduce((s, g) => s + Number(g.mgDl), 0) / glucosa.length;
+    renglones.push({
+      titulo: "Su glucosa",
+      texto: `Su glucosa promedi\xF3 ${Math.round(prom)} mg/dL en ${plural(glucosa.length, "lectura", "lecturas")}.`
+    });
   }
   return { periodo: `Del ${corta(desde)} al ${corta(hasta)} \xB7 ${plural(dias, "d\xEDa", "d\xEDas")}`, renglones };
 }

@@ -389,6 +389,10 @@
             <input type="date" id="consulta-desde" style="margin-left:6px">
           </label>
           <p class="small muted" id="consulta-periodo" style="margin-top:8px"></p>
+          <!-- Acción, Descanso y Plenitud (y su glucosa): un permiso aparte (sql/029).
+               Sin él no llegan "Su actividad", "Su descanso y Plenitud" ni "Su glucosa",
+               y sin esta nota una caja vacía se leería como que no hizo nada. -->
+          <p class="small muted oculto" id="bienestar-nota"></p>
           <dl class="resumen-consulta" id="consulta-renglones"></dl>
         </div>
 
@@ -493,7 +497,7 @@ const cargarEquivalentes = () =>
   (tablaDeEquivalentes ??= fetch('./assets/equivalentes-ikite.json?v=6f32f5d1c3e4')
     .then((r) => { if (!r.ok) throw new Error('sin tabla'); return r.json(); })
     .catch((e) => { tablaDeEquivalentes = null; throw e; }));
-const cargarMotor = () => import('./assets/motor-ikite.js?v=88525a10f201');
+const cargarMotor = () => import('./assets/motor-ikite.js?v=3065838e162d');
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué
@@ -1005,13 +1009,14 @@ async function abrirDetalle(p) {
   $('detalle-nombre').textContent = p.nombre_paciente || 'Sin nombre';
   $('detalle-resumen').textContent = 'Trayendo sus datos…';
   $('error-detalle').classList.add('oculto');
-  for (const caja of ['grafica-peso', 'grafica-kcal', 'grafica-gasto', 'cifras', 'metas', 'cuerpo-nota', 'cuerpo-composicion', 'cuerpo-medidas', 'equivalentes', 'equivalentes-nota', 'consulta-periodo', 'consulta-renglones']) {
+  for (const caja of ['grafica-peso', 'grafica-kcal', 'grafica-gasto', 'cifras', 'metas', 'cuerpo-nota', 'cuerpo-composicion', 'cuerpo-medidas', 'equivalentes', 'equivalentes-nota', 'consulta-periodo', 'consulta-renglones', 'bienestar-nota']) {
     $(caja).textContent = '';
   }
   ver('caja-como-va', false);
   ver('gasto-sin', false);
   ver('gasto-con', false);
   ver('caja-cuerpo', false);
+  ver('bienestar-nota', false);
   window.scrollTo({ top: 0 });
 
   // Sin la columna (sql/019 sin correr) se comporta como antes.
@@ -1071,9 +1076,10 @@ async function abrirDetalle(p) {
         .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
       todas(() => supabase.from('noches').select('fecha, calidad')
         .eq('usuario_id', id).gte('fecha', desde)).catch(() => []),
-      // Sin columna fecha: esta tabla solo trae empezo_en (timestamp).
+      // Sin columna fecha: esta tabla solo trae empezo_en (timestamp), por
+      // eso el corte usa esa columna y no `.gte('fecha', desde)` como las de arriba.
       todas(() => supabase.from('sesiones_respiracion').select('empezo_en, completa')
-        .eq('usuario_id', id)).catch(() => []),
+        .eq('usuario_id', id).gte('empezo_en', desde + 'T00:00:00')).catch(() => []),
     ]);
     const { calcularTendencia, leerProgreso, nombreDeObjetivo } = motor;
     // Si mientras cargaba se abrió otro paciente, esto ya no es de nadie.
@@ -1180,6 +1186,13 @@ async function abrirDetalle(p) {
     });
     pintarGasto(metas, hasta);
     pintarCuerpo(p, cuerpo[0], cuerpo[1], pesoDe);
+
+    // Sin la columna (sql/029 sin correr) se comporta como antes.
+    const sinBienestar = p.comparte_bienestar === false;
+    ver('bienestar-nota', sinBienestar);
+    if (sinBienestar) {
+      $('bienestar-nota').textContent = 'Tu paciente no ha activado compartir su Acción, Descanso y Plenitud. Es un permiso aparte que decide desde su app, en Ajustes.';
+    }
 
     // El resumen de las dos últimas semanas, que es lo que se revisa en una
     // consulta de seguimiento.
