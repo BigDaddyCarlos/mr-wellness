@@ -1,7 +1,7 @@
 // GENERADO: no se edita a mano.
 // Sale de eatwell/src/motor/para-el-panel.ts con «node armar-motor-del-panel.mjs».
 // Es el mismo motor de la app, para que el nutriólogo vea la misma tendencia
-// que su paciente. huella: 3065838e162d
+// que su paciente. huella: 4ebae9db025e
 // src/motor/tendencia.ts
 var ALFA = 0.15;
 var BETA = 0.05;
@@ -164,18 +164,20 @@ function calcularTendencia(dias, alfa = ALFA, beta = BETA) {
 }
 
 // src/motor/metas.ts
-function leerProgreso(objetivo, cambioKgPorSemana) {
+function leerProgreso(objetivo, cambioKgPorSemana, composicion) {
   const quieto = Math.abs(cambioKgPorSemana) < 0.15;
   const sube = cambioKgPorSemana > 0;
+  const bajoGrasa = composicion?.grasaKg != null && composicion.grasaKg < -0.5;
+  const subioMusculo = composicion?.musculoKg != null && composicion.musculoKg > 0.5;
   switch (objetivo) {
     case "recomposicion":
-      return quieto ? "Tu peso est\xE1 quieto, y eso es justo lo que buscas. Lo que cambia en una recomposici\xF3n no se ve en la b\xE1scula: para saber si est\xE1 funcionando hay que medir tu grasa corporal cada tres o cuatro semanas." : sube ? "Est\xE1s subiendo de peso. En una recomposici\xF3n eso puede ser m\xFAsculo, pero tambi\xE9n puede ser que est\xE9s comiendo de m\xE1s \u2014 la b\xE1scula sola no lo distingue." : "Est\xE1s bajando de peso. No es malo, pero no es lo que pediste: en una recomposici\xF3n el peso se queda y lo que cambia es de qu\xE9 est\xE1 hecho.";
+      return quieto ? "Tu peso est\xE1 quieto, y eso es justo lo que buscas. Lo que cambia en una recomposici\xF3n no se ve en la b\xE1scula: para saber si est\xE1 funcionando hay que medir tu grasa corporal cada tres o cuatro semanas." : sube ? bajoGrasa && subioMusculo ? "Vas muy bien: tu grasa va bajando y tu m\xFAsculo subiendo, que es justo una recomposici\xF3n. La b\xE1scula sube un poco porque el m\xFAsculo pesa." : "Est\xE1s subiendo de peso. En una recomposici\xF3n eso puede ser m\xFAsculo, pero tambi\xE9n puede ser que est\xE9s comiendo de m\xE1s \u2014 la b\xE1scula sola no lo distingue." : "Bajar de peso tiene su m\xE9rito. Solo que en una recomposici\xF3n el peso se queda y lo que cambia es de qu\xE9 est\xE1 hecho: si no lo buscabas, come un poco m\xE1s.";
     case "bajar_grasa":
-      return quieto ? "Tu peso lleva varios d\xEDas sin moverse. Puede ser una meseta pasajera, o que est\xE9s comiendo un poco m\xE1s de lo que crees. Si sigue as\xED otra semana, revisamos el plan." : sube ? "Vas subiendo, y tu objetivo es bajar grasa. Antes de cambiar nada: \xBFte has pesado a la misma hora y en las mismas condiciones?" : "Vas bajando. Cu\xE1nto de eso fue grasa y cu\xE1nto m\xFAsculo no lo s\xE9 por la b\xE1scula \u2014 si te mides la grasa corporal cada tres o cuatro semanas, te lo puedo decir.";
+      return quieto ? "Sostener tu peso ya es trabajo: no subiste. Para bajar grasa hace falta que se mueva un poco; puede ser una meseta pasajera, o que est\xE9s comiendo un poco m\xE1s de lo que crees. Si sigue as\xED otra semana, revisamos el plan." : sube ? bajoGrasa && subioMusculo ? "Vas muy bien: tu grasa va bajando y tu m\xFAsculo subiendo, y eso es lo m\xE1s dif\xEDcil de lograr. Por eso la b\xE1scula sube un poco: el m\xFAsculo pesa. Eso tiene nombre, recomposici\xF3n; si es lo que est\xE1s haciendo, c\xE1mbialo en Ajustes para que tus metas cuadren con lo que buscas." : "Algo bueno: sigues pes\xE1ndote, y es lo que deja ver hacia d\xF3nde vas. Si est\xE1s entrenando fuerza, parte de lo que sube puede ser m\xFAsculo. Aun as\xED, tu objetivo es bajar grasa, y en ese plan el peso va bajando poco a poco. Antes de cambiar nada: \xBFte has pesado a la misma hora y en las mismas condiciones?" : "Vas bajando. Cu\xE1nto de eso fue grasa y cu\xE1nto m\xFAsculo no lo s\xE9 por la b\xE1scula \u2014 si te mides la grasa corporal cada tres o cuatro semanas, te lo puedo decir.";
     case "subir_musculo":
-      return quieto ? "Tu peso est\xE1 quieto y tu objetivo es ganar. Para construir m\xFAsculo hace falta comer un poco por encima de tu gasto; si llevas dos semanas as\xED, probablemente falta comida." : sube ? "Vas subiendo, que es lo que buscas. Ganar despacio es lo que hace que sea m\xFAsculo y no grasa \u2014 por eso el ritmo est\xE1 topado." : "Est\xE1s bajando de peso y tu objetivo es ganar m\xFAsculo. Con el cuerpo en d\xE9ficit, construir es muy dif\xEDcil.";
+      return quieto ? "Mantener tu peso estable ya es constancia. Para construir m\xFAsculo hace falta comer un poco por encima de tu gasto; si llevas dos semanas as\xED, probablemente falta comida." : sube ? "Vas subiendo, que es lo que buscas. Ganar despacio es lo que hace que sea m\xFAsculo y no grasa \u2014 por eso el ritmo est\xE1 topado." : "Bajar de peso no es malo en s\xED. Pero tu objetivo es ganar m\xFAsculo, y con el cuerpo en d\xE9ficit construir es muy dif\xEDcil: come un poco m\xE1s.";
     case "mantener":
-      return quieto ? "Tu peso est\xE1 estable, que es exactamente lo que buscas." : `Te est\xE1s ${sube ? "moviendo hacia arriba" : "moviendo hacia abajo"} y tu objetivo es mantenerte. Si no fue a prop\xF3sito, un ajuste chico de calor\xEDas lo corrige.`;
+      return quieto ? "Tu peso est\xE1 estable, que es exactamente lo que buscas." : `Vas de cerca con tu peso, y eso ya es la mitad del trabajo. Te est\xE1s ${sube ? "moviendo hacia arriba" : "moviendo hacia abajo"} y tu objetivo es mantenerte: si no fue a prop\xF3sito, un ajuste chico de calor\xEDas lo corrige.`;
   }
 }
 
