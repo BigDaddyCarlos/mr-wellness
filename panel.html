@@ -497,7 +497,7 @@ const cargarEquivalentes = () =>
   (tablaDeEquivalentes ??= fetch('./assets/equivalentes-ikite.json?v=3e8489656b1c')
     .then((r) => { if (!r.ok) throw new Error('sin tabla'); return r.json(); })
     .catch((e) => { tablaDeEquivalentes = null; throw e; }));
-const cargarMotor = () => import('./assets/motor-ikite.js?v=4ebae9db025e');
+const cargarMotor = () => import('./assets/motor-ikite.js?v=ba589929678e');
 
 /* La llave pública de Kálale. Es la misma que viaja dentro de la app y está
    hecha para andar a la vista: por sí sola no abre nada. Lo que decide qué

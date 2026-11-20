@@ -1,7 +1,7 @@
 // GENERADO: no se edita a mano.
 // Sale de eatwell/src/motor/para-el-panel.ts con «node armar-motor-del-panel.mjs».
 // Es el mismo motor de la app, para que el nutriólogo vea la misma tendencia
-// que su paciente. huella: 4ebae9db025e
+// que su paciente. huella: ba589929678e
 // src/motor/tendencia.ts
 var ALFA = 0.15;
 var BETA = 0.05;
@@ -181,7 +181,19 @@ function leerProgreso(objetivo, cambioKgPorSemana, composicion) {
   }
 }
 
+// src/i18n/actual.ts
+var actual = "es";
+function idiomaActual() {
+  return actual;
+}
+
 // src/motor/objetivos.ts
+var TITULO_EN = {
+  bajar_grasa: "Lose fat",
+  recomposicion: "Change my composition",
+  subir_musculo: "Build muscle",
+  mantener: "Maintain"
+};
 var OBJETIVOS = [
   {
     valor: "bajar_grasa",
@@ -209,6 +221,7 @@ var OBJETIVOS = [
   }
 ];
 function nombreDeObjetivo(objetivo) {
+  if (idiomaActual() === "en") return TITULO_EN[objetivo] ?? "Not set";
   return OBJETIVOS.find((o) => o.valor === objetivo)?.titulo ?? "Sin definir";
 }
 
