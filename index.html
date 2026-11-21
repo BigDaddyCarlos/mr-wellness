@@ -3,73 +3,443 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mr. Wellness — Salud integral, entrenamiento y rehabilitación | Carlos Zamora</title>
-<meta name="description" content="Entrenamiento personalizado, fisioterapia deportiva y bienestar integral con Carlos Zamora. Elige tu idioma / Choose your language.">
+<title>Mr. Wellness — Fisioterapia deportiva y entrenamiento personal | Carlos Zamora</title>
+<meta name="description" content="Salud integral con criterio clínico: fisioterapia deportiva y entrenamiento basado en evidencia, diseñados para tu cuerpo, con Carlos Zamora. Consulta en línea y la app Ikite.">
 <link rel="canonical" href="https://mr-wellness.com/">
-<link rel="alternate" hreflang="es" href="https://mr-wellness.com/spanish-coaching.html">
-<link rel="alternate" hreflang="en" href="https://mr-wellness.com/english-coaching.html">
+<link rel="alternate" hreflang="es" href="https://mr-wellness.com/">
+<link rel="alternate" hreflang="en" href="https://mr-wellness.com/english-home.html">
 <link rel="alternate" hreflang="x-default" href="https://mr-wellness.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mr-wellness.com/">
-<meta property="og:title" content="Mr. Wellness — Salud integral con Carlos Zamora">
-<meta property="og:description" content="Entrenamiento personalizado, fisioterapia deportiva y bienestar integral. Ciencia, empatía y resultados.">
+<meta property="og:title" content="Mr. Wellness — Salud integral con criterio clínico">
+<meta property="og:description" content="Fisioterapia deportiva y entrenamiento basado en evidencia, diseñados para tu cuerpo. Carlos Zamora.">
 <meta property="og:image" content="https://mr-wellness.com/assets/logo-es-640.png">
+<meta property="og:locale" content="es_MX">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FBFAF7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#16191D" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/styles.css">
-<style>
-  .gate { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-block: 48px; }
-  .gate__head { text-align: center; margin-bottom: clamp(32px, 5vw, 52px); }
-  .gate__head h1 { font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem); }
-  .gate__head p { margin-top: .5em; font-size: clamp(1.05rem, 1rem + .5vw, 1.3rem); color: var(--muted); font-weight: 600; }
-  .gate__grid { display: grid; gap: clamp(20px, 3vw, 32px); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 880px; margin-inline: auto; width: 100%; }
-  .gate__card { display: flex; flex-direction: column; padding: clamp(24px, 3vw, 34px); text-align: center; }
-  .gate__card img { margin-inline: auto; max-height: 150px; width: auto; }
-  .gate__lang { margin: 18px 0 20px; font-size: .76rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-  .gate__card .btn + .btn { margin-top: 10px; }
-  .gate__foot { text-align: center; margin-top: clamp(32px, 5vw, 48px); font-size: .9rem; color: var(--muted); }
-  .gate__aviso { text-align: center; margin: 22px auto 0; max-width: 62ch; font-size: .8rem; line-height: 1.55; color: var(--muted); }
-</style>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="assets/home.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Mr. Wellness — Salud Integral",
+  "url": "https://mr-wellness.com/",
+  "image": "https://mr-wellness.com/assets/logo-es-640.png",
+  "description": "Fisioterapia deportiva, entrenamiento personalizado y bienestar integral en línea.",
+  "areaServed": "Worldwide",
+  "availableLanguage": ["es", "en"],
+  "founder": {
+    "@type": "Person",
+    "name": "Carlos Zamora",
+    "jobTitle": "Fisioterapeuta deportivo y especialista en entrenamiento personal"
+  }
+}
+</script>
 </head>
 <body>
-<a class="skip-link" href="#main">Ir al contenido / Skip to content</a>
+<a class="skip-link" href="#main">Ir al contenido</a>
 
-<main id="main" class="wrap gate">
-  <div class="gate__head">
-    <h1>Escoge tu idioma</h1>
-    <p>Choose your language</p>
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="nav__brand" href="index.html" aria-label="Mr. Wellness, inicio">
+      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral">
+      <span>Mr. Wellness<small>Salud integral</small></span>
+    </a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-panel" aria-label="Abrir menú"><span></span></button>
+    <div class="nav__panel" id="nav-panel">
+      <nav class="nav__links" aria-label="Principal">
+        <a href="spanish-coaching.html">Entrenamiento</a>
+        <a href="spanish-education.html">Bienestar</a>
+        <a href="spanish-community.html">Comunidad</a>
+        <a href="ikite-app.html">Ikite</a>
+        <a href="#carlos">Sobre Carlos</a>
+      </nav>
+      <div class="nav__lang" role="group" aria-label="Idioma">
+        <a href="index.html" aria-current="true" hreflang="es" lang="es">ES</a>
+        <a href="english-home.html" hreflang="en" lang="en">EN</a>
+      </div>
+      <a class="btn btn--primary btn--sm" href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Agendar valoración</a>
+    </div>
   </div>
+</header>
 
-  <div class="gate__grid">
+<main id="main">
 
-    <!-- Español -->
-    <section class="card gate__card" aria-labelledby="lang-es">
-      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral" fetchpriority="high">
-      <p class="gate__lang" id="lang-es">Español</p>
-      <a class="btn btn--primary btn--block" href="spanish-coaching.html" data-lang-choice="es">Entrenamiento y rehabilitación</a>
-      <a class="btn btn--ghost btn--block" href="spanish-education.html" data-lang-choice="es">Bienestar y educación</a>
-      <a class="btn btn--ghost btn--block" href="spanish-community.html" data-lang-choice="es">Comunidad</a>
-      <a class="btn btn--ghost btn--block" href="ikite-app.html" data-lang-choice="es">Ikite · app de bienestar</a>
-    </section>
-
-    <!-- English -->
-    <section class="card gate__card" aria-labelledby="lang-en">
-      <img src="assets/logo-en-640.png" width="640" height="478" alt="Mr. Wellness — Integral Health" fetchpriority="high">
-      <p class="gate__lang" id="lang-en">English</p>
-      <a class="btn btn--primary btn--block" href="english-coaching.html" data-lang-choice="en">Coaching &amp; rehabilitation</a>
-      <a class="btn btn--ghost btn--block" href="english-education.html" data-lang-choice="en">Wellness &amp; education</a>
-      <a class="btn btn--ghost btn--block" href="english-community.html" data-lang-choice="en">Community</a>
-    </section>
-
+<!-- ============ HERO ============ -->
+<section class="hero" id="inicio">
+  <div class="hero__scene" id="scene" aria-hidden="true"></div>
+  <div class="wrap hero__inner">
+    <div class="hero__copy" data-enter>
+      <p class="eyebrow">Fisioterapia deportiva · Entrenamiento personal</p>
+      <h1>Salud integral con <em>criterio clínico.</em></h1>
+      <p class="lead">Soy Carlos Zamora. Diseño fisioterapia y entrenamiento basados en evidencia, a la medida de tu anatomía, tu historial de lesiones y tu vida real.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Agendar valoración
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost" href="ikite-app.html">Conocer Ikite</a>
+      </div>
+      <div class="trustbar">
+        <div><b>Desde 2014</b><span>en fisioterapia y rehabilitación</span></div>
+        <div><b>100 % en línea</b><span>desde cualquier país</span></div>
+        <div><b>ES · EN</b><span>atención en dos idiomas</span></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <p class="gate__foot">Carlos Zamora · Fisioterapeuta deportivo y especialista en entrenamiento personal<br>Sports physical therapist &amp; personal training specialist</p>
-  <p class="gate__aviso"><strong>Aviso:</strong> el contenido de este sitio y de Ikite es informativo y de bienestar. No sustituye el diagnóstico, el tratamiento ni la consulta con un médico, un nutriólogo u otro profesional de la salud. Carlos Zamora no es médico ni nutriólogo.<br><strong>Notice:</strong> this site and the Ikite app are for information and wellness only. They do not replace the advice of a doctor, dietitian or other healthcare professional. Ikite is not a medical device and does not diagnose, treat or prevent any condition. Carlos Zamora is a sports physical therapist and personal-training specialist, not a physician or dietitian.</p>
+<!-- ============ CREDENCIALES ============ -->
+<section class="strip" aria-label="Trayectoria">
+  <div class="wrap">
+    <div class="strip__grid">
+      <div class="strip__item"><b>2010</b><span>Entrenador físico: empiezo a entrenar personas</span></div>
+      <div class="strip__item"><b>2012</b><span>Sensei: empiezo a dar clase de combate</span></div>
+      <div class="strip__item"><b>2014</b><span>Fisioterapeuta y rehabilitador en consulta</span></div>
+      <div class="strip__item"><b>+1,850 h</b><span>de formación documentada, y contando</span></div>
+    </div>
+    <ul class="chips">
+      <li><b>CanFitPro</b> Personal Trainer Specialist</li>
+      <li><b>Terapeuta Físico para la Salud</b> · Osteopatía Deportiva</li>
+      <li><b>TRX</b> Qualified</li>
+      <li><b>Flossband</b></li>
+      <li>Registro en <b>RENATED</b></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PILARES ============ -->
+<section class="section" id="pilares">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Cuatro pilares</p>
+      <h2>Entrenar es una parte. <em>Vivir mejor</em> es todo lo demás.</h2>
+      <p class="lead">Un mismo criterio clínico en cuatro frentes: cómo te mueves, cómo te recuperas, con quién avanzas y qué herramienta llevas en el bolsillo.</p>
+    </div>
+
+    <div class="bento">
+
+      <a class="pillar p1" href="spanish-coaching.html">
+        <span class="pillar__num">01 · Enfoque clínico-deportivo</span>
+        <div class="pillar__visual" aria-hidden="true">
+          <svg viewBox="0 0 240 132" fill="none">
+            <path d="M30 118A90 90 0 0 1 210 118" stroke="#F2871F" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+            <path d="M44 118A76 76 0 0 1 196 118" stroke="#F2871F" stroke-opacity=".3" stroke-width="1.5" stroke-dasharray="2 7" stroke-linecap="round"/>
+            <g class="arm"><line x1="120" y1="118" x2="120" y2="38" stroke="#AE5A05" stroke-width="3" stroke-linecap="round"/><circle cx="120" cy="34" r="7" fill="#F2871F"/></g>
+            <circle cx="120" cy="118" r="6" fill="#AE5A05"/>
+          </svg>
+        </div>
+        <h3>Entrenamiento y rehabilitación</h3>
+        <p>Valoración de movimiento, carga y progresión pensadas para tu cuerpo, no para el promedio.</p>
+        <ul>
+          <li>Videoconsulta de valoración</li>
+          <li>Plan personalizado que se ajusta contigo</li>
+          <li>Rehabilitación y regreso a tu actividad</li>
+        </ul>
+        <span class="link">Ver el entrenamiento <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <a class="pillar p2" href="spanish-education.html">
+        <span class="pillar__num">02 · Guías sin mitos</span>
+        <div class="pillar__visual" aria-hidden="true">
+          <svg viewBox="0 0 240 132" fill="none">
+            <circle class="breath" cx="120" cy="66" r="48" fill="#A3BC3C" fill-opacity=".30"/>
+            <circle class="breath" cx="120" cy="66" r="34" fill="#A3BC3C" fill-opacity=".45"/>
+            <circle class="breath" cx="120" cy="66" r="20" fill="#5E7519" fill-opacity=".6"/>
+          </svg>
+        </div>
+        <h3>Bienestar y educación</h3>
+        <p>Recursos prácticos que explican el porqué, con fisiología y sin misticismo.</p>
+        <div class="chip-cloud" aria-label="Temas">
+          <span>Estrés</span><span>Respiración</span><span>Sueño</span><span>Movilidad</span><span>Meditación</span><span>Hábitos</span>
+        </div>
+        <span class="link">Ver los temas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <a class="pillar p3" href="spanish-community.html">
+        <span class="pillar__num">03 · Acompañamiento</span>
+        <div class="pillar__visual" aria-hidden="true">
+          <svg viewBox="0 0 240 132" fill="none">
+            <circle cx="120" cy="66" r="52" stroke="#7FB2CC" stroke-opacity=".7"/>
+            <circle cx="120" cy="66" r="30" stroke="#35708F" stroke-opacity=".6"/>
+            <circle cx="120" cy="66" r="7" fill="#35708F"/>
+            <circle class="pulse" cx="172" cy="66" r="5" fill="#F2871F"/>
+            <circle class="pulse" cx="83" cy="29" r="4.5" fill="#A3BC3C"/>
+            <circle class="pulse" cx="96" cy="108" r="4" fill="#35708F"/>
+          </svg>
+        </div>
+        <h3>Comunidad</h3>
+        <p>Seguimiento y compañía para sostener el hábito, a tu ritmo.</p>
+        <ul>
+          <li>Círculo Abierto: un grupo privado de mensajería, gratis para siempre</li>
+          <li>Niveles de pago solo si quieres más acompañamiento</li>
+          <li>Seguimiento cercano si entrenas conmigo</li>
+        </ul>
+        <span class="link">Conocer la comunidad <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+
+      <!-- 04 · Ikite -->
+      <article class="ikite" id="ikite">
+        <div>
+          <div class="ikite__top">
+            <img class="ikite__logo" src="assets/ikite-640.png" width="640" height="1023" alt="Ikite by Mr. Wellness">
+            <p class="eyebrow">04 · App de bienestar</p>
+          </div>
+          <h3>Tu bienestar completo en una sola app, hecha en México.</h3>
+          <p class="lead">Comida de verdad con foto, voz o código de barras, y el resto de tu día en el mismo lugar. Funciona sin señal y tus datos son tuyos.</p>
+          <ul class="areas">
+            <li><b>Nutrir</b><small>Comida mexicana calculada platillo por platillo</small><span class="badge badge--ok">Ya está</span></li>
+            <li><b>Fortalecer</b><small>Sesiones armadas para ti y rehabilitación</small><span class="badge">En construcción</span></li>
+            <li><b>Recuperar</b><small>Tu sueño y una rutina para dormir</small><span class="badge">En pruebas</span></li>
+            <li><b>Serenar</b><small>Más de cien prácticas de respiración y calma</small><span class="badge">En pruebas</span></li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="ikite-app.html">Conocer Ikite
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn--ghost" href="ikite-app.html#precio">Ver planes</a>
+          </div>
+          <p class="ikite__fine">1 mes gratis · Desde $115 MXN al mes · Hoy en Android</p>
+        </div>
+
+        <div class="phone-wrap">
+          <div class="phone" role="group" aria-label="Vista previa de la interfaz de Ikite">
+            <div class="phone__screen">
+              <div class="phone__bar"><span>Ikite</span><i>Vista previa</i></div>
+              <div class="phone__panels">
+
+                <div class="panel is-on" id="pn-hoy" role="tabpanel" aria-labelledby="tb-hoy">
+                  <h4>Hoy</h4>
+                  <p class="panel__sub">¿Cómo amaneciste? La app se ajusta a tu respuesta.</p>
+                  <div class="mood"><span class="on">Con energía</span><span>Regular</span><span>Cansancio</span></div>
+                  <div class="meter"><div class="meter__row"><span>Comida</span><b>1,420 <small style="font-size:.7rem;font-family:var(--sans)">de 1,900 kcal</small></b></div><div class="meter__bar"><i style="width:75%"></i></div></div>
+                  <div class="mini">
+                    <div class="meter"><div class="meter__row"><span>Sueño</span></div><b>7 h 20</b></div>
+                    <div class="meter"><div class="meter__row"><span>Calma</span></div><b>5 min</b></div>
+                  </div>
+                </div>
+
+                <div class="panel" id="pn-nutrir" role="tabpanel" aria-labelledby="tb-nutrir">
+                  <h4>Nutrir</h4>
+                  <p class="panel__sub">Registra con lo que tengas a la mano.</p>
+                  <div class="inputs"><span>Foto</span><span>Voz</span><span>Código</span></div>
+                  <div class="row">Tlacoyos de frijol <span>2 piezas</span></div>
+                  <div class="row">Frijoles de la olla <span>1 taza</span></div>
+                  <div class="row">Café con leche <span>1 vaso</span></div>
+                  <p class="state">Sin señal en el súper: registras igual y se sincroniza después.</p>
+                </div>
+
+                <div class="panel" id="pn-fortalecer" role="tabpanel" aria-labelledby="tb-fortalecer">
+                  <h4>Fortalecer</h4>
+                  <p class="panel__sub">Sesiones armadas con el tiempo y el equipo que tengas.</p>
+                  <div class="row">Duración <span>10 a 50 min</span></div>
+                  <div class="row">Equipo <span>Ligas y mancuernas</span></div>
+                  <div class="row">Rehabilitación <span>Por parte del cuerpo</span></div>
+                  <p class="state">En construcción. No le ponemos fecha hasta tenerlo.</p>
+                </div>
+
+                <div class="panel" id="pn-recuperar" role="tabpanel" aria-labelledby="tb-recuperar">
+                  <h4>Recuperar</h4>
+                  <p class="panel__sub">Cuántas horas dormiste y si descansaste.</p>
+                  <div class="meter"><div class="meter__row"><span>Anoche</span><b>7 h 20</b></div><div class="meter__bar"><i style="width:82%"></i></div></div>
+                  <div class="row">Rutina para dormir <span>La duración que elijas</span></div>
+                  <p class="state">En pruebas.</p>
+                </div>
+
+                <div class="panel" id="pn-serenar" role="tabpanel" aria-labelledby="tb-serenar">
+                  <h4>Serenar</h4>
+                  <p class="panel__sub">Respiración y calma, con música y sonidos.</p>
+                  <div class="row">Exhalación larga <span>5 min</span></div>
+                  <div class="row">Respiración diafragmática <span>5 min</span></div>
+                  <div class="row">Respiración nasal <span>5 min</span></div>
+                  <p class="state">En pruebas.</p>
+                </div>
+
+              </div>
+              <div class="tabs" role="tablist" aria-label="Apartados de Ikite">
+                <button type="button" role="tab" id="tb-hoy" aria-selected="true" aria-controls="pn-hoy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></svg>Hoy</button>
+                <button type="button" role="tab" id="tb-nutrir" aria-selected="false" tabindex="-1" aria-controls="pn-nutrir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h18a9 9 0 0 1-18 0Z"/><path d="M8 8c0-1.8 1.2-2.4 1.2-4M13 8c0-1.8 1.2-2.4 1.2-4"/></svg>Nutrir</button>
+                <button type="button" role="tab" id="tb-fortalecer" aria-selected="false" tabindex="-1" aria-controls="pn-fortalecer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9.5v5M20.5 9.5v5M6.5 12h11"/></svg>Fortalecer</button>
+                <button type="button" role="tab" id="tb-recuperar" aria-selected="false" tabindex="-1" aria-controls="pn-recuperar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 13.2A8.5 8.5 0 1 1 10.8 3.5a6.8 6.8 0 0 0 9.7 9.7Z"/></svg>Recuperar</button>
+                <button type="button" role="tab" id="tb-serenar" aria-selected="false" tabindex="-1" aria-controls="pn-serenar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>Serenar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ MÉTODO ============ -->
+<section class="section" id="metodo">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2>Cuatro pasos, <em>cero improvisación.</em></h2>
+      <p class="lead">No te voy a mandar un PDF estándar. Construimos una estrategia que se ajusta contigo.</p>
+    </div>
+    <div class="steps">
+      <article class="step"><span class="step__n">1</span><h3>Escuchar</h3><p>Tu historia, tus lesiones, tu contexto y lo que ya intentaste. Aquí se define el 80 % del acierto del plan.</p></article>
+      <article class="step"><span class="step__n">2</span><h3>Evaluar</h3><p>Valoración de movimiento, capacidades y limitaciones reales: lo que puedes hacer hoy, no lo que deberías poder.</p></article>
+      <article class="step"><span class="step__n">3</span><h3>Programar</h3><p>Tu plan con carga, frecuencia, progresión y recuperación ajustadas a tu ritmo de vida.</p></article>
+      <article class="step"><span class="step__n">4</span><h3>Ajustar</h3><p>Revisión periódica. Si cambia tu fatiga, tu sueño o tu agenda, cambia el plan.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOBRE CARLOS ============ -->
+<section class="section about" id="carlos">
+  <div class="wrap about__grid">
+    <div>
+      <p class="eyebrow">Sobre Carlos Zamora</p>
+      <h2>Quien te escucha es quien <em>diseña tu plan.</em></h2>
+      <div class="about__text">
+        <p>Soy <strong>fisioterapeuta deportivo y especialista en entrenamiento personal</strong>. Empecé como entrenador en 2010 y me certifiqué como entrenador personal en Sport City University. En 2012 empecé a dar clase de combate como sensei: jujutsu, boxeo y muay borán.</p>
+        <p>Después estudié cuatro años: acupuntura, quiropráctica y muchas cosas más. Y durante los primeros cuatro años después de estudiar <strong>regalé mi trabajo</strong>. No me atrevía a cobrar. Los pasé sacando adelante a personas con mi mejor voluntad.</p>
+        <p>Mi trabajo empieza escuchando tu historia. Después vienen la fisiología y la biomecánica, y al final un plan que cabe en tu semana real.</p>
+        <p>Mi alcance, sin rodeos: <strong>no soy médico ni nutriólogo</strong>. Cuando tu caso necesita a alguien más, te lo digo con claridad y te oriento hacia quien sí.</p>
+      </div>
+    </div>
+    <div class="about__card">
+      <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral" loading="lazy">
+      <blockquote class="about__quote">Tu cuerpo no es un promedio. Tu plan tampoco debería serlo.</blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAYECTORIA Y FORMACIÓN ============ -->
+<section class="section" id="trayectoria">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Trayectoria y formación</p>
+      <h2>Del entrenamiento a la consulta, <em>paso a paso.</em></h2>
+      <p class="lead">Desde 2010, cuerpo y movimiento: entrenamiento, combate y rehabilitación. Aquí está completo, con lo que puedo comprobar.</p>
+    </div>
+
+    <div class="career-grid">
+      <div class="panel-card">
+        <h3>Trayectoria</h3>
+        <ol class="career">
+          <li><b>2015 – hoy</b><span><strong>Entrenador personal independiente</strong>Alto rendimiento, funcional, calistenia, HIIT, defensa personal y acondicionamiento para combate.</span></li>
+          <li><b>2014 – hoy</b><span><strong>Fisioterapeuta y rehabilitador</strong>Terapia manual, puntos gatillo, activación muscular isométrica, acupuntura, ventosas, quiropráctica, osteopatía, electroterapia, Feldenkrais, Franklin Method y Watsu.</span></li>
+          <li><b>2012</b><span><strong>Sensei</strong>Empiezo a dar clase de combate: jujutsu, boxeo y muay borán.</span></li>
+          <li><b>2012 – 2015</b><span><strong>Hard Candy México · Entrenador personal</strong>Funcional, calistenia, suspensión, CrossFit, HIIT y vendaje funcional.</span></li>
+          <li><b>2011 – 2013</b><span><strong>Sport City · Floor trainer</strong>Y mi certificación como entrenador personal en Sport City University.</span></li>
+          <li><b>2010</b><span><strong>Entrenador físico, Nivel 1</strong>AMIMCEAC, avalado por CONADE.</span></li>
+        </ol>
+      </div>
+
+      <div class="panel-card">
+        <h3>Formación</h3>
+        <p class="train__total"><b>Más de 1,850 horas y contando</b> de formación documentada. Cada año sumo cursos de educación continua para mantener mis certificaciones. Registro en RENATED, verificable por terceros.</p>
+        <div class="train">
+          <section>
+            <h4>Fisioterapia y rehabilitación</h4>
+            <ul>
+              <li>Terapeuta Físico Deportivo para la Salud, ITPF incorporado a la SEP (2021)</li>
+              <li>Diplomado en Fisioterapia y Rehabilitación, con registro SEP (2016)</li>
+              <li>Diploma in Physiotherapy and Rehabilitation, International Institute of Healing Arts, Texas (2016)</li>
+              <li>Certificación Especializada en Fisioterapia y Rehabilitación (2017)</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Terapia manual</h4>
+            <ul>
+              <li>Osteopatía Deportiva, ITPF (2021)</li>
+              <li>Anatomía palpatoria, liberación de fascia, ventosas y target tape (2018)</li>
+              <li>Electroterapia, ultrasonido y láser (2018) · Flossband (2021)</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Medicina tradicional china</h4>
+            <ul>
+              <li>Medicina Tradicional China, Acupuntura del Norte: 268 horas (2014)</li>
+              <li>Diplomado en Terapias Complementarias Alternativas, con registro SEP (2016)</li>
+              <li>Seminario de Lesiones del Deporte (2014)</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Entrenamiento</h4>
+            <ul>
+              <li>Entrenador Personal Nivel 2, Especialista en Fuerza, Sport City University (2012)</li>
+              <li>CanFitPro Personal Trainer Specialist, vigente</li>
+              <li>TRX Qualified, vigente hasta 2030</li>
+              <li>RCP y desfibrilador (BLS), American Heart Association</li>
+              <li>NPE Accelerator: negocio para profesionales del fitness (2023)</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="close" id="contacto">
+  <div class="wrap">
+    <div class="cta-band">
+      <p class="eyebrow">Siguiente paso</p>
+      <h2>Empieza por una <em>valoración.</em></h2>
+      <p>Una videoconsulta sin compromiso. Si no soy la persona indicada para tu caso, te lo digo y te oriento hacia quien sí.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Agendar valoración
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--ghost" href="https://wa.me/525569629713?text=Hola%20Carlos%2C%20vengo%20de%20mr-wellness.com%20y%20quiero%20saber%20m%C3%A1s%20sobre%20tus%20programas." target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
 
-<script src="assets/app.js" defer></script>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="assets/logo-es-640.png" width="640" height="495" alt="Mr. Wellness — Salud Integral" loading="lazy">
+        <p>Salud integral con base en ciencia, empatía y resultados. Carlos Zamora, fisioterapeuta deportivo.</p>
+      </div>
+      <nav class="footer__col" aria-label="Navegación del pie">
+        <h3>Navegación</h3>
+        <ul>
+          <li><a href="spanish-coaching.html">Entrenamiento</a></li>
+          <li><a href="spanish-education.html">Bienestar</a></li>
+          <li><a href="spanish-community.html">Comunidad</a></li>
+          <li><a href="ikite-app.html">Ikite</a></li>
+          <li><a href="spanish-coaching.html#preguntas">Preguntas frecuentes</a></li>
+          <li><a href="spanish-privacy.html">Aviso de privacidad</a></li>
+        </ul>
+      </nav>
+      <div class="footer__col">
+        <h3>Contacto</h3>
+        <ul>
+          <li><a href="https://calendly.com/carlos00zamora" target="_blank" rel="noopener">Agendar valoración</a></li>
+          <li><a href="https://wa.me/525569629713" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="english-home.html" hreflang="en" lang="en">English version</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="disclaimer"><strong>Aviso:</strong> el contenido de este sitio y de Ikite es informativo y de bienestar. No sustituye el diagnóstico, el tratamiento ni la consulta con un médico, un nutriólogo u otro profesional de la salud. Carlos Zamora no es médico ni nutriólogo.</p>
+
+    <div class="social-row">
+      <a class="social-link" style="--brand:#FF0000" href="https://www.youtube.com/@Real.mr.wellness" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8ZM9.5 15.6V8.4l6.3 3.6-6.3 3.6Z"/></svg><span>YouTube</span></a>
+      <a class="social-link" style="--brand:#EE1D52" href="https://www.tiktok.com/@mr.wellness.official" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.3v13.24a2.59 2.59 0 0 1-2.59 2.5 2.59 2.59 0 0 1-2.59-2.6 2.59 2.59 0 0 1 3.2-2.51v-3.35a5.9 5.9 0 0 0-.61-.03A5.94 5.94 0 0 0 3.7 16.2a5.94 5.94 0 0 0 5.95 5.94 5.94 5.94 0 0 0 5.94-5.94V9.4a7.57 7.57 0 0 0 4.42 1.42V7.5a4.28 4.28 0 0 1-3.41-1.68Z"/></svg><span>TikTok</span></a>
+      <a class="social-link" style="--brand:#C13584" href="https://www.instagram.com/mr_wellness_esp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.38A5.9 5.9 0 0 0 .63 4.14c-.3.76-.5 1.64-.56 2.91C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.9 5.9 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.38 5.9 5.9 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.38-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32Zm0 10.16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/></svg><span>Instagram</span></a>
+      <a class="social-link" style="--brand:#1877F2" href="https://www.facebook.com/Mr.Wellness.Esp/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.96h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.1 24 12.07Z"/></svg><span>Facebook</span></a>
+      <a class="social-link" style="--brand:#0A66C2" href="https://www.linkedin.com/in/carlos-zamora-172aa124/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg><span>LinkedIn</span></a>
+    </div>
+
+    <div class="footer__legal">
+      <span>© <span id="y">2026</span> Mr. Wellness · Carlos Zamora</span>
+      <span>Hecho con enfoque clínico y sin promesas mágicas.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/home.js" defer></script>
 </body>
 </html>
